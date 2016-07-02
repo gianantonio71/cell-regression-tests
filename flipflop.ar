@@ -1,0 +1,110 @@
+
+auto Bool flipflop(on, off)
+{
+  input Bool on, Bool off;
+
+  state Bool flipflop = if on and off then {fail;},
+                           on         then true,
+                           off        then false
+                                      else init_state;
+
+  init_state = false;
+
+  flipflop = {fail;}  if on and off,
+             true     if on,
+             false    if off;
+}
+
+
+auto Bool flipflop_client
+{
+  discrete input <on, off, same> action;
+  output Bool flipflop_state_bad;
+
+  state Bool on = false, Bool off = false;
+
+  on = true  if action == :on,
+       false if action == :off;
+
+  off = true  if action == :off,
+        false if action == :on;
+
+
+  flipflop = flipflop(on=on, off=off);
+
+  flipflop_client = flipflop;
+
+  // flipflop_state_bad = flipflop.flipflop;
+}
+
+
+auto Bool flipflop_client_positional
+{
+  discrete input <on, off, same> action;
+
+  state Bool on = false, Bool off = false;
+
+  on = true  if action == :on,
+       false if action == :off;
+
+  off = true  if action == :off,
+        false if action == :on;
+
+
+  flipflop = flipflop(on, off);
+  // flipflop = flipflop(action? and action == :on, action? and action == :off);
+
+  flipflop_client_positional = flipflop;
+}
+
+
+(<on, off, same, nil>, Bool)* flipflop_test_data_1 = (
+  (nil,     false),
+  (:same,   false),
+  (:off,    false),
+  (:on,     true),
+  (nil,     true),
+  (:on,     true),
+  (:same,   true),
+  (:off,    false)
+);
+
+
+Bool RunBasicFlipFlopTest((<on, off, same, nil>, Bool) test_data)
+{
+  auto flipflop_client fc;
+  auto flipflop_client_positional fcp;
+
+  update fc;
+  update fcp;
+  if fc != false or fcp != false:
+    Print("ERROR: INITIAL UPDATE FAILED SOMEHOW!\n");
+    print fc;
+    print fcp;
+    return false;
+  ;
+
+  for a, er <- test_data:
+    fc.action = a;
+    fcp.action = a;
+    update fc;
+    update fcp;
+    if fc != er or fcp != er:
+      Print("ERROR! ERROR! ERROR!\n");
+      print fc;
+      print fcp;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllFlipFlopTests()
+{
+  ok = RunBasicFlipFlopTest(flipflop_test_data_1);
+  return ok;
+}

@@ -11,143 +11,148 @@ Main(String* args)
 {
   Print("Running all regression tests:\n");
 
-  Print("  Mine                   ");
+  Print("  Mine                                     ");
   ok = RunAllMineTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Pedometer              ");
+  Print("  Pedometer                                ");
   ok = RunAllPedometerTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Y Combinator           ");
+  Print("  Y Combinator                             ");
   ok = RunAllYCombTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Filter                 ");
+  Print("  Filter                                   ");
   ok = RunAllFilterTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Bowling                ");
+  Print("  Bowling                                  ");
   ok = RunAllBowlingTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Discrete Y Combinator  ");
+  Print("  Discrete Y Combinator                    ");
   ok = RunAllDiscYCombTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Sampler                ");
+  Print("  Sampler                                  ");
   ok = RunAllSamplerTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  State Derived Copy     ");
+  Print("  State Derived Copy                       ");
   ok = RunAllStateDerivedCopyTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Complex Init           ");
+  Print("  Complex Init                             ");
   ok = RunAllComplexInitTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Methods                ");
+  Print("  Methods                                  ");
   ok = RunAllMethodTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Time Varying 0         ");
+  Print("  Time Varying 0                           ");
   ok = RunAllTimeVaryingTests0();
   return if not ok;
   Print("OK\n");
 
-  Print("  Time Varying 1         ");
+  Print("  Time Varying 1                           ");
   ok = RunAllTimeVaryingTests1();
   return if not ok;
   Print("OK\n");
 
-  Print("  Time Varying 2         ");
+  Print("  Time Varying 2                           ");
   ok = RunAllTimeVaryingTests2();
   return if not ok;
   Print("OK\n");
 
-  Print("  Unchanged For          ");
+  Print("  Unchanged For                            ");
   ok = RunAllUnchangedForTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Full History           ");
+  Print("  Full History                             ");
   ok = RunAllFullHistoryTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 1      ");
+  Print("  Nested Automata 1                        ");
   ok = RunAllNestedAutomata1Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 2      ");
+  Print("  Nested Automata 2                        ");
   ok = RunAllNestedAutomata2Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 3      ");
+  Print("  Nested Automata 3                        ");
   ok = RunAllNestedAutomata3Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 4      ");
+  Print("  Nested Automata 4                        ");
   ok = RunAllNestedAutomata4Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 5      ");
+  Print("  Nested Automata 5                        ");
   ok = RunAllNestedAutomata5Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 6      ");
+  Print("  Nested Automata 6                        ");
   ok = RunAllNestedAutomata6Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 7      ");
+  Print("  Nested Automata 7                        ");
   ok = RunAllNestedAutomata7Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Nested Automata 8      ");
+  Print("  Nested Automata 8                        ");
   ok = RunAllNestedAutomata8Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Polymorphic Methods    ");
+  Print("  Polymorphic Methods                      ");
   ok = RunAllPolymorphicMethodsTests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Chat Server 0          ");
+  Print("  Chat Server 0                            ");
   ok = RunAllChatServer0Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Chat Server 1          ");
+  Print("  Chat Server 1                            ");
   ok = RunAllChatServer1Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  After Rules            ");
+  Print("  After Rules                              ");
   ok = RunAllAfter0Tests();
   return if not ok;
   Print("OK\n");
 
-  Print("  Since                  ");
+  Print("  Since                                    ");
   ok = RunAllSinceTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Default output and positional inputs     ");
+  ok = RunAllFlipFlopTests();
   return if not ok;
   Print("OK\n");
 

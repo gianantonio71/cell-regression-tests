@@ -41,4 +41,6 @@ reactive/after-rules-0.ar
 
 reactive/since.ar
 
+reactive/flipflop.ar
+
 reactive/reg-tests.ar
