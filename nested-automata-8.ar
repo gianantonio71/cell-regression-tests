@@ -1,0 +1,156 @@
+auto some_counter
+{
+  input Ta an_input;
+  output Nat a_counter;
+  state Nat a_counter = 0;
+
+  a_counter = _add_(a_counter, 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
+}
+
+some_counter.reset()
+{
+  a_counter := 0;
+}
+
+some_counter.set_counter(Nat value)
+{
+  a_counter := value;
+}
+
+
+auto test_1
+{
+  discrete input Nat increment;
+  input Ta my_input;
+  output Nat my_counter, Nat nested_counter;
+  state Nat my_counter = 0;
+
+  na = some_counter(an_input=my_input);
+
+  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+
+  // na.set_counter(_add_(na.a_counter, increment));
+  // na.set_counter(_add_(na.a_counter, increment)) : increment;
+  na.set_counter(_add_(na.a_counter, increment)) if my_input != :a0;
+  // na.set_counter(_add_(na.a_counter, increment)) if my_input == :a2 or my_input == :a5 : increment;
+
+  nested_counter = na.a_counter;
+}
+
+
+auto test_2
+{
+  discrete input Nat increment;
+  input Ta my_input;
+  output Nat my_counter, Nat nested_counter;
+  state Nat my_counter = 0;
+
+  na = some_counter(an_input=my_input);
+
+  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+
+  // na.set_counter(_add_(na.a_counter, increment));
+  // na.set_counter(_add_(na.a_counter, increment)) : increment;
+  // na.set_counter(_add_(na.a_counter, increment)) if my_input != :a0;
+  na.set_counter(_add_(na.a_counter, increment)) if my_input == :a2 or my_input == :a5 : increment;
+
+  nested_counter = na.a_counter;
+}
+
+
+
+
+(Ta, Maybe[Nat], Nat, Nat)* test_1_data = (
+  (:a0,       nil,    0,    0),
+  (:a1,       nil,    1,    0),
+  (:a2,       nil,    1,    0),
+  (:a3,       nil,    1,    1),
+  (:a4, :just(10),    2,   11),
+  (:a5,       nil,    2,   12),
+  (:a6,       nil,    2,   12),
+  (:a0,:just(100),    2,   13),
+  (:a1,       nil,    3,   13),
+  (:a2,       nil,    3,   13),
+  (:a3,       nil,    3,   14),
+  (:a4,       nil,    4,   14),
+  (:a5,       nil,    4,   15),
+  (:a0,       nil,    4,   15)
+);
+
+
+(Ta, Maybe[Nat], Nat, Nat)* test_2_data = (
+  (:a0,       nil,    0,    0),
+  (:a1,       nil,    1,    0),
+  (:a2,       nil,    1,    0),
+  (:a3,       nil,    1,    1),
+  (:a4, :just(10),    2,    1),
+  (:a5, :just(20),    2,   22),
+  (:a6,       nil,    2,   22),
+  (:a0,:just(100),    2,   23),
+  (:a1,       nil,    3,   23),
+  (:a2,:just(200),    3,  223),
+  (:a3,       nil,    3,  224),
+  (:a4,       nil,    4,  224),
+  (:a5,       nil,    4,  225),
+  (:a0,       nil,    4,  225)
+);
+
+Bool RunNestedAutomata8Test1()
+{
+  auto test_1 ta;
+
+  for input, incr, ec, enc<- test_1_data:
+    ta.my_input = input;
+    if incr != nil:
+      ta.increment = match (incr) just(n?) = n;
+    ;
+    update ta;
+
+    if ta.my_counter != ec or ta.nested_counter != enc:
+      Print("ERROR (1)\n");
+      print (input, incr, enc, ec);
+      print ta;
+      return false;
+    // else
+    //   Print("OK (1)\n");
+      // print (input, enc, ec);
+      // print ta;
+    ;
+  ;
+  return true;
+}
+
+
+Bool RunNestedAutomata8Test2()
+{
+  auto test_2 ta;
+
+  for input, incr, ec, enc<- test_2_data:
+    ta.my_input = input;
+    if incr != nil:
+      ta.increment = match (incr) just(n?) = n;
+    ;
+    update ta;
+
+    if ta.my_counter != ec or ta.nested_counter != enc:
+      Print("ERROR (2)\n");
+      print (input, incr, enc, ec);
+      print ta;
+      return false;
+    // else
+    //   Print("OK (2)\n");
+      // print (input, enc, ec);
+      // print ta;
+    ;
+  ;
+  return true;
+}
+
+
+Bool RunAllNestedAutomata8Tests()
+{
+  ok = RunNestedAutomata8Test1();
+  return false if not ok;
+  ok = RunNestedAutomata8Test2();
+  return ok;
+}

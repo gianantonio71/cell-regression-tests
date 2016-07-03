@@ -1,0 +1,100 @@
+auto nested_automata_6_some_counter
+{
+  input  Ta  an_input;
+  output Nat a_counter;
+  state  Nat a_counter = 0;
+
+  a_counter = _add_(a_counter, 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
+}
+
+
+auto nested_automata_6
+{
+  input  Ta my_input;
+  output Nat my_counter, Nat nested_counter;
+  state  Nat my_counter = 0;
+
+  na = nested_automata_6_some_counter(an_input=my_input);
+
+  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+
+  na.set_counter(_add_(na.a_counter, 10)) if my_input == :a2 or my_input == :a5;
+
+  nested_counter = na.a_counter;
+}
+
+
+nested_automata_6_some_counter.reset()
+{
+  a_counter := 0;
+}
+
+nested_automata_6_some_counter.set_counter(Nat value)
+{
+  a_counter := value;
+}
+
+
+nested_automata_6.reset_1()
+{
+  my_counter := 0;
+  na.reset();
+}
+
+nested_automata_6.reset_2()
+{
+  my_counter := 0;
+  na.set_counter(0);
+}
+
+nested_automata_6.set_counters(Nat my_counter_value, Nat nested_counter_value)
+{
+  my_counter := my_counter_value;
+  na.set_counter(nested_counter_value);
+}
+
+nested_automata_6.set_incremented_counters(Nat my_counter_value, Nat nested_counter_value)
+{
+  my_counter := _add_(my_counter_value, 1);
+  na.set_counter(_add_(nested_counter_value, 1));
+}
+
+
+(Ta, Nat, Nat)* nested_automata_6_test_data = (
+  (:a0,   0,    0),
+  (:a1,   0,    1),
+  (:a2,  10,    1),
+  (:a3,  11,    1),
+  (:a4,  11,    2),
+  (:a5,  22,    2),
+  (:a6,  22,    2),
+  (:a0,  23,    2),
+  (:a1,  23,    3),
+  (:a2,  33,    3),
+  (:a3,  34,    3),
+  (:a4,  34,    4),
+  (:a5,  45,    4),
+  (:a0,  45,    4)
+);
+
+
+Bool RunAllNestedAutomata6Tests()
+{
+  auto nested_automata_6 ta;
+
+  for input, enc, ec <- nested_automata_6_test_data:
+    ta.my_input = input;
+    update ta;
+
+    if ta.my_counter != ec or ta.nested_counter != enc:
+      Print("ERROR\n");
+      print (input, enc, ec);
+      print ta;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}

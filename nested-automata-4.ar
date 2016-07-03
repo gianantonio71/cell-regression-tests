@@ -1,0 +1,61 @@
+auto cont_to_disc
+{
+  input Ta an_input;
+
+  discrete output Nil an_output;
+
+
+  an_output := nil if an_input == :a0 or an_input == :a3;
+}
+
+auto cont_to_disc_client
+{
+  input Ta my_input;
+  output Nat counter;
+  discrete output Nil my_output;
+
+  state Nat counter = 0;
+
+
+  na = cont_to_disc(an_input=my_input);
+
+  my_output := na.an_output;
+
+  counter = _add_(counter, 1) : my_output;
+}
+
+
+(Ta, Bool, Nat)* cont_to_disc_client_test_data = (
+  (:a0, false, 0),
+  (:a1, false, 0),
+  (:a2, false, 0),
+  (:a3, true , 1),
+  (:a4, false, 1),
+  (:a0, true , 2),
+  (:a1, false, 2),
+  (:a2, false, 2),
+  (:a3, true , 3),
+  (:a4, false, 3)
+);
+
+
+Bool RunAllNestedAutomata4Tests()
+{
+  auto cont_to_disc_client ta;
+
+  for input, set, counter <- cont_to_disc_client_test_data:
+    ta.my_input = input;
+    update ta;
+
+    if ta.my_output? != set or ta.counter != counter:
+      Print("ERROR\n");
+      print (input, set, counter);
+      print ta.my_output;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}

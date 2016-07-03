@@ -1,0 +1,145 @@
+Float (-_)(Float x) = _fneg_(x);
+
+Float (_+_)(Float x1, Float x2) = _fadd_(x1, x2);
+Float (_-_)(Float x1, Float x2) = _fsub_(x1, x2);
+Float (_*_)(Float x1, Float x2) = _fmult_(x1, x2);
+Float (_/_)(Float x1, Float x2) = _fdiv_(x1, x2);
+
+Float sqrt(Float x) = _fsqrt_(x);
+
+////////////////////////////////////////////////////////////////////////////////
+
+type Point = point(x: Float, y: Float);
+
+Point point(Float x, Float y) = point(x: x, y: y);
+
+Float distance(Point p1, Point p2)
+{
+  dx = p1.x - p2.x;
+  dy = p1.y - p2.y;
+  return sqrt(dx * dx + dy * dy);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+auto pedometer_0
+{
+  input
+    Bool  has_moved,
+    Point position,
+    Any   unused_input;
+
+  output
+    Point  position_copy,
+    Point* track,
+    Float  distance;
+
+  state
+    Point  position_copy = position,
+    Point* track     = (position),
+    Float  distance  = 0.0,
+    Any    unused_state_var = :f((:a, :b, :c));
+
+  unused_param = (:a, :b);
+
+  position_copy = position if has_moved;
+  track = (track | position) if has_moved;
+  distance = distance + distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and length(track) > 1;
+  unused_rule = reverse(track);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+auto pedometer
+{
+  input
+    Point position;
+
+  output
+    Point* track,
+    Float  distance;
+
+  state
+    Point* track     = (position),
+    Float  distance  = 0.0;
+
+  track = (track | position) : position;
+  distance = distance + distance(position, #position) : position;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+(Float, Float)* route = (
+  ( 0.0,   0.0),
+  ( 5.2,  -0.3),
+  ( 9.1,   1.1),
+  (13.7,   0.9),
+  (16.1,   2.8),
+  (17.4,   6.3)
+);
+
+
+Float* expected_distances
+{
+  ps = (point(x, y) : x, y <- route);
+  ds = (0.0);
+  for i = 1..length(route):
+    ds = (ds | ds(i-1) + distance(ps(i-1), ps(i)));
+  ;
+  return ds;
+}
+
+
+Bool RunBasicPedometerTest()
+{
+  auto pedometer p;
+  auto pedometer_0 p0;
+
+  exp_ds = expected_distances;
+
+  exp_track = (point(x, y) : x, y <- route);
+
+  for x, y @ i <- route:
+    pos = point(x, y);
+
+    p.position = pos;
+    update p;
+
+    if p.distance != exp_ds(i):
+      Print("Pedometer - Distance error!");
+      return false;
+    ;
+
+    if p.track != subseq(exp_track, 0, i+1):
+      Print("Pedometer - Track error!");
+      return false;
+    ;
+
+    p0.position = point(x, y);
+    p0.has_moved = true;
+    p0.unused_input = :g((0, 1, 2));
+    update p0;
+
+    p0.has_moved = false;
+    update p0;
+
+    if p0.distance != exp_ds(i):
+      Print("Pedometer (Old) - Distance error!");
+      return false;
+    ;
+
+    if p0.track != subseq(exp_track, 0, i+1):
+      Print("Pedometer (Old) - Track error!");
+      return false;
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllPedometerTests()
+{
+  res = RunBasicPedometerTest();
+  return res;
+}

@@ -1,0 +1,40 @@
+auto state_derived_copy
+{
+  input Ta i1, Tb i2;
+
+  output (Ta, Tb) o;
+
+  state (Ta, Tb) v = (i1, i2);
+
+  o = v;
+}
+
+
+(Ta, Tb)* state_derived_copy_test_data = (
+  (:a0, :b0),
+  (:a1, :b1),
+  (:a2, :b2),
+  (:a3, :b3),
+  (:a4, :b4)
+);
+
+
+Bool RunAllStateDerivedCopyTests()
+{
+  auto state_derived_copy c;
+
+  for i1, i2 <- state_derived_copy_test_data:
+    c.i1 = i1;
+    c.i2 = i2;
+    update c;
+    if c.o != (:a0, :b0):
+      Print("Error\n");
+      print c.o;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}

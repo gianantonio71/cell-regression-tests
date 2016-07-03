@@ -1,0 +1,130 @@
+auto methods
+{
+  input Ta i;
+
+  output Ta v1, Ta v2, Ta d1, Ta d2;
+
+  state Ta v1 = :g(d1);
+  state Ta v2 = :l(d2);
+
+  v1 = :p(d1) if i == :a3;
+  v2 = :q(d2) if i == :a4;
+
+  d1 = :f(i);
+  d2 = :h(v1);
+}
+
+
+methods.reapply_inputs()
+{
+  v1 := :g(d1);
+  v2 := :l(d2);
+}
+
+
+methods.reapply_inputs(Atom l1, Atom l2)
+{
+  v1 := l1 @ d1;
+  v2 := l2 @ d2;
+}
+
+
+Any* method_test_data_1a = (
+  (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (0, :a1, :f(:a1), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (0, :a2, :f(:a2), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (0, :a3, :f(:a3), :p(:f(:a3)), :h(:p(:f(:a3))), :l(:h(:g(:f(:a0))))),
+  (0, :a4, :f(:a4), :p(:f(:a3)), :h(:p(:f(:a3))), :q(:h(:p(:f(:a3))))),
+  (0, :a5, :f(:a5), :p(:f(:a3)), :h(:p(:f(:a3))), :q(:h(:p(:f(:a3))))),
+  (1, :a5, :f(:a5), :g(:f(:a5)), :h(:g(:f(:a5))), :l(:h(:p(:f(:a3))))),
+  (0, :a6, :f(:a6), :g(:f(:a5)), :h(:g(:f(:a5))), :l(:h(:p(:f(:a3))))),
+  (1, :a6, :f(:a6), :g(:f(:a6)), :h(:g(:f(:a6))), :l(:h(:g(:f(:a5))))),
+  (0, :a7, :f(:a7), :g(:f(:a6)), :h(:g(:f(:a6))), :l(:h(:g(:f(:a5))))),
+  (2, :a7, :f(:a7), :s(:f(:a7)), :h(:s(:f(:a7))), :t(:h(:g(:f(:a6))))),
+  (0, :a8, :f(:a8), :s(:f(:a7)), :h(:s(:f(:a7))), :t(:h(:g(:f(:a6))))),
+  (0, :a3, :f(:a3), :p(:f(:a3)), :h(:p(:f(:a3))), :t(:h(:g(:f(:a6))))),
+  (2, :a3, :f(:a3), :s(:f(:a3)), :h(:s(:f(:a3))), :t(:h(:p(:f(:a3)))))
+);
+
+
+Any* method_test_data_1b = (
+  (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (0, :a1, :f(:a1), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (0, :a2, :f(:a2), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (0, :a3, :f(:a3), :p(:f(:a3)), :h(:p(:f(:a3))), :l(:h(:g(:f(:a0))))),
+  (0, :a4, :f(:a4), :p(:f(:a3)), :h(:p(:f(:a3))), :q(:h(:p(:f(:a3))))),
+  // (0, :a5, :f(:a5), :p(:f(:a3)), :h(:p(:f(:a3))), :q(:h(:p(:f(:a3))))),
+  (1, :a5, :f(:a5), :g(:f(:a5)), :h(:g(:f(:a5))), :l(:h(:p(:f(:a3))))),
+  // (0, :a6, :f(:a6), :g(:f(:a5)), :h(:g(:f(:a5))), :l(:h(:p(:f(:a3))))),
+  (1, :a6, :f(:a6), :g(:f(:a6)), :h(:g(:f(:a6))), :l(:h(:g(:f(:a5))))),
+  // (0, :a7, :f(:a7), :g(:f(:a6)), :h(:g(:f(:a6))), :l(:h(:g(:f(:a5))))),
+  (2, :a7, :f(:a7), :s(:f(:a7)), :h(:s(:f(:a7))), :t(:h(:g(:f(:a6))))),
+  (0, :a8, :f(:a8), :s(:f(:a7)), :h(:s(:f(:a7))), :t(:h(:g(:f(:a6))))),
+  // (0, :a3, :f(:a3), :p(:f(:a3)), :h(:p(:f(:a3))), :t(:h(:g(:f(:a6))))),
+  (2, :a3, :f(:a3), :s(:f(:a3)), :h(:s(:f(:a3))), :t(:h(:p(:f(:a3)))))
+);
+
+
+Any* method_test_data_2a = (
+  (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (2, :a0, :f(:a0), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
+  (0, :a1, :f(:a1), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
+  (0, :a3, :f(:a3), :p(:f(:a3)), :h(:p(:f(:a3))), :t(:h(:g(:f(:a0))))),
+  (1, :a3, :f(:a3), :g(:f(:a3)), :h(:g(:f(:a3))), :l(:h(:p(:f(:a3))))),
+  (0, :a4, :f(:a4), :g(:f(:a3)), :h(:g(:f(:a3))), :q(:h(:g(:f(:a3))))),
+  (2, :a4, :f(:a4), :s(:f(:a4)), :h(:s(:f(:a4))), :t(:h(:g(:f(:a3)))))
+);
+
+
+Any* method_test_data_2b = (
+  // (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
+  (2, :a0, :f(:a0), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
+  (0, :a1, :f(:a1), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
+  // (0, :a3, :f(:a3), :p(:f(:a3)), :h(:p(:f(:a3))), :t(:h(:g(:f(:a0))))),
+  (1, :a3, :f(:a3), :g(:f(:a3)), :h(:g(:f(:a3))), :l(:h(:p(:f(:a3))))),
+  // (0, :a4, :f(:a4), :g(:f(:a3)), :h(:g(:f(:a3))), :q(:h(:g(:f(:a3))))),
+  (2, :a4, :f(:a4), :s(:f(:a4)), :h(:s(:f(:a4))), :t(:h(:g(:f(:a3)))))
+);
+
+
+Bool RunBasicMethodTests(Any* test_data)
+{
+  auto methods t;
+
+  for a, i, ed1, ev1, ed2, ev2 @ j <- test_data:
+    t.i = i;
+
+    update t;
+
+    if a == 1:
+      t.reapply_inputs();
+    elif a == 2:
+      t.reapply_inputs(:s, :t);
+    ;
+
+    update t;
+
+    if not {t.v1 == ev1 and t.v2 == ev2 and t.d1 == ed1 and t.d2 == ed2}:
+      Print("Error\n");
+      print (ev1, ev2, ed1, ed2);
+      print t;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+  return true;
+}
+
+
+Bool RunAllMethodTests()
+{
+  ok = RunBasicMethodTests(method_test_data_1a);
+  return false if not ok;
+  ok = RunBasicMethodTests(method_test_data_1b);
+  return false if not ok;
+  ok = RunBasicMethodTests(method_test_data_2a);
+  return false if not ok;
+  ok = RunBasicMethodTests(method_test_data_2b);
+  return ok;
+}

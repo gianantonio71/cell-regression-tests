@@ -1,0 +1,112 @@
+auto y_comb
+{
+  input Ta ia, Tb ib;
+
+  output Tab o;
+
+  state Tab o = ia;
+
+  o = if ia != #ia then ia else ib : ia, ib;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+(Ta, Tb, Tab)* y_comb_data = (
+  (:a1, :b1, :a1),
+  (:a1, :b2, :b2),
+  (:a2, :b2, :a2),
+  (:a3, :b3, :a3),
+  (:a4, :b3, :a4),
+  (:a4, :b4, :b4),
+  (:a4, :b4, :b4)
+);
+
+
+PrintOK()
+{
+  Print("OK\n");
+}
+
+
+PrintError(Tab expected, Tab actual)
+{
+  Print("\nError! Expected: " & printed(expected) & ", seen: " & printed(actual) & "\n");
+}
+
+
+PrintUndefError(Any yc, Any ryc)
+{
+  Print("\nError! Version with undefined values doesn't match the reference version\n");
+  Print(printed(yc) & "\n");
+  Print(printed(ryc) & "\n");
+}
+
+
+Bool RunBasicYCombTest()
+{
+  auto y_comb yc;
+
+  for ia, ib, eo <- y_comb_data:
+    yc.ia = ia;
+    yc.ib = ib;
+    update yc;
+
+    if not yc.o?? or yc.o != eo:
+      PrintError(eo, yc.o);
+      return false;
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunNullYCombTest()
+{
+  auto y_comb yc;
+  auto y_comb ryc;
+
+  ia_def = false;
+  ib_def = false;
+
+  for ia, ib, eo <- y_comb_data:
+    ia_def = ia_def or one_in(3);
+    ib_def = ib_def or one_in(3);
+
+    yc.ia = ia;
+    yc.ib = ib;
+    update yc;
+
+    if ia_def:
+      ryc.ia = ia;
+    ;
+    if ib_def:
+      ryc.ib = ib;
+    ;
+    update ryc;
+
+    if not yc.o?? or yc.o != eo:
+      PrintError(eo, yc.o);
+      return false;
+    ;
+
+    if ryc.o?? and ryc.o != yc.o:
+      PrintUndefError(yc, ryc);
+      return false;
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllYCombTests()
+{
+  ok = RunBasicYCombTest();
+  return false if not ok;
+  for i < 1000:
+    ok = RunNullYCombTest();
+    return false if not ok;
+  ;
+  return true;
+}

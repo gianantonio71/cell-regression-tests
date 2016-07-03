@@ -1,0 +1,122 @@
+Nat* frames_offsets(Nat* throws)
+{
+  len = length(throws);
+  offsets = ();
+  i = 0;
+  while i < len and length(offsets) < 10:
+    offsets = (offsets | i);
+    i = i + if throws(i) == 10 then 1 else 2;
+  ;
+  return offsets;
+}
+
+
+Nat frame_score(Nat* throws, Nat offset)
+{
+  first_throw = throws(offset);
+  base_score = first_throw + at(throws, offset+1, 0);
+  strike_or_spare = first_throw == 10 or base_score == 10;
+  return nat(base_score + if strike_or_spare then at(throws, offset+2, 0) else 0);
+}
+
+
+// [Nat] frames_scores([Nat] throws) = [frame_score(throws, o) : o <- frames_offsets(throws)];
+
+
+auto bowling
+{
+  discrete input Nat throw;
+
+  output Nat* throws, Nat* frames_scores, Nat* cumulative_scores, Nat* score;
+
+  discrete output Nat throw_copy;
+
+  state Nat* throws = ();
+
+  throws = (throws | throw);
+  // throws = (throws | throw) : throw;
+
+  throw_copy := throw;
+
+  // frames_scores = frames_scores(throws);
+  frames_scores = (frame_score(throws, o) : o <- frames_offsets(throws));
+
+  cumulative_scores = partial_sums(frames_scores);
+
+  score = sum(frames_scores);
+}
+
+
+
+(Nat*, Nat*, Nat)* bowling_test_data = (
+  ((5, 4),                                                         (9),                     9),
+  ((5, 4, 7, 2),                                                   (9, 18),                18),
+  ((3, 7, 3),                                                      (13),                   16),
+  ((3, 7, 3, 2),                                                   (13, 18),               18),
+  ((10, 3, 6),                                                     (19),                   28),
+  (12 * (10),                                                      (),                    300),
+  (9 * (0, 0) & (2, 8, 10),                                        (),                     20),
+  ((1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 2, 8, 6),    (),                    133),
+  (11 * (10) & (9),                                                (),                    299),
+  (9 * (10) & (9, 1, 1),                                           (),                    270)
+);
+
+
+Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected_score)
+{
+  auto bowling b;
+
+  for t <- throws:
+    b.throw = t;
+    update b;
+
+    if not b.throw_copy? or b.throw_copy != t:
+      print "ERROR: throw_copy";
+      print b.throw_copy;
+      print t;
+      return false;
+    ;
+  ;
+
+
+  actual_partial_scores = subseq(b.cumulative_scores, 0, length(expected_partial_scores));
+
+  ts_ok = b.throws == throws;
+  pss_ok = actual_partial_scores == expected_partial_scores;
+  s_ok = b.score == expected_score;
+
+  if ts_ok and pss_ok and s_ok:
+    // Print("OK\n");
+    return true;
+  ;
+
+  Print("ERROR!\n");
+  print throws;
+  print expected_score;
+  print expected_partial_scores;
+  print "-----------------------------------";
+  print b.throws;
+  print b.score;
+  print b.cumulative_scores;
+  print b.frames_scores;
+  print actual_partial_scores;
+
+  return false;
+}
+
+
+Bool RunBasicBowlingTests()
+{
+  for ts, pss, s <- bowling_test_data:
+    ok = RunBasicBowlingTest(ts, pss, s);
+    return false if not ok;
+  ;
+  return true;
+}
+
+
+Bool RunAllBowlingTests()
+{
+  ok = RunBasicBowlingTests();
+  return ok;
+}

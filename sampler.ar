@@ -1,0 +1,83 @@
+type Ta = a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10;
+type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
+
+type Tab = Ta, Tb;
+
+
+
+auto sampler
+{
+  input Ta ia, Tb ib;
+  discrete input <a, b> take_sample;
+
+  state Maybe[Tab] last_sample = nil;
+
+  output Maybe[Tab] last_sample;
+  discrete output Tab curr_sample;
+
+
+  curr_sample := if take_sample == :a then ia else ib;
+
+  last_sample = just(curr_sample);
+}
+
+
+type SamplerTestSample = (<Ta, nil>, <Tb, nil>, <a, b, nil>, <Tab, nil>);
+
+
+SamplerTestSample* sampler_test_data = (
+  (:a0, :b0, :b, :b0),
+  (nil, nil, nil, nil),
+  (nil, nil, :a, :a0),
+  (:a1, nil, :a, :a1),
+  (nil, :b1, :b, :b1),
+  (:a2, :b2, :b, :b2),
+  (nil, nil, :a, :a2),
+  (nil, nil, nil, nil)
+);
+
+
+Bool RunBasicSamplerTest(SamplerTestSample* test_data)
+{
+  auto sampler s;
+
+  els = nil;
+
+  for ia, ib, ts, ecs <- test_data:
+    if ia != nil:
+      s.ia = ia;
+    ;
+    if ib != nil:
+      s.ib = ib;
+    ;
+    if ts != nil:
+      s.take_sample = ts;
+    ;
+
+    update s;
+
+    els = just(ecs) if ecs != nil;
+
+    cs_ok = if ecs != nil then s.curr_sample? and s.curr_sample == ecs else not s.curr_sample?;
+    ls_ok = s.last_sample == els;
+
+    if not cs_ok or not ls_ok:
+      Print("ERROR ERROR ERROR!\n");
+      print (cs_ok, ls_ok);
+      print (ecs, els);
+      print s;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllSamplerTests()
+{
+  res = RunBasicSamplerTest(sampler_test_data);
+  return res;
+}

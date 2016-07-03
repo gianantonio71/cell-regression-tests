@@ -1,0 +1,103 @@
+auto nested_automata_7_some_counter
+{
+  input Ta an_input;
+  output Nat a_counter;
+  state Nat a_counter = 0;
+
+  a_counter = _add_(a_counter, 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
+}
+
+
+auto nested_automata_7
+{
+  discrete input Nat increment;
+  input Ta my_input;
+  output Nat my_counter, Nat nested_counter;
+  state Nat my_counter = 0;
+
+  na = nested_automata_7_some_counter(an_input=my_input);
+
+  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+
+  na.set_counter(_add_(na.a_counter, increment));
+
+  nested_counter = na.a_counter;
+}
+
+
+nested_automata_7_some_counter.reset()
+{
+  a_counter := 0;
+}
+
+nested_automata_7_some_counter.set_counter(Nat value)
+{
+  a_counter := value;
+}
+
+nested_automata_7.reset_1()
+{
+  my_counter := 0;
+  na.reset();
+}
+
+nested_automata_7.reset_2()
+{
+  my_counter := 0;
+  na.set_counter(0);
+}
+
+nested_automata_7.set_counters(Nat my_counter_value, Nat nested_counter_value)
+{
+  my_counter := my_counter_value;
+  na.set_counter(nested_counter_value);
+}
+
+nested_automata_7.set_incremented_counters(Nat my_counter_value, Nat nested_counter_value)
+{
+  my_counter := _add_(my_counter_value, 1);
+  na.set_counter(_add_(nested_counter_value, 1));
+}
+
+
+(Ta, Maybe[Nat], Nat, Nat)* nested_automata_7_test_data = (
+  (:a0,       nil,    0,    0),
+  (:a1,       nil,    1,    0),
+  (:a2,       nil,    1,    0),
+  (:a3,       nil,    1,    1),
+  (:a4, :just(10),    2,   11),
+  (:a5,       nil,    2,   12),
+  (:a6,       nil,    2,   12),
+  (:a0,:just(100),    2,  113),
+  (:a1,       nil,    3,  113),
+  (:a2,       nil,    3,  113),
+  (:a3,       nil,    3,  114),
+  (:a4,       nil,    4,  114),
+  (:a5,       nil,    4,  115),
+  (:a0,       nil,    4,  115)
+);
+
+
+Bool RunAllNestedAutomata7Tests()
+{
+  auto nested_automata_7 ta;
+
+  for input, incr, ec, enc<- nested_automata_7_test_data:
+    ta.my_input = input;
+    if incr != nil:
+      ta.increment = match (incr) just(n?) = n;
+    ;
+    update ta;
+
+    if ta.my_counter != ec or ta.nested_counter != enc:
+      Print("ERROR\n");
+      print (input, incr, ec, enc);
+      print ta;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}

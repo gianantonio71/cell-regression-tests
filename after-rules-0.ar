@@ -1,0 +1,103 @@
+auto after_test_0
+{
+  input Ta i;
+
+  output Bool u1;
+  u1 = i after 10ns;
+
+  output Bool u2;
+  u2 = if i :: <a0, a2, a4, a6, a8> then :even else :odd after not 5ns every 20ns;
+}
+
+
+(Ta, Nat, Bool)* after_test_0_data_0 = (
+  (:a0,   0,  false),
+  (:a0,   9,  false),
+  (:a0,   1,  true),
+  (:a1,   0,  false),
+  (:a1,   9,  false),
+  (:a1,   1,  true),
+  (:a1,  10,  true)
+);
+
+
+Bool RunAfter0Test0((Ta, Nat, Bool)* test_data)
+{
+  auto after_test_0 ta;
+
+  for i, dt, eu1 @ j <- test_data:
+    ta.i = i;
+
+    update ta elapsed dt;
+
+    if ta.u1 != eu1:
+      Print("Error\n");
+      print ((i, dt, eu1), j);
+      print ta;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAfter0Test1()
+{
+  auto after_test_0 ta;
+
+  curr_watched_value = nil;
+  time_since_change = 0;
+  elapsed_time = 0;
+  for 100:
+    new_input_value = _rand_elem_([:a0, :a1, :a2, :a3, :a4, :a5, :a6, :a7, :a8, :a9]);
+    ta.i = new_input_value;
+    new_watched_value = if new_input_value :: <a0, a2, a4, a6, a8> then :even else :odd;
+    time_since_change = 0 if curr_watched_value != new_watched_value;
+    for 100:
+      update ta elapsed elapsed_time;
+      exp_u2 = _lt_(_mod_(time_since_change, 20), 5);
+
+      if ta.u2 != exp_u2:
+        Print("ERROR!\n");
+
+        print "new_input_value";
+        print new_input_value;
+        print "new_watched_value";
+        print new_watched_value;
+        print "curr_watched_value";
+        print curr_watched_value;
+        print "elapsed_time";
+        print elapsed_time;
+        print "time_since_change";
+        print time_since_change;
+        print "exp_u2";
+        print exp_u2;
+
+        print "ta";
+        print ta;
+
+        return false;
+      // else
+      //   Print(".");
+      ;
+
+      curr_watched_value = new_watched_value;
+      elapsed_time = _rand_nat_(40);
+      time_since_change = _add_(time_since_change, elapsed_time);
+    ;
+  ;
+  return true;
+}
+
+
+
+Bool RunAllAfter0Tests()
+{
+  ok = RunAfter0Test0(after_test_0_data_0);
+  return false if not ok;
+  ok = RunAfter0Test1();
+  return ok;
+}

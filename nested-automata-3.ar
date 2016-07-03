@@ -1,0 +1,88 @@
+auto fps50_a
+{
+  input Bool enabled;
+
+  output Nat counter;
+  discrete output Nil next;
+
+  state Nat counter = 0;
+
+
+  first_frame_half = enabled for not 10ms every 20ms;
+
+  next := nil if first_frame_half;
+
+  counter = _add_(counter, 1) : next;
+}
+
+
+auto fps50_b
+{
+  input Bool enabled;
+
+  output Nat counter;
+  discrete output Nil next;
+
+  state Nat counter = 0;
+
+
+  parity = enabled for 20ms every 40ms;
+
+  next := nil : parity;
+
+  counter = _add_(counter, 1) : next;
+}
+
+
+auto nested_automata_3
+{
+  input Ta unused_input;
+
+  output Nat counter_a, Nat counter_b;
+
+
+  fg_a = fps50_a(enabled=true);
+  fg_b = fps50_b(enabled=true);
+
+  counter_a = fg_a.counter;
+  counter_b = fg_b.counter;
+}
+
+
+Bool RunNestedAutomata3Test(Bool rand_times)
+{
+  auto nested_automata_3 ta;
+
+  update ta elapsed 0;
+
+  ct = 0;
+
+  for i < 1000:
+    dt = if rand_times then _rand_nat_(45) else 1;
+    ct = _add_(ct, dt);
+
+    update ta elapsed _mult_(dt, 1000000);
+
+    ec = _div_(ct, 20);
+
+    if ta.counter_a != ec or ta.counter_b != ec:
+      Print("ERROR!\n");
+      print [i: i, dt: dt, ct: ct];
+      print ta;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllNestedAutomata3Tests()
+{
+  ok = RunNestedAutomata3Test(false);
+  return false if not ok;
+  ok = RunNestedAutomata3Test(true);
+  return ok;
+}

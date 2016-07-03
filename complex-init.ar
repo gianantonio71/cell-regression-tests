@@ -1,0 +1,42 @@
+auto complex_init
+{
+  input Ta i;
+
+  output Ta v1, Ta v2, Ta d1, Ta d2;
+
+  state Ta v1 = :g(d1);
+  state Ta v2 = :l(d2);
+
+  d1 = :f(i);
+  d2 = :h(v1);
+}
+
+
+Any* complex_init_test_data = (
+  (:a0, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a0), :h(:g(:f(:a0)))),
+  (:a1, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a1), :h(:g(:f(:a0)))),
+  (:a2, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a2), :h(:g(:f(:a0)))),
+  (:a3, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a3), :h(:g(:f(:a0)))),
+  (:a4, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a4), :h(:g(:f(:a0))))
+);
+
+
+Bool RunAllComplexInitTests()
+{
+  auto complex_init ci;
+
+  for i, ev1, ev2, ed1, ed2 <- complex_init_test_data:
+    ci.i = i;
+    update ci;
+    if ci.v1 != ev1 or ci.v2 != ev2 or ci.d1 != ed1 or ci.d2 != ed2:
+      Print("Error in complex initialization tests\n");
+      print (ev1, ev2, ed1, ed2);
+      print ci;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}

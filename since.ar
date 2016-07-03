@@ -1,0 +1,63 @@
+auto since
+{
+  discrete input Any an_input;
+
+  state Nat counter = 0;
+  counter = _add_(counter, 1) : an_input;
+
+  output Bool more_than_10s_ago;
+  idle_for_10s = counter after 10s;
+  more_than_10s_ago = counter != 0 and idle_for_10s;
+}
+
+
+auto since_test
+{
+  discrete input Ta an_input;
+  output Bool output;
+
+  since = since(an_input=an_input);
+
+  output = since.more_than_10s_ago;
+}
+
+
+Bool RunSinceTest0()
+{
+  auto since_test ta;
+
+  update ta;
+  for t < 20:
+    if ta.output:
+      Print("ERROR (1)\n");
+      return false;
+    ;
+    update ta elapsed 1000000000;
+  ;
+
+  for 100:
+    ta.an_input = _rand_elem_([:a0, :a1, :a2, :a3, :a4, :a5, :a6, :a7, :a8, :a9]);
+    update ta;
+    time_since_change = 0;
+    for 10:
+      elapsed_time = _rand_nat_(15);
+      time_since_change = _add_(time_since_change, elapsed_time);
+      update ta elapsed _mult_(1000000000, elapsed_time);
+      exp_output = _ge_(time_since_change, 10);
+      if ta.output != exp_output:
+        Print("ERROR!\n");
+        return false;
+      // else
+      //   Print(".");
+      ;
+    ;
+  ;
+  return true;
+}
+
+
+Bool RunAllSinceTests()
+{
+  ok = RunSinceTest0();
+  return ok;
+}

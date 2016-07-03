@@ -1,0 +1,56 @@
+auto unchanged_for
+{
+  input Ta i;
+
+  state Bool b = false;
+
+  output Bool b, Bool u1, Bool u2, Bool u;
+
+  b = not b : i;
+
+  u1 = b for 10ns;
+  u2 = not b for 10ns;
+
+  u = u1 or u2;
+}
+
+
+(Ta, Nat, Bool, Bool, Bool, Bool)* unchanged_for_test_data_0 = (
+  (:a0,   0,  false,  false,  false,  false),
+  (:a0,   9,  false,  false,  false,  false),
+  (:a0,   1,  false,  false,  true,   true),
+  (:a1,   0,  true,   false,  false,  false),
+  (:a1,   9,  true,   false,  false,  false),
+  (:a1,   1,  true,   true,   false,  true),
+  (:a1,  10,  true,   true,   false,  true)
+);
+
+Bool RunUnchangedForTest((Ta, Nat, Bool, Bool, Bool, Bool)* test_data)
+{
+  auto unchanged_for a;
+
+  for i, dt, eb, eu1, eu2, eu @ j <- test_data:
+    a.i = i;
+
+    update a elapsed dt;
+
+    if a.b != eb or a.u1 != eu1 or a.u2 != eu2 or a.u != eu:
+      Print("Error\n");
+      print (i, dt, eb, eu1, eu2, eu);
+      print a;
+      print j;
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllUnchangedForTests()
+{
+  ok = RunUnchangedForTest(unchanged_for_test_data_0);
+  return ok;
+}

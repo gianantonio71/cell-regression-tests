@@ -1,0 +1,150 @@
+type UserId   = Nat;
+type RoomId   = String;
+
+type Login        = login(user: UserId, name: String);
+type Logout       = logout(user: UserId);
+type JoinRoom     = join(user: UserId, room: RoomId);
+type LeaveRoom    = leave(user: UserId, room: RoomId);
+
+type SendMsgToUser  = send_msg_to_user(sender: UserId, receiver: String, msg_text: String);
+type SendMsgToRoom  = send_msg_to_room(sender: UserId, target:   String, msg_text: String);
+
+type ChatServerCoreAction = Login, Logout, JoinRoom, LeaveRoom;
+
+type ChatAction = ChatServerCoreAction, SendMsgToUser, SendMsgToRoom;
+
+type Connect      = connect(channel: Nat);
+type Disconnect   = disconnect(channel: Nat);
+type Received     = received(channel: Nat, data: Byte);
+type Sent         = sent(msg_id: Nat);
+
+type ChatServerMsg = Connect, Disconnect, Received, Sent;
+
+////////////////////////////////////////////////////////////////////////////////
+
+type LoginCheck         = ok, already_logged_in, name_already_in_use;
+type LogoutCheck        = ok, not_logged_in;
+type JoinRoomCheck      = ok, not_logged_in;
+type LeaveRoomCheck     = ok, not_logged_in, not_in_room;
+type SendMsgToUserCheck = ok, not_logged_in, unknown_receiver;
+type SendMsgToRoomCheck = ok, not_logged_in, not_in_room;
+
+type ActionCheck = LoginCheck, LogoutCheck, JoinRoomCheck, LeaveRoomCheck;
+
+////////////////////////////////////////////////////////////////////////////////
+
+Connect     connect(Nat c)          = connect(channel: c);
+Disconnect  disconnect(Nat c)       = disconnect(channel: c);
+Received    received(Nat c, Byte b) = received(channel: c, data: b);
+Sent        sent(Nat n)             = sent(msg_id: n);
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+String* split_chat_msg(Byte* msg_text)
+{
+  len = length(msg_text);
+
+  fields = ();
+
+  i = 0;
+  while i < len:
+    // Skipping whitespace
+    while msg_text(i) == ascii_space:
+      i = i + 1;
+    ;
+
+    j = 0;
+    while i + j < len and {length(fields) == 2 or msg_text(i+j) != ascii_space}:
+      j = j + 1;
+    ;
+
+    new_field = subseq(msg_text, i, j, nil);
+    fields = (fields | string(new_field)) if new_field != ();
+
+    i = i + j;
+  ;
+
+  return fields;
+}
+
+
+Bool is_room_name(String str) = length(str) > 1 and str[0] == ascii_hash;
+
+
+Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
+{
+  fields = split_chat_msg(data);
+  count = length(fields);
+
+  if count == 1:
+    return just(logout(user: channel)) if fields(0) == "LOGOUT";
+
+  elif count == 2:
+    return just(login(user: channel, name: fields(1))) if fields(0) == "LOGIN";
+
+    if fields(0) == "JOIN" and is_room_name(fields(1)):
+      return just(join(user: channel, room: substr(fields(1), 1, nil, 0)));
+    ;
+
+    if fields(0) == "PART" and is_room_name(fields(1)):
+      return just(leave(user: channel, room: substr(fields(1), 1, nil, 0)));
+    ;
+
+  elif count == 3:
+    if fields(0) == "MSG":
+      if is_room_name(fields(1)):
+        return just(send_msg_to_room(sender: channel, target: substr(fields(1), 1, nil, 0), msg_text: fields[2]));
+      else
+        return just(send_msg_to_user(sender: channel, receiver: fields(1), msg_text: fields[2]));
+      ;
+    ;
+  ;
+
+  return nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+(<alice, carol, bob>, String)* chat_server_test_data_1 = (
+  (:bob,   "LOGIN bob"),
+  (:bob,   "JOIN #news"),
+  (:alice, "LOGIN alice"),
+  (:alice, "JOIN #news"),
+  (:carol, "LOGIN carol"),
+  (:carol, "JOIN #news"),
+  (:alice, "MSG #news hi everyone"),
+  (:bob,   "MSG #news nothing much happened after that"),
+  (:carol, "MSG alice hi alice, where've you been?"),
+  (:alice, "MGS carol on vacation"),
+  (:alice, "MSG carol on vacation"),
+  (:carol, "MSG #nesw is anyone here?"),
+  (:bob,   "MSG dean hi dean, how's going?"),
+  (:alice, "LOGOUT")
+);
+
+
+[Nat -> (Nat, String)] chat_server_exp_res_1 = [
+  0 -> (0, "OK"),
+  1 -> (0, "OK"),
+  2 -> (1, "OK"),
+  3 -> (1, "OK"),
+  4 -> (2, "OK"),
+  5 -> (2, "OK"),
+  6 -> (1, "OK"),
+  7 -> (0, "GOTROOMMSG alice #news hi everyone"),
+  8 -> (1, "GOTROOMMSG alice #news hi everyone"),
+  9 -> (2, "GOTROOMMSG alice #news hi everyone"),
+  10 -> (0, "OK"),
+  11 -> (0, "GOTROOMMSG bob #news nothing much happened after that"),
+  12 -> (1, "GOTROOMMSG bob #news nothing much happened after that"),
+  13 -> (2, "GOTROOMMSG bob #news nothing much happened after that"),
+  14 -> (2, "OK"),
+  15 -> (1, "GOTUSERMSG carol hi alice, where've you been?"),
+  16 -> (1, "ERROR syntax error"),
+  17 -> (1, "OK"),
+  18 -> (2, "GOTUSERMSG alice on vacation"),
+  19 -> (2, "ERROR never joined room"),
+  20 -> (0, "ERROR unknown user")
+];

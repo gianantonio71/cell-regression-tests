@@ -1,0 +1,52 @@
+auto full_history
+{
+  input Ta input;
+
+  output Ta+ history;
+
+  state Ta+ history = (input);
+
+  history = (history | input) : input;
+}
+
+
+auto full_history_client
+{
+  input Ta i;
+
+  output Ta+ h, Nat hs;
+
+  ha = full_history(input = i);
+  h = ha.history;
+
+  hs = _len_(h);
+}
+
+
+Ta* full_history_test_data = (:a0, :a1, :a2, :a3, :a4, :a0, :a1, :a2, :a3, :a4);
+
+
+Bool RunAllFullHistoryTests()
+{
+  auto full_history_client fhc;
+
+  eh = ();
+  ehs = 0;
+
+  for i <- full_history_test_data:
+    eh = (eh | i);
+    ehs = _add_(ehs, 1);
+    fhc.i = i;
+    update fhc;
+    if fhc.h != eh or fhc.hs != ehs:
+      Print("ERROR!\n");
+      print fhc;
+      print (eh, ehs);
+      return false;
+    // else
+    //   Print("OK\n");
+    ;
+  ;
+
+  return true;
+}

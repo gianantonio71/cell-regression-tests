@@ -1,0 +1,155 @@
+type Ta = a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10;
+type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
+
+type Tab = Ta, Tb;
+
+
+Bool one_in(NzNat count) = _rand_nat_(count) == 0;
+
+
+Main(String* args)
+{
+  Print("Running all regression tests:\n");
+
+  Print("  Mine                   ");
+  ok = RunAllMineTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Pedometer              ");
+  ok = RunAllPedometerTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Y Combinator           ");
+  ok = RunAllYCombTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Filter                 ");
+  ok = RunAllFilterTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Bowling                ");
+  ok = RunAllBowlingTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Discrete Y Combinator  ");
+  ok = RunAllDiscYCombTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Sampler                ");
+  ok = RunAllSamplerTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  State Derived Copy     ");
+  ok = RunAllStateDerivedCopyTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Complex Init           ");
+  ok = RunAllComplexInitTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Methods                ");
+  ok = RunAllMethodTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Time Varying 0         ");
+  ok = RunAllTimeVaryingTests0();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Time Varying 1         ");
+  ok = RunAllTimeVaryingTests1();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Time Varying 2         ");
+  ok = RunAllTimeVaryingTests2();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Unchanged For          ");
+  ok = RunAllUnchangedForTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Full History           ");
+  ok = RunAllFullHistoryTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 1      ");
+  ok = RunAllNestedAutomata1Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 2      ");
+  ok = RunAllNestedAutomata2Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 3      ");
+  ok = RunAllNestedAutomata3Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 4      ");
+  ok = RunAllNestedAutomata4Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 5      ");
+  ok = RunAllNestedAutomata5Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 6      ");
+  ok = RunAllNestedAutomata6Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 7      ");
+  ok = RunAllNestedAutomata7Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Nested Automata 8      ");
+  ok = RunAllNestedAutomata8Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Polymorphic Methods    ");
+  ok = RunAllPolymorphicMethodsTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Chat Server 0          ");
+  ok = RunAllChatServer0Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Chat Server 1          ");
+  ok = RunAllChatServer1Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  After Rules            ");
+  ok = RunAllAfter0Tests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Since                  ");
+  ok = RunAllSinceTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("\nAll tests successful\n");
+}

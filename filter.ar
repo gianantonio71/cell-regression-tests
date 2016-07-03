@@ -1,0 +1,79 @@
+auto filter
+{
+  input Ta i;
+  output Ta o;
+  state Ta o = :a0;
+
+  o = i if i != :a3 : i;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+(Ta, Ta)* filter_test_data = (
+  (:a1, :a0),
+  (:a2, :a2),
+  (:a2, :a2),
+  (:a3, :a2),
+  (:a4, :a4),
+  (:a1, :a1)
+);
+
+
+Bool RunBasicFilterTest()
+{
+  auto filter f;
+
+  for i, eo <- filter_test_data:
+    f.i = i;
+    update f;
+
+    if f.o != eo:
+      Print("Filter test error. \nExpected output: " & printed(eo) & "\nActual output:");
+      print f.o;
+      return false;
+    ;
+  ;
+  return true;
+}
+
+
+Bool RunNullFilterTest()
+{
+  auto filter f;
+  auto filter rf;
+
+  i_def = false;
+
+  for i, eo <- filter_test_data:
+    i_def = i_def or one_in(3);
+
+    if i_def:
+      f.i = i;
+    ;
+    update f;
+
+    rf.i = i;
+    update rf;
+
+    if f.o?? and f.o != rf.o:
+      Print("Filter null test error. Reference output: " & printed(rf.o) & ", actual one: " & printed(f.o));
+      return false;
+    ;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllFilterTests()
+{
+  ok = RunBasicFilterTest();
+  return false if not ok;
+
+  for i < 1000:
+    ok = RunNullFilterTest();
+    return false if not ok;
+  ;
+
+  return true;
+}
