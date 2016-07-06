@@ -1,0 +1,93 @@
+auto base
+{
+  input Ta in_a, Tb in_b;
+  output Ta out_a, Tb out_b;
+
+  out_a = if in_a == :a0 then :a9 else in_a;
+  out_b = if in_b == :b0 then :b9 else in_b;
+}
+
+
+auto derived : base
+{
+  out_a = if in_a == :a1 then :a8 else in_a;
+}
+
+
+auto twice_derived : derived
+{
+  out_b = if in_b == :b1 then :b8 else in_b;
+}
+
+
+auto input_overriding : base
+{
+  input Ta new_in_a, Tb new_in_b;
+
+  in_a = if new_in_a == :a2 then :a0 else new_in_a;
+  in_b = if new_in_b == :b2 then :b0 else new_in_b;
+}
+
+
+(Ta, Tb, Ta, Tb, Ta, Tb, Ta, Tb, Ta, Tb)* basic_inheritance_test_data = (
+  (:a0, :b0, :a9, :b9, :a0, :b9, :a0, :b0, :a9, :b9),
+  (:a1, :b1, :a1, :b1, :a8, :b1, :a8, :b8, :a1, :b1),
+  (:a2, :b2, :a2, :b2, :a2, :b2, :a2, :b2, :a9, :b9)
+);
+
+
+Bool RunAllBasicInheritanceTests()
+{
+  auto base b;
+  auto derived d;
+  auto twice_derived t;
+  auto input_overriding i;
+
+  for in_a, in_b, eba, ebb, eda, edb, eta, etb, eia, eib <- basic_inheritance_test_data:
+    b.in_a = in_a;
+    b.in_b = in_b;
+    d.in_a = in_a;
+    d.in_b = in_b;
+    t.in_a = in_a;
+    t.in_b = in_b;
+    i.new_in_a = in_a;
+    i.new_in_b = in_b;
+
+    update b;
+    update d;
+    update t;
+    update i;
+
+    if b.out_a != eba or b.out_b != ebb:
+      Print("ERROR: base\n");
+      print (eba, ebb);
+      print b;
+      return false;
+    ;
+
+    if d.out_a != eda or d.out_b != edb:
+      Print("ERROR: derived\n");
+      print (eda, edb);
+      print d;
+      return false;
+    ;
+
+    if t.out_a != eta or t.out_b != etb:
+      Print("ERROR: twice_derived\n");
+      print (eta, etb);
+      print t;
+      return false;
+    ;
+
+    if i.out_a != eia or i.out_b != eib:
+      Print("ERROR: input_overriding\n");
+      print (eia, eib);
+      print i;
+      return false;
+    ;
+
+    // Print("OK\n");
+  ;
+
+  return true;
+}

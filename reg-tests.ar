@@ -156,5 +156,10 @@ Main(String* args)
   return if not ok;
   Print("OK\n");
 
+  Print("  Basic inheritance tests                  ");
+  ok = RunAllBasicInheritanceTests();
+  return if not ok;
+  Print("OK\n");
+
   Print("\nAll tests successful\n");
 }

@@ -43,4 +43,6 @@ reactive/since.ar
 
 reactive/flipflop.ar
 
+reactive/inheritance-0.ar
+
 reactive/reg-tests.ar
