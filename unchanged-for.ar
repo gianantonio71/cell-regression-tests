@@ -1,17 +1,22 @@
-auto unchanged_for
+cell unchanged_for
 {
-  input Ta i;
+  input:
+    i : Ta;
 
-  state Bool b = false;
+  output:
+    b  : Bool;
+    u1 : Bool;
+    u2 : Bool;
+    u  : Bool;
 
-  output Bool b, Bool u1, Bool u2, Bool u;
+  state:
+    b : Bool = false;
 
-  b = not b : i;
-
-  u1 = b for 10ns;
-  u2 = not b for 10ns;
-
-  u = u1 or u2;
+  rules:
+    b = not b : i;
+    u1 = b for 10ns;
+    u2 = not b for 10ns;
+    u = u1 or u2;
 }
 
 
@@ -27,17 +32,20 @@ auto unchanged_for
 
 Bool RunUnchangedForTest((Ta, Nat, Bool, Bool, Bool, Bool)* test_data)
 {
-  auto unchanged_for a;
+  auto a : unchanged_for;
 
   for i, dt, eb, eu1, eu2, eu @ j <- test_data:
-    a.i = i;
+    auto a.i = i;
 
-    update a elapsed dt;
+    auto apply a after dt;
 
     if a.b != eb or a.u1 != eu1 or a.u2 != eu2 or a.u != eu:
       Print("Error\n");
       print (i, dt, eb, eu1, eu2, eu);
-      print a;
+      print a.b;
+      print a.u1;
+      print a.u2;
+      print a.u;
       print j;
       return false;
     // else

@@ -1,32 +1,47 @@
-auto methods
+cell methods
 {
-  input Ta i;
+  input:
+    i : Ta;
+    a : <reapply, reapply(l1: Atom, l2: Atom)>?;
 
-  output Ta v1, Ta v2, Ta d1, Ta d2;
+  output:
+    v1 : Ta;
+    v2 : Ta;
+    d1 : Ta;
+    d2 : Ta;
 
-  state Ta v1 = :g(d1);
-  state Ta v2 = :l(d2);
+  state:
+    v1 : Ta = :g(d1);
+    v2 : Ta = :l(d2);
 
-  v1 = :p(d1) if i == :a3;
-  v2 = :q(d2) if i == :a4;
+  rules:
+    v1 = if a? and a == :reapply                        then :g(#d1),
+            a? and a :: <reapply(l1: Atom, l2: Atom)>   then a.l1 @ #d1,
+            i == :a3 and i != #i                        then :p(d1)
+                                                        else v1
+         : i, a;
 
-  d1 = :f(i);
-  d2 = :h(v1);
+    v2 = if a? and a == :reapply                        then :l(#d2),
+            a? and a :: <reapply(l1: Atom, l2: Atom)>   then a.l2 @ #d2,
+            i == :a4 and i != #i                        then :q(d2)
+                                                        else v2
+         : i, a;
+
+    d1 = :f(i);
+    d2 = :h(v1);
 }
 
 
-methods.reapply_inputs()
-{
-  v1 := :g(d1);
-  v2 := :l(d2);
-}
+Any methods.my_meth(<v1> p) = v1;
+
+Any methods.my_meth(<v2> p) = v2;
+
+Any methods.my_meth(<d1> p) = d1;
+
+Any methods.my_meth(<d2> p) = d2;
 
 
-methods.reapply_inputs(Atom l1, Atom l2)
-{
-  v1 := l1 @ d1;
-  v2 := l2 @ d2;
-}
+(Any, Any) methods.my_other_meth(<v1, v2, d1, d2> p1, <v1, v2, d1, d2> p2) = (self.my_meth(p1), self.my_meth(p2));
 
 
 Any* method_test_data_1a = (
@@ -89,30 +104,62 @@ Any* method_test_data_2b = (
 
 Bool RunBasicMethodTests(Any* test_data)
 {
-  auto methods t;
+  auto t : methods;
 
   for a, i, ed1, ev1, ed2, ev2 @ j <- test_data:
-    t.i = i;
+    // print "-----------------------------------------------------";
+    // print (a, i);
+    // print (t.v1, t.v2, t.d1, t.d2);
 
-    update t;
+    auto t.i = i;
+    auto apply t;
+    // print (t.v1, t.v2, t.d1, t.d2);
 
     if a == 1:
-      t.reapply_inputs();
+      auto t.a = :reapply;
     elif a == 2:
-      t.reapply_inputs(:s, :t);
+      auto t.a = reapply(l1: :s, l2: :t);
     ;
 
-    update t;
+    auto apply t;
+    // print (t.v1, t.v2, t.d1, t.d2);
 
     if not {t.v1 == ev1 and t.v2 == ev2 and t.d1 == ed1 and t.d2 == ed2}:
       Print("Error\n");
       print (ev1, ev2, ed1, ed2);
-      print t;
+      print t.v1;
+      print t.v2;
+      print t.d1;
+      print t.d2;
       return false;
     // else
     //   Print("OK\n");
     ;
+
+    id_combs = (
+      (:v1, :v2), (:d1, :d2), (:v1, :d2), (:d1, :v2),
+      (:v2, :v1), (:d2, :d1), (:v2, :d1), (:d2, :v1),
+      (:v1, :v1), (:d1, :d1), (:v1, :d1), (:d1, :v1),
+      (:v2, :v2), (:d2, :d2), (:v2, :d2), (:d2, :v2)
+    );
+
+    exp_res = (
+      (t.v1, t.v2), (t.d1, t.d2), (t.v1, t.d2), (t.d1, t.v2),
+      (t.v2, t.v1), (t.d2, t.d1), (t.v2, t.d1), (t.d2, t.v1),
+      (t.v1, t.v1), (t.d1, t.d1), (t.v1, t.d1), (t.d1, t.v1),
+      (t.v2, t.v2), (t.d2, t.d2), (t.v2, t.d2), (t.d2, t.v2)
+    );
+
+    act_res = (t.my_other_meth(id1, id2) : id1, id2 <- id_combs);
+
+    if act_res != exp_res:
+      Print("ERROR (METHODS):\n");
+      print exp_res;
+      print act_res;
+      return false;
+    ;
   ;
+
   return true;
 }
 

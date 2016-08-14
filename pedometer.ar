@@ -22,49 +22,51 @@ Float distance(Point p1, Point p2)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-auto pedometer_0
+cell pedometer_0
 {
-  input
-    Bool  has_moved,
-    Point position,
-    Any   unused_input;
+  input:
+    has_moved     : Bool;
+    position      : Point;
+    unused_input  : Any;
 
-  output
-    Point  position_copy,
-    Point* track,
-    Float  distance;
+  output:
+    position_copy : Point;
+    track         : Point*;
+    distance      : Float;
 
-  state
-    Point  position_copy = position,
-    Point* track     = (position),
-    Float  distance  = 0.0,
-    Any    unused_state_var = :f((:a, :b, :c));
+  state:
+    position_copy     : Point   = position;
+    track             : Point*  = (position);
+    distance          : Float   = 0.0;
+    unused_state_var  : Any     = :f((:a, :b, :c));
 
-  unused_param = (:a, :b);
+  rules:
+    unused_param = (:a, :b);
 
-  position_copy = position if has_moved;
-  track = (track | position) if has_moved;
-  distance = distance + distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and length(track) > 1;
-  unused_rule = reverse(track);
+    position_copy = position if has_moved;
+    track = (track | position) if has_moved;
+    distance = distance + distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and length(track) > 1;
+    unused_rule = reverse(track);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-auto pedometer
+cell pedometer
 {
-  input
-    Point position;
+  input:
+    position : Point;
 
-  output
-    Point* track,
-    Float  distance;
+  output:
+    track    : Point*;
+    distance : Float;
 
-  state
-    Point* track     = (position),
-    Float  distance  = 0.0;
+  state:
+    track    : Point* = (position);
+    distance : Float  = 0.0;
 
-  track = (track | position) : position;
-  distance = distance + distance(position, #position) : position;
+  rules:
+    track = (track | position) : position;
+    distance = distance + distance(position, #position) : position;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,8 +94,8 @@ Float* expected_distances
 
 Bool RunBasicPedometerTest()
 {
-  auto pedometer p;
-  auto pedometer_0 p0;
+  auto p  : pedometer;
+  auto p0 : pedometer_0;
 
   exp_ds = expected_distances;
 
@@ -102,8 +104,8 @@ Bool RunBasicPedometerTest()
   for x, y @ i <- route:
     pos = point(x, y);
 
-    p.position = pos;
-    update p;
+    auto p.position = pos;
+    auto apply p;
 
     if p.distance != exp_ds(i):
       Print("Pedometer - Distance error!");
@@ -115,13 +117,13 @@ Bool RunBasicPedometerTest()
       return false;
     ;
 
-    p0.position = point(x, y);
-    p0.has_moved = true;
-    p0.unused_input = :g((0, 1, 2));
-    update p0;
+    auto p0.position = point(x, y);
+    auto p0.has_moved = true;
+    auto p0.unused_input = :g((0, 1, 2));
+    auto apply p0;
 
-    p0.has_moved = false;
-    update p0;
+    auto p0.has_moved = false;
+    auto apply p0;
 
     if p0.distance != exp_ds(i):
       Print("Pedometer (Old) - Distance error!");

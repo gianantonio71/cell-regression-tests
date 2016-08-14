@@ -1,12 +1,17 @@
-auto state_derived_copy
+cell state_derived_copy
 {
-  input Ta i1, Tb i2;
+  input:
+    i1 : Ta;
+    i2 : Tb;
 
-  output (Ta, Tb) o;
+  output:
+    o : (Ta, Tb);
 
-  state (Ta, Tb) v = (i1, i2);
+  state:
+    v : (Ta, Tb) = (i1, i2);
 
-  o = v;
+  rules:
+    o = v;
 }
 
 
@@ -21,12 +26,12 @@ auto state_derived_copy
 
 Bool RunAllStateDerivedCopyTests()
 {
-  auto state_derived_copy c;
+  auto c : state_derived_copy;
 
   for i1, i2 <- state_derived_copy_test_data:
-    c.i1 = i1;
-    c.i2 = i2;
-    update c;
+    auto c.i1 = i1;
+    auto c.i2 = i2;
+    auto apply c;
     if c.o != (:a0, :b0):
       Print("Error\n");
       print c.o;

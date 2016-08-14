@@ -1,20 +1,34 @@
-auto time_varying_1
+cell time_varying_1
 {
-  input Ta i;
+  input:
+    i : Ta;
 
-  state Nat c1 = 0, Nat c2 = 0, Nat c3 = 0, Nat c4 = 0;
+  output:
+    o1 : Bool;
+    c1 : Nat;
+    o2 : Bool;
+    c2 : Nat;
+    o3 : Bool;
+    c3 : Nat;
+    o4 : Bool;
+    c4 : Nat;
 
-  output Bool o1, Nat c1, Bool o2, Nat c2, Bool o3, Nat c3, Bool o4, Nat c4;
+  state:
+    c1 : Nat = 0;
+    c2 : Nat = 0;
+    c3 : Nat = 0;
+    c4 : Nat = 0;
 
-  o1 = i == :a1 for 2ns every 5ns;
-  o2 = i == :a1 for 3ns and not 6ns every 10ns;
-  o3 = i == :a1 for (1ns and not 5ns) or 8ns every 12ns;
-  o4 = i == :a1 for (3ns and not 4ns) or (7ns and not 10ns) every 15ns;
+  rules:
+    o1 = i == :a1 for 2ns every 5ns;
+    o2 = i == :a1 for 3ns and not 6ns every 10ns;
+    o3 = i == :a1 for (1ns and not 5ns) or 8ns every 12ns;
+    o4 = i == :a1 for (3ns and not 4ns) or (7ns and not 10ns) every 15ns;
 
-  c1 = _add_(c1, 1) if o1;
-  c2 = _add_(c2, 1) if o2;
-  c3 = _add_(c3, 1) if o3;
-  c4 = _add_(c4, 1) if o4;
+    c1 = _add_(c1, 1) if o1;
+    c2 = _add_(c2, 1) if o2;
+    c3 = _add_(c3, 1) if o3;
+    c4 = _add_(c4, 1) if o4;
 }
 
 
@@ -76,14 +90,14 @@ auto time_varying_1
 
 Bool RunTimeVaryingTest1((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool, Nat)* test_data)
 {
-  auto time_varying_1 a;
+  auto a : time_varying_1;
 
   for mi, dt, eo1, ec1, eo2, ec2, eo3, ec3, eo4, ec4 @ j <- test_data:
     if mi != nil:
-      a.i = match (mi) just(i?) = i;
+      auto a.i = match (mi) just(i?) = i;
     ;
 
-    update a elapsed dt;
+    auto apply a after dt;
 
     if  a.o1 != eo1 or a.c1 != ec1 or
          a.o2 != eo2 or a.c2 != ec2 or
@@ -91,7 +105,14 @@ Bool RunTimeVaryingTest1((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool,
          a.o4 != eo4 or a.c4 != ec4:
       Print("Error\n");
       print (mi, dt, eo1, ec1, eo2, ec2, eo3, ec3, eo4, ec4);
-      print a;
+      print a.o1;
+      print a.c1;
+      print a.o2;
+      print a.c2;
+      print a.o3;
+      print a.c3;
+      print a.o4;
+      print a.c4;
       print j;
       return false;
     // else

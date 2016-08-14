@@ -1,49 +1,51 @@
-auto mine
+cell mine
 {
-  input
-    Bool low_sensor_underwater,
-    Bool high_sensor_underwater,
+  input:
+    low_sensor_underwater  : Bool;
+    high_sensor_underwater : Bool;
 
-    Nat methane_level,
-    Nat co_level,
-    Nat airflow_level;
+    methane_level : Nat;
+    co_level      : Nat;
+    airflow_level : Nat;
 
-  output
-    Bool pump_must_be_on,
-    Bool error_detected,
-    Bool evacuation_needed;
+  output:
+    pump_must_be_on   : Bool;
+    error_detected    : Bool;
+    evacuation_needed : Bool;
 
-  state
-    Bool needs_draining = high_sensor_underwater;
+  state:
+    needs_draining : Bool = high_sensor_underwater;
 
-  max_methane_level   = 10; // I actually need two distinct methane levels, one for breathing and one for operating the pump
-  max_co_level        = 20;
-  min_airflow_level   = 100;
+  static:
+    max_methane_level : Nat = 10; // I actually need two distinct methane levels, one for breathing and one for operating the pump
+    max_co_level      : Nat = 20;
+    min_airflow_level : Nat = 100;
 
-  needs_draining = true  if high_sensor_underwater,
-                   false if not low_sensor_underwater;
+  rules:
+    needs_draining = true  if high_sensor_underwater,
+                     false if not low_sensor_underwater;
 
-  // needs_draining = flipflop(high_sensor_underwater, not (high_sensor_underwater or low_sensor_underwater));
-  // needs_draining = high_sensor_underwater <--> not (high_sensor_underwater or low_sensor_underwater);
+    // needs_draining = flipflop(high_sensor_underwater, not (high_sensor_underwater or low_sensor_underwater));
+    // needs_draining = high_sensor_underwater <--> not (high_sensor_underwater or low_sensor_underwater);
 
-  // if (high_sensor_underwater)
-  //   needs_draining = true;
-  // elif (not low_sensor_underwater)
-  //   needs_draining = false;
+    // if (high_sensor_underwater)
+    //   needs_draining = true;
+    // elif (not low_sensor_underwater)
+    //   needs_draining = false;
 
 
-  methane_level_too_high  = methane_level > max_methane_level;
-  co_level_too_high       = co_level > max_co_level;
-  airflow_level_too_low   = airflow_level < min_airflow_level;
+    methane_level_too_high  = methane_level > max_methane_level;
+    co_level_too_high       = co_level > max_co_level;
+    airflow_level_too_low   = airflow_level < min_airflow_level;
 
-  pump_must_be_on = needs_draining and not methane_level_too_high;
+    pump_must_be_on = needs_draining and not methane_level_too_high;
 
-  unbreathable_atmosphere = methane_level_too_high or co_level_too_high or airflow_level_too_low;
+    unbreathable_atmosphere = methane_level_too_high or co_level_too_high or airflow_level_too_low;
 
-  error_detected = high_sensor_underwater and not low_sensor_underwater;
+    error_detected = high_sensor_underwater and not low_sensor_underwater;
 
-  evacuation_needed = unbreathable_atmosphere or error_detected or high_sensor_underwater;
-  // evacuation_needed = (unbreathable_atmosphere for 30s) or (error_detected for 1m) or high_sensor_underwater for 5m;
+    evacuation_needed = unbreathable_atmosphere or error_detected or high_sensor_underwater;
+    // evacuation_needed = (unbreathable_atmosphere for 30s) or (error_detected for 1m) or high_sensor_underwater for 5m;
 }
 
 
@@ -67,16 +69,16 @@ auto mine
 
 Bool RunBasicMineTest()
 {
-  auto mine mine;
+  auto mine : mine;
 
   for lsu, hsu, ml, cl, al, po, en, ed <- mine_test_data:
-    mine.low_sensor_underwater = lsu;
-    mine.high_sensor_underwater = hsu;
-    mine.methane_level = ml;
-    mine.co_level = cl;
-    mine.airflow_level = al;
+    auto mine.low_sensor_underwater = lsu;
+    auto mine.high_sensor_underwater = hsu;
+    auto mine.methane_level = ml;
+    auto mine.co_level = cl;
+    auto mine.airflow_level = al;
 
-    update mine;
+    auto apply mine;
 
     errors = ();
     if mine.pump_must_be_on != po:
@@ -107,8 +109,8 @@ Bool RunBasicMineTest()
 
 Bool RunNullMineTest()
 {
-  auto mine mine;
-  auto mine ref_mine;
+  auto mine     : mine;
+  auto ref_mine : mine;
 
   lsu_def = one_in(3);
   hsu_def = one_in(3);
@@ -117,31 +119,31 @@ Bool RunNullMineTest()
   al_def = one_in(3);
 
   for lsu, hsu, ml, cl, al, po, en, ed <- mine_test_data:
-    ref_mine.low_sensor_underwater = lsu;
-    ref_mine.high_sensor_underwater = hsu;
-    ref_mine.methane_level = ml;
-    ref_mine.co_level = cl;
-    ref_mine.airflow_level = al;
+    auto ref_mine.low_sensor_underwater = lsu;
+    auto ref_mine.high_sensor_underwater = hsu;
+    auto ref_mine.methane_level = ml;
+    auto ref_mine.co_level = cl;
+    auto ref_mine.airflow_level = al;
 
-    update ref_mine;
+    auto apply ref_mine;
 
     if lsu_def:
-      mine.low_sensor_underwater = lsu;
+      auto mine.low_sensor_underwater = lsu;
     ;
     if hsu_def:
-      mine.high_sensor_underwater = hsu;
+      auto mine.high_sensor_underwater = hsu;
     ;
     if ml_def:
-      mine.methane_level = ml;
+      auto mine.methane_level = ml;
     ;
     if cl_def:
-      mine.co_level = cl;
+      auto mine.co_level = cl;
     ;
     if al_def:
-      mine.airflow_level = al;
+      auto mine.airflow_level = al;
     ;
 
-    update mine;
+    auto apply mine;
 
     // full_state = (
     //   needs_draining:          mine.needs_draining           if mine.needs_draining??,

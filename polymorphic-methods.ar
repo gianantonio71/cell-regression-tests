@@ -1,94 +1,176 @@
-type Reset  = reset;
+type Reset  = reset(Int);
 type Incr   = increment;
 type Decr   = decrement;
 type Acc    = accumulate(Int);
 
+type PolyMsg = Reset, Incr, Decr, Acc;
 
 
-auto polymorphic_methods_some_counter
+Reset reset         = :reset(0);
+Reset reset(Int n)  = :reset(n);
+
+Incr increment  = :increment;
+Decr decrement  = :decrement;
+
+PolyMsg accumulate(Int n) = if n ==  1  then increment,
+                               n == -1  then decrement
+                                        else :accumulate(n);
+
+
+Int variation(PolyMsg msg):
+  increment       = 1,
+  decrement       = -1,
+  accumulate(n?)  = n;
+
+
+PolyMsg sequential_combine(PolyMsg msg1, PolyMsg msg2):
+  _,            reset()   = msg2,
+  reset(x?),    _         = :reset(x + variation(msg2)),
+  _,            _         = accumulate(variation(msg1) + variation(msg2));
+
+////////////////////////////////////////////////////////////////////////////////
+
+schema PolymorphicMethodsInnerCounter
 {
-  input Ta an_input;
-  output Int a_counter;
-  state Int a_counter = 0;
-
-  a_counter = _add_(a_counter, 2) if an_input == :a1 or an_input == :a3 or an_input == :a5;
+  a_counter : Int = 0;
 }
 
 
-polymorphic_methods_some_counter.run(Reset msg)
+PolymorphicMethodsInnerCounter <- Reset
 {
-  a_counter := 0;
+  run(it);
 }
 
-polymorphic_methods_some_counter.run(Incr msg)
+PolymorphicMethodsInnerCounter <- Incr
 {
   a_counter := _add_(a_counter, 1);
 }
 
-polymorphic_methods_some_counter.run(Decr msg)
+PolymorphicMethodsInnerCounter <- Decr
 {
   a_counter := _sub_(a_counter, 1);
 }
 
-polymorphic_methods_some_counter.run(Acc msg)
+PolymorphicMethodsInnerCounter <- Acc
+{
+  run(it);
+}
+
+
+PolymorphicMethodsInnerCounter.run(Reset msg)
+{
+  a_counter := _obj_(msg);
+}
+
+PolymorphicMethodsInnerCounter.run(Incr msg)
+{
+  a_counter := _add_(a_counter, 1);
+}
+
+PolymorphicMethodsInnerCounter.run(Decr msg)
+{
+  a_counter := _sub_(a_counter, 1);
+}
+
+PolymorphicMethodsInnerCounter.run(Acc msg)
 {
   a_counter := _add_(a_counter, _obj_(msg));
 }
 
-polymorphic_methods_some_counter.reset()
+PolymorphicMethodsInnerCounter.reset()
 {
   a_counter := 0;
 }
 
-polymorphic_methods_some_counter.set_counter(Nat value)
+PolymorphicMethodsInnerCounter.set_counter(Nat value)
 {
   a_counter := value;
 }
 
 
-auto polymorphic_methods_1
+
+
+
+cell polymorphic_methods_some_counter
 {
-  input Ta my_input;
-  output Nat my_counter, Nat nested_counter;
-  state Nat my_counter = 0;
+  input:
+    an_input : Ta;
+    msg      : <Reset, Incr, Decr, Acc>?;
 
-  na = polymorphic_methods_some_counter(an_input=my_input);
+  output:
+    a_counter : Int;
 
-  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+  state:
+    inner_counter : PolymorphicMethodsInnerCounter;
 
-  msg = match (my_input)
-    a0  = :just(:accumulate(100)),
-    a2  = :just(:decrement),
-    a4  = :just(:increment),
-    a6  = :just(:reset),
-    _   = nil;
+  rules:
+    other_msg := :accumulate(2) if an_input == :a1 or an_input == :a3 or an_input == :a5;
 
-  na.run(value(msg)) if msg != nil;
+    final_msg := if msg? and other_msg?
+                   then sequential_combine(other_msg, msg)
+                   else if msg? then msg else other_msg
+                 : msg, other_msg;
 
-  nested_counter = na.a_counter;
+    inner_counter <- final_msg;
+
+    a_counter = inner_counter.a_counter;
 }
 
 
-auto polymorphic_methods_2
+cell polymorphic_methods_1
 {
-  input Ta my_input;
-  output Nat my_counter, Nat nested_counter;
-  state Nat my_counter = 0;
+  input:
+    my_input : Ta;
 
-  na = polymorphic_methods_some_counter(an_input=my_input);
+  output:
+    my_counter     : Nat;
+    nested_counter : Nat;
 
-  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+  state:
+    my_counter : Nat = 0;
 
-  msg := match (my_input)
-      a0  = :accumulate(100),
-      a2  = :decrement,
-      a4  = :increment,
-      a6  = :reset
-    if my_input :: <a0, a2, a4, a6> : my_input;
+  rules:
+    maybe_msg = match (my_input)
+      a0  = just(accumulate(100)),
+      a2  = just(decrement),
+      a4  = just(increment),
+      a6  = just(reset),
+      _   = nil;
 
-  na.run(msg);
+    msg := value(maybe_msg) if maybe_msg != nil;
+    na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
 
-  nested_counter = na.a_counter;
+    my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+
+    nested_counter = na.a_counter;
+}
+
+
+cell polymorphic_methods_2
+{
+  input:
+    my_input : Ta;
+
+  output:
+    my_counter     : Nat;
+    nested_counter : Nat;
+
+  state:
+    my_counter : Nat = 0;
+
+  rules:
+    msg := match (my_input)
+        a0  = accumulate(100),
+        a2  = decrement,
+        a4  = increment,
+        a6  = reset
+      if my_input :: <a0, a2, a4, a6> : my_input;
+
+    na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
+
+    my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+
+    nested_counter = na.a_counter;
 }
 
 
@@ -139,16 +221,17 @@ auto polymorphic_methods_2
 
 Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data)
 {
-  auto polymorphic_methods_1 ta;
+  auto ta : polymorphic_methods_1;
 
-  for input, ec, enc<- test_data:
-    ta.my_input = input;
-    update ta;
+  for input, ec, enc <- test_data:
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");
       print (input, ec, enc);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK\n");
@@ -160,16 +243,17 @@ Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data)
 
 Bool RunPolymorphicMethodsTestB((Ta, Int, Int)* test_data)
 {
-  auto polymorphic_methods_2 ta;
+  auto ta : polymorphic_methods_2;
 
-  for input, ec, enc<- test_data:
-    ta.my_input = input;
-    update ta;
+  for input, ec, enc <- test_data:
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");
       print (input, ec, enc);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK\n");

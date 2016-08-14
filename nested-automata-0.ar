@@ -1,25 +1,33 @@
-auto full_history
+cell full_history
 {
-  input Ta input;
+  input:
+    input : Ta;
 
-  output Ta+ history;
+  output:
+    history : Ta+;
 
-  state Ta+ history = (input);
+  state:
+    history : Ta+ = (input);
 
-  history = (history | input) : input;
+  rules:
+    history = (history | input) : input;
 }
 
 
-auto full_history_client
+cell full_history_client
 {
-  input Ta i;
+  input:
+    i : Ta;
 
-  output Ta+ h, Nat hs;
+  output:
+    h  : Ta+;
+    hs : Nat;
 
-  ha = full_history(input = i);
-  h = ha.history;
+  rules:
+    ha = full_history(input = i);
+    h = ha.history;
 
-  hs = _len_(h);
+    hs = _len_(h);
 }
 
 
@@ -28,7 +36,7 @@ Ta* full_history_test_data = (:a0, :a1, :a2, :a3, :a4, :a0, :a1, :a2, :a3, :a4);
 
 Bool RunAllFullHistoryTests()
 {
-  auto full_history_client fhc;
+  auto fhc : full_history_client;
 
   eh = ();
   ehs = 0;
@@ -36,11 +44,12 @@ Bool RunAllFullHistoryTests()
   for i <- full_history_test_data:
     eh = (eh | i);
     ehs = _add_(ehs, 1);
-    fhc.i = i;
-    update fhc;
+    auto fhc.i = i;
+    auto apply fhc;
     if fhc.h != eh or fhc.hs != ehs:
       Print("ERROR!\n");
-      print fhc;
+      print fhc.h;
+      print fhc.hs;
       print (eh, ehs);
       return false;
     // else

@@ -1,32 +1,39 @@
-auto filtered_history
+cell filtered_history
 {
-  discrete input Ta input;
+  input:
+    input : Ta?;
 
-  output Ta+ history;
+  output:
+    history : Ta+;
+    input_filtered : Ta?;
 
-  discrete output Ta input_filtered;
+  state:
+    history : Ta+ = ();
 
-  state Ta+ history = ();
-
-  history = (history | input) : input;
-
-  input_filtered := input if input != :a2;
+  rules:
+    history = (history | input) : input;
+    input_filtered := input if input != :a2;
 }
 
 
-auto nested_automata_1
+cell nested_automata_1
 {
-  discrete input Ta i;
+  input:
+    i : Ta?;
 
-  output Ta+ h, Nat hs;
-  discrete output Ta fi, Ta+ fib;
+  output:
+    h   : Ta+;
+    hs  : Nat;
+    fi  : Ta?;
+    fib : Ta+?;
 
-  ha = filtered_history(input = i);
-  h = ha.history;
-  fi := ha.input_filtered;
+  rules:
+    ha = filtered_history(input = i);
+    h = ha.history;
+    fi := ha.input_filtered;
 
-  hs = _len_(h);
-  fib := (fi);
+    hs = _len_(h);
+    fib := (fi);
 }
 
 
@@ -46,9 +53,9 @@ auto nested_automata_1
 
 Bool RunAllNestedAutomata1Tests()
 {
-  auto nested_automata_1 ta;
+  auto ta : nested_automata_1;
 
-  update ta;
+  auto apply ta;
 
   eh = ();
   ehs = 0;
@@ -56,23 +63,32 @@ Bool RunAllNestedAutomata1Tests()
   for i, s <- nested_automata_1_test_data:
     eh = (eh | i);
     ehs = _add_(ehs, 1);
-    ta.i = i;
-    update ta;
+    auto ta.i = i;
+    auto apply ta;
     if ta.h != eh or ta.hs != ehs:
       Print("ERROR!\n");
-      print ta;
+      print ta.h;
+      print ta.hs;
+      print ta.fi;
+      print ta.fib;
       print (eh, ehs);
       return false;
     ;
     if ta.fi? != s or ta.fib? != s:
       Print("DISCRETE SET/UNSET ERROR!\n");
-      print ta;
+      print ta.h;
+      print ta.hs;
+      print ta.fi;
+      print ta.fib;
       print s;
       return false;
     ;
     if s and {ta.fi != i or ta.fib != (i)}:
       Print("DISCRETE VALUE ERROR!\n");
-      print ta;
+      print ta.h;
+      print ta.hs;
+      print ta.fi;
+      print ta.fib;
       print s;
       return false;
     ;

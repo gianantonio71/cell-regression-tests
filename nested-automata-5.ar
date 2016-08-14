@@ -1,60 +1,77 @@
-auto nested_automata_5_some_counter
-{
-  input  Ta  an_input;
-  output Nat a_counter;
-  state  Nat a_counter = 0;
+type NestedCmd5 = reset, set_counter(Nat);
 
-  a_counter = _add_(a_counter, 1) if an_input == :a0 or an_input == :a3;
+
+Nat update_counter(NestedCmd5 cmd, Nat counter):
+  reset           = 0,
+  set_counter(n?) = n;
+
+
+cell nested_automata_5_some_counter
+{
+  input:
+    an_input : Ta;
+    command  : NestedCmd5?;
+
+  output:
+   a_counter : Nat;
+
+  state:
+   a_counter : Nat = 0;
+
+  rules:
+    a_counter = if command?
+                  then update_counter(command, a_counter),
+                an_input != #an_input and (an_input == :a0 or an_input == :a3)
+                  then a_counter + 1
+                else
+                  a_counter
+                : an_input, command;
 }
 
 
-auto nested_automata_5
+type Cmd5 = reset_1, reset_2, set_counters(Nat, Nat), set_incremented_counters(Nat, Nat);
+
+
+Nat update_counter(Cmd5 cmd, Nat counter):
+  reset_1 | reset_2               = 0,
+  set_counters(c?, _)             = c,
+  set_incremented_counters(c?, _) = nat(c + 1);
+
+
+NestedCmd5 nested_counter_command(Cmd5 cmd):
+  reset_1                           = :reset,
+  reset_2                           = :set_counter(0),
+  set_counters(_, n?)               = :set_counter(n),
+  set_incremented_counters(_, n?)   = :set_counter(nat(n+1));
+
+
+cell nested_automata_5
 {
-  input  Ta my_input;
-  output Nat my_counter, Nat nested_counter;
-  state  Nat my_counter = 0;
+  input:
+    my_input : Ta;
+    command  : Cmd5?;
 
-  na = nested_automata_5_some_counter(an_input=my_input);
+  output:
+    my_counter : Nat;
+    nested_counter : Nat;
 
-  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+  state:
+    my_counter : Nat = 0;
 
-  nested_counter = na.a_counter;
-}
+  rules:
+    nested_cmd := nested_counter_command(command);
 
+    na = nested_automata_5_some_counter(an_input=my_input, command=nested_cmd);
 
-nested_automata_5_some_counter.reset()
-{
-  a_counter := 0;
-}
+    my_counter  = if command?
+                    then update_counter(command, my_counter),
+                  my_input != #my_input and (my_input == :a1 or my_input == :a4)
+                    then my_counter + 1
+                  else
+                    my_counter
+                  : my_input, command;
 
-nested_automata_5_some_counter.set_counter(Nat value)
-{
-  a_counter := value;
-}
-
-
-nested_automata_5.reset_1()
-{
-  my_counter := 0;
-  na.reset();
-}
-
-nested_automata_5.reset_2()
-{
-  my_counter := 0;
-  na.set_counter(0);
-}
-
-nested_automata_5.set_counters(Nat my_counter_value, Nat nested_counter_value)
-{
-  my_counter := my_counter_value;
-  na.set_counter(nested_counter_value);
-}
-
-nested_automata_5.set_incremented_counters(Nat my_counter_value, Nat nested_counter_value)
-{
-  my_counter := _add_(my_counter_value, 1);
-  na.set_counter(_add_(nested_counter_value, 1));
+    nested_counter = na.a_counter;
 }
 
 
@@ -74,72 +91,77 @@ nested_automata_5.set_incremented_counters(Nat my_counter_value, Nat nested_coun
 
 Bool RunAllNestedAutomata5Tests()
 {
-  auto nested_automata_5 ta;
+  auto ta : nested_automata_5;
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
-    ta.my_input = input;
-    update ta;
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");
       print (input, enc, ec, denc, dec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
       // Print("OK\n");
     ;
   ;
 
-  ta.reset_1();
-  update ta;
+  auto ta.command = :reset_1;
+  auto apply ta;
   benc = 0;
   bec = 0;
 
   if ta.my_counter != bec or ta.nested_counter != benc:
     Print("ERROR (2/A)\n");
-    print ta;
+    print ta.my_counter;
+    print ta.nested_counter;
     return false;
   // else
     // Print("OK\n");
   ;
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
-    ta.my_input = input;
-    update ta;
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (2/B)\n");
       print (input, enc, ec, denc, dec);
       print (benc, bec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
       // Print("OK\n");
     ;
   ;
 
-  ta.reset_2();
-  update ta;
+  auto ta.command = :reset_2;
+  auto apply ta;
   benc = 0;
   bec = 0;
 
   if ta.my_counter != bec or ta.nested_counter != benc:
     Print("ERROR (3/A)\n");
-    print ta;
+    print ta.my_counter;
+    print ta.nested_counter;
     return false;
   // else
     // Print("OK\n");
   ;
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
-    ta.my_input = input;
-    update ta;
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (3/B)\n");
       print (input, enc, ec, denc, dec);
       print (benc, bec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
       // Print("OK\n");
@@ -148,26 +170,28 @@ Bool RunAllNestedAutomata5Tests()
 
   bec = 13;
   benc = 8;
-  ta.set_counters(bec, benc);
-  update ta;
+  auto ta.command = :set_counters(bec, benc);
+  auto apply ta;
 
   if ta.my_counter != bec or ta.nested_counter != benc:
     Print("ERROR (4/A)\n");
-    print ta;
+    print ta.my_counter;
+    print ta.nested_counter;
     return false;
   // else
   //   Print("OK\n");
   ;
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
-    ta.my_input = input;
-    update ta;
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (4/B)\n");
       print (input, enc, ec, denc, dec);
       print (benc, bec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK\n");
@@ -176,28 +200,30 @@ Bool RunAllNestedAutomata5Tests()
 
   bec = 21;
   benc = 37;
-  ta.set_incremented_counters(bec, benc);
-  update ta;
+  auto ta.command = :set_incremented_counters(bec, benc);
+  auto apply ta;
   bec = _add_(bec, 1);
   benc = _add_(benc, 1);
 
   if ta.my_counter != bec or ta.nested_counter != benc:
     Print("ERROR (5/A)\n");
-    print ta;
+    print ta.my_counter;
+    print ta.nested_counter;
     return false;
   // else
   //   Print("OK\n");
   ;
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
-    ta.my_input = input;
-    update ta;
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (5/B)\n");
       print (input, enc, ec, denc, dec);
       print (benc, bec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK\n");

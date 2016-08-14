@@ -1,12 +1,17 @@
-auto y_comb
+cell y_comb
 {
-  input Ta ia, Tb ib;
+  input:
+    ia : Ta;
+    ib : Tb;
 
-  output Tab o;
+  output:
+    o : Tab;
 
-  state Tab o = ia;
+  state:
+    o : Tab = ia;
 
-  o = if ia != #ia then ia else ib : ia, ib;
+  rules:
+    o = if ia != #ia then ia else ib : ia, ib;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,12 +49,12 @@ PrintUndefError(Any yc, Any ryc)
 
 Bool RunBasicYCombTest()
 {
-  auto y_comb yc;
+  auto yc : y_comb;
 
   for ia, ib, eo <- y_comb_data:
-    yc.ia = ia;
-    yc.ib = ib;
-    update yc;
+    auto yc.ia = ia;
+    auto yc.ib = ib;
+    auto apply yc;
 
     if not yc.o?? or yc.o != eo:
       PrintError(eo, yc.o);
@@ -63,8 +68,8 @@ Bool RunBasicYCombTest()
 
 Bool RunNullYCombTest()
 {
-  auto y_comb yc;
-  auto y_comb ryc;
+  auto yc  : y_comb;
+  auto ryc : y_comb;
 
   ia_def = false;
   ib_def = false;
@@ -73,25 +78,31 @@ Bool RunNullYCombTest()
     ia_def = ia_def or one_in(3);
     ib_def = ib_def or one_in(3);
 
-    yc.ia = ia;
-    yc.ib = ib;
-    update yc;
+    auto yc.ia = ia;
+    auto yc.ib = ib;
+    auto apply yc;
 
     if ia_def:
-      ryc.ia = ia;
+      auto ryc.ia = ia;
     ;
     if ib_def:
-      ryc.ib = ib;
+      auto ryc.ib = ib;
     ;
-    update ryc;
+    auto apply ryc;
 
     if not yc.o?? or yc.o != eo:
-      PrintError(eo, yc.o);
+      // PrintError(eo, yc.o);
+      Print("\nError!\n");
+      print yc.o;
+      print eo;
       return false;
     ;
 
     if ryc.o?? and ryc.o != yc.o:
-      PrintUndefError(yc, ryc);
+      // PrintUndefError(yc, ryc);
+      Print("\nError! Version with undefined values doesn't match the reference version\n");
+      print ryc.o;
+      print yc.o;
       return false;
     ;
   ;

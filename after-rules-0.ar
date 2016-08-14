@@ -1,12 +1,15 @@
-auto after_test_0
+cell after_test_0
 {
-  input Ta i;
+  input:
+    i : Ta;
 
-  output Bool u1;
-  u1 = i after 10ns;
+  output:
+    u1 : Bool;
+    u2 : Bool;
 
-  output Bool u2;
-  u2 = if i :: <a0, a2, a4, a6, a8> then :even else :odd after not 5ns every 20ns;
+  rules:
+    u1 = i after 10ns;
+    u2 = if i :: <a0, a2, a4, a6, a8> then :even else :odd after not 5ns every 20ns;
 }
 
 
@@ -23,17 +26,18 @@ auto after_test_0
 
 Bool RunAfter0Test0((Ta, Nat, Bool)* test_data)
 {
-  auto after_test_0 ta;
+  auto ta : after_test_0;
 
   for i, dt, eu1 @ j <- test_data:
-    ta.i = i;
+    auto ta.i = i;
 
-    update ta elapsed dt;
+    auto apply ta after dt;
 
     if ta.u1 != eu1:
       Print("Error\n");
       print ((i, dt, eu1), j);
-      print ta;
+      print ta.u1;
+      print ta.u2;
       return false;
     // else
     //   Print("OK\n");
@@ -46,18 +50,18 @@ Bool RunAfter0Test0((Ta, Nat, Bool)* test_data)
 
 Bool RunAfter0Test1()
 {
-  auto after_test_0 ta;
+  auto ta : after_test_0;
 
   curr_watched_value = nil;
   time_since_change = 0;
   elapsed_time = 0;
   for 100:
     new_input_value = _rand_elem_([:a0, :a1, :a2, :a3, :a4, :a5, :a6, :a7, :a8, :a9]);
-    ta.i = new_input_value;
+    auto ta.i = new_input_value;
     new_watched_value = if new_input_value :: <a0, a2, a4, a6, a8> then :even else :odd;
     time_since_change = 0 if curr_watched_value != new_watched_value;
     for 100:
-      update ta elapsed elapsed_time;
+      auto apply ta after elapsed_time;
       exp_u2 = _lt_(_mod_(time_since_change, 20), 5);
 
       if ta.u2 != exp_u2:
@@ -77,7 +81,8 @@ Bool RunAfter0Test1()
         print exp_u2;
 
         print "ta";
-        print ta;
+        print ta.u1;
+        print ta.u2;
 
         return false;
       // else

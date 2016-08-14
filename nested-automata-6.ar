@@ -1,62 +1,43 @@
-auto nested_automata_6_some_counter
-{
-  input  Ta  an_input;
-  output Nat a_counter;
-  state  Nat a_counter = 0;
+type NestedAuto6Mgs = reset, incr_counter(Nat);
 
-  a_counter = _add_(a_counter, 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
+
+cell nested_automata_6_some_counter
+{
+  input:
+    an_input : Ta;
+    msg      : NestedAuto6Mgs?;
+
+  output:
+    a_counter : Nat;
+
+  state:
+    flow_counter : Nat = 0;
+    msg_counter  : Nat = 0;
+
+  rules:
+    flow_counter = flow_counter + 1 if an_input == :a0 or an_input == :a3 or an_input == :a5;
+    msg_counter = if msg == :reset then 0 else msg_counter + _obj_(msg);
+    a_counter = flow_counter + msg_counter;
 }
 
 
-auto nested_automata_6
+cell nested_automata_6
 {
-  input  Ta my_input;
-  output Nat my_counter, Nat nested_counter;
-  state  Nat my_counter = 0;
+  input:
+    my_input : Ta;
 
-  na = nested_automata_6_some_counter(an_input=my_input);
+  output:
+    my_counter      : Nat;
+    nested_counter  : Nat;
 
-  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+  state:
+    my_counter : Nat = 0;
 
-  na.set_counter(_add_(na.a_counter, 10)) if my_input == :a2 or my_input == :a5;
-
-  nested_counter = na.a_counter;
-}
-
-
-nested_automata_6_some_counter.reset()
-{
-  a_counter := 0;
-}
-
-nested_automata_6_some_counter.set_counter(Nat value)
-{
-  a_counter := value;
-}
-
-
-nested_automata_6.reset_1()
-{
-  my_counter := 0;
-  na.reset();
-}
-
-nested_automata_6.reset_2()
-{
-  my_counter := 0;
-  na.set_counter(0);
-}
-
-nested_automata_6.set_counters(Nat my_counter_value, Nat nested_counter_value)
-{
-  my_counter := my_counter_value;
-  na.set_counter(nested_counter_value);
-}
-
-nested_automata_6.set_incremented_counters(Nat my_counter_value, Nat nested_counter_value)
-{
-  my_counter := _add_(my_counter_value, 1);
-  na.set_counter(_add_(nested_counter_value, 1));
+  rules:
+    msg := :incr_counter(10) if my_input == :a2 or my_input == :a5;
+    na = nested_automata_6_some_counter(an_input=my_input, msg=msg);
+    my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+    nested_counter = na.a_counter;
 }
 
 
@@ -80,16 +61,17 @@ nested_automata_6.set_incremented_counters(Nat my_counter_value, Nat nested_coun
 
 Bool RunAllNestedAutomata6Tests()
 {
-  auto nested_automata_6 ta;
+  auto ta: nested_automata_6;
 
   for input, enc, ec <- nested_automata_6_test_data:
-    ta.my_input = input;
-    update ta;
+    auto ta.my_input = input;
+    auto apply ta;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");
       print (input, enc, ec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK\n");

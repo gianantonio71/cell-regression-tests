@@ -1,14 +1,21 @@
-auto complex_init
+cell complex_init
 {
-  input Ta i;
+  input:
+    i : Ta;
 
-  output Ta v1, Ta v2, Ta d1, Ta d2;
+  output:
+    v1 : Ta;
+    v2 : Ta;
+    d1 : Ta;
+    d2 : Ta;
 
-  state Ta v1 = :g(d1);
-  state Ta v2 = :l(d2);
+  state:
+    v1 : Ta = :g(d1);
+    v2 : Ta = :l(d2);
 
-  d1 = :f(i);
-  d2 = :h(v1);
+  rules:
+    d1 = :f(i);
+    d2 = :h(v1);
 }
 
 
@@ -23,15 +30,18 @@ Any* complex_init_test_data = (
 
 Bool RunAllComplexInitTests()
 {
-  auto complex_init ci;
+  auto ci : complex_init;
 
   for i, ev1, ev2, ed1, ed2 <- complex_init_test_data:
-    ci.i = i;
-    update ci;
+    auto ci.i = i;
+    auto apply ci;
     if ci.v1 != ev1 or ci.v2 != ev2 or ci.d1 != ed1 or ci.d2 != ed2:
       Print("Error in complex initialization tests\n");
       print (ev1, ev2, ed1, ed2);
-      print ci;
+      print ci.v1;
+      print ci.v2;
+      print ci.d1;
+      print ci.d2;
       return false;
     // else
     //   Print("OK\n");

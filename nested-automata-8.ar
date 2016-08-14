@@ -1,63 +1,71 @@
-auto some_counter
+type SomeCounterMgs = reset, incr_counter(Nat);
+
+
+cell some_counter
 {
-  input Ta an_input;
-  output Nat a_counter;
-  state Nat a_counter = 0;
+  input:
+    an_input : Ta;
+    msg      : SomeCounterMgs?;
 
-  a_counter = _add_(a_counter, 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
-}
+  output:
+    a_counter : Nat;
 
-some_counter.reset()
-{
-  a_counter := 0;
-}
+  state:
+    flow_counter : Nat = 0;
+    msg_counter  : Nat = 0;
 
-some_counter.set_counter(Nat value)
-{
-  a_counter := value;
-}
+  rules:
+    flow_counter = flow_counter + 1 if an_input == :a0 or an_input == :a3 or an_input == :a5;
+    msg_counter = if msg == :reset then 0 else msg_counter + _obj_(msg);
 
-
-auto test_1
-{
-  discrete input Nat increment;
-  input Ta my_input;
-  output Nat my_counter, Nat nested_counter;
-  state Nat my_counter = 0;
-
-  na = some_counter(an_input=my_input);
-
-  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
-
-  // na.set_counter(_add_(na.a_counter, increment));
-  // na.set_counter(_add_(na.a_counter, increment)) : increment;
-  na.set_counter(_add_(na.a_counter, increment)) if my_input != :a0;
-  // na.set_counter(_add_(na.a_counter, increment)) if my_input == :a2 or my_input == :a5 : increment;
-
-  nested_counter = na.a_counter;
+    a_counter = flow_counter + msg_counter;
 }
 
 
-auto test_2
+cell test_1
 {
-  discrete input Nat increment;
-  input Ta my_input;
-  output Nat my_counter, Nat nested_counter;
-  state Nat my_counter = 0;
+  input:
+    my_input  : Ta;
+    increment : Nat?;
 
-  na = some_counter(an_input=my_input);
+  output:
+    my_counter     : Nat;
+    nested_counter : Nat;
 
-  my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+  state:
+    my_counter : Nat = 0;
 
-  // na.set_counter(_add_(na.a_counter, increment));
-  // na.set_counter(_add_(na.a_counter, increment)) : increment;
-  // na.set_counter(_add_(na.a_counter, increment)) if my_input != :a0;
-  na.set_counter(_add_(na.a_counter, increment)) if my_input == :a2 or my_input == :a5 : increment;
-
-  nested_counter = na.a_counter;
+  rules:
+    // msg := :incr_counter(increment);
+    // msg := :incr_counter(increment) : increment;
+    msg := :incr_counter(increment) if my_input != :a0;
+    na = some_counter(an_input=my_input, msg=msg);
+    my_counter = my_counter + 1 if my_input == :a1 or my_input == :a4;
+    nested_counter = na.a_counter;
 }
 
 
+cell test_2
+{
+  input:
+    increment : Nat?;
+    my_input : Ta;
+
+  output:
+    my_counter     : Nat;
+    nested_counter : Nat;
+
+  state:
+    my_counter : Nat = 0;
+
+  rules:
+    msg := :incr_counter(increment) if my_input == :a2 or my_input == :a5 : increment;
+    na = some_counter(an_input=my_input, msg=msg);
+
+    my_counter = my_counter + 1 if my_input == :a1 or my_input == :a4;
+
+    nested_counter = na.a_counter;
+}
 
 
 (Ta, Maybe[Nat], Nat, Nat)* test_1_data = (
@@ -95,26 +103,29 @@ auto test_2
   (:a0,       nil,    4,  225)
 );
 
+
 Bool RunNestedAutomata8Test1()
 {
-  auto test_1 ta;
+  auto ta : test_1;
 
-  for input, incr, ec, enc<- test_1_data:
-    ta.my_input = input;
+  for input, incr, ec, enc <- test_1_data:
+    auto ta.my_input = input;
     if incr != nil:
-      ta.increment = match (incr) just(n?) = n;
+      auto ta.increment = match (incr) just(n?) = n;
     ;
-    update ta;
+    auto apply ta;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR (1)\n");
       print (input, incr, enc, ec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK (1)\n");
-      // print (input, enc, ec);
-      // print ta;
+    //   print (input, enc, ec);
+    //   print ta.my_counter;
+    //   print ta.nested_counter;
     ;
   ;
   return true;
@@ -123,19 +134,20 @@ Bool RunNestedAutomata8Test1()
 
 Bool RunNestedAutomata8Test2()
 {
-  auto test_2 ta;
+  auto ta : test_2;
 
-  for input, incr, ec, enc<- test_2_data:
-    ta.my_input = input;
+  for input, incr, ec, enc <- test_2_data:
+    auto ta.my_input = input;
     if incr != nil:
-      ta.increment = match (incr) just(n?) = n;
+      auto ta.increment = match (incr) just(n?) = n;
     ;
-    update ta;
+    auto apply ta;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR (2)\n");
       print (input, incr, enc, ec);
-      print ta;
+      print ta.my_counter;
+      print ta.nested_counter;
       return false;
     // else
     //   Print("OK (2)\n");

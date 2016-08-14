@@ -1,10 +1,9 @@
-auto filter
+cell filter
 {
-  input Ta i;
-  output Ta o;
-  state Ta o = :a0;
-
-  o = i if i != :a3 : i;
+  input:  i : Ta;
+  output: o : Ta;
+  state:  o : Ta = :a0;
+  rules:  o = i if i != :a3 : i;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,11 +20,11 @@ auto filter
 
 Bool RunBasicFilterTest()
 {
-  auto filter f;
+  auto f : filter;
 
   for i, eo <- filter_test_data:
-    f.i = i;
-    update f;
+    auto f.i = i;
+    auto apply f;
 
     if f.o != eo:
       Print("Filter test error. \nExpected output: " & printed(eo) & "\nActual output:");
@@ -39,8 +38,8 @@ Bool RunBasicFilterTest()
 
 Bool RunNullFilterTest()
 {
-  auto filter f;
-  auto filter rf;
+  auto f  : filter;
+  auto rf : filter;
 
   i_def = false;
 
@@ -48,12 +47,12 @@ Bool RunNullFilterTest()
     i_def = i_def or one_in(3);
 
     if i_def:
-      f.i = i;
+      auto f.i = i;
     ;
-    update f;
+    auto apply f;
 
-    rf.i = i;
-    update rf;
+    auto rf.i = i;
+    auto apply rf;
 
     if f.o?? and f.o != rf.o:
       Print("Filter null test error. Reference output: " & printed(rf.o) & ", actual one: " & printed(f.o));

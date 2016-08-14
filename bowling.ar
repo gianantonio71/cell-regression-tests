@@ -23,27 +23,33 @@ Nat frame_score(Nat* throws, Nat offset)
 // [Nat] frames_scores([Nat] throws) = [frame_score(throws, o) : o <- frames_offsets(throws)];
 
 
-auto bowling
+cell bowling
 {
-  discrete input Nat throw;
+  input:
+    throw : Nat?;
 
-  output Nat* throws, Nat* frames_scores, Nat* cumulative_scores, Nat* score;
+  output:
+    throws            : Nat*;
+    frames_scores     : Nat*;
+    cumulative_scores : Nat*;
+    score             : Nat*;
+    throw_copy        : Nat?;
 
-  discrete output Nat throw_copy;
+  state:
+    throws : Nat* = ();
 
-  state Nat* throws = ();
+  rules:
+    throws = (throws | throw);
+    // throws = (throws | throw) : throw;
 
-  throws = (throws | throw);
-  // throws = (throws | throw) : throw;
+    throw_copy := throw;
 
-  throw_copy := throw;
+    // frames_scores = frames_scores(throws);
+    frames_scores = (frame_score(throws, o) : o <- frames_offsets(throws));
 
-  // frames_scores = frames_scores(throws);
-  frames_scores = (frame_score(throws, o) : o <- frames_offsets(throws));
+    cumulative_scores = partial_sums(frames_scores);
 
-  cumulative_scores = partial_sums(frames_scores);
-
-  score = sum(frames_scores);
+    score = sum(frames_scores);
 }
 
 
@@ -64,11 +70,11 @@ auto bowling
 
 Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected_score)
 {
-  auto bowling b;
+  auto b : bowling;
 
   for t <- throws:
-    b.throw = t;
-    update b;
+    auto b.throw = t;
+    auto apply b;
 
     if not b.throw_copy? or b.throw_copy != t:
       print "ERROR: throw_copy";

@@ -1,59 +1,64 @@
-auto fps50_a
+cell fps50_a
 {
-  input Bool enabled;
+  input:
+    enabled : Bool;
 
-  output Nat counter;
-  discrete output Nil next;
+  output:
+    counter : Nat;
+    next    : Nil?;
 
-  state Nat counter = 0;
+  state:
+    counter : Nat = 0;
 
-
-  first_frame_half = enabled for not 10ms every 20ms;
-
-  next := nil if first_frame_half;
-
-  counter = _add_(counter, 1) : next;
+  rules:
+    first_frame_half = enabled for not 10ms every 20ms;
+    next := nil if first_frame_half;
+    counter = _add_(counter, 1) : next;
 }
 
 
-auto fps50_b
+cell fps50_b
 {
-  input Bool enabled;
+  input:
+    enabled : Bool;
 
-  output Nat counter;
-  discrete output Nil next;
+  output:
+    counter : Nat;
+    next : Nil?;
 
-  state Nat counter = 0;
+  state:
+    counter : Nat = 0;
 
-
-  parity = enabled for 20ms every 40ms;
-
-  next := nil : parity;
-
-  counter = _add_(counter, 1) : next;
+  rules:
+    parity = enabled for 20ms every 40ms;
+    next := nil : parity;
+    counter = _add_(counter, 1) : next;
 }
 
 
-auto nested_automata_3
+cell nested_automata_3
 {
-  input Ta unused_input;
+  input:
+    unused_input : Ta;
 
-  output Nat counter_a, Nat counter_b;
+  output:
+    counter_a : Ta;
+    counter_b : Ta;
 
+  rules:
+    fg_a = fps50_a(enabled=true);
+    fg_b = fps50_b(enabled=true);
 
-  fg_a = fps50_a(enabled=true);
-  fg_b = fps50_b(enabled=true);
-
-  counter_a = fg_a.counter;
-  counter_b = fg_b.counter;
+    counter_a = fg_a.counter;
+    counter_b = fg_b.counter;
 }
 
 
 Bool RunNestedAutomata3Test(Bool rand_times)
 {
-  auto nested_automata_3 ta;
+  auto ta : nested_automata_3;
 
-  update ta elapsed 0;
+  auto apply ta after 0;
 
   ct = 0;
 
@@ -61,14 +66,15 @@ Bool RunNestedAutomata3Test(Bool rand_times)
     dt = if rand_times then _rand_nat_(45) else 1;
     ct = _add_(ct, dt);
 
-    update ta elapsed _mult_(dt, 1000000);
+    auto apply ta after _mult_(dt, 1000000);
 
     ec = _div_(ct, 20);
 
     if ta.counter_a != ec or ta.counter_b != ec:
       Print("ERROR!\n");
       print [i: i, dt: dt, ct: ct];
-      print ta;
+      print ta.counter_a;
+      print ta.counter_b;
       return false;
     // else
     //   Print("OK\n");

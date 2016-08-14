@@ -4,13 +4,17 @@ type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
 type Tab = Ta, Tb;
 
 
-auto disc_y_comb
+cell disc_y_comb
 {
-  discrete input Ta ia, Tb ib;
+  input:
+    ia : Ta?;
+    ib : Tb?;
 
-  discrete output Tab o;
+  output:
+    o : Tab?;
 
-  o := if ia? then ia else ib : ia, ib;
+  rules:
+    o := if ia? then ia else ib : ia, ib;
 }
 
 
@@ -29,24 +33,24 @@ auto disc_y_comb
 
 Bool RunBasicDiscYCombTests()
 {
-  auto disc_y_comb yc;
+  auto yc : disc_y_comb;
 
   for ia, ib, eo <- disc_y_comb_test_data:
     if ia != nil:
-      yc.ia = ia;
+      auto yc.ia = ia;
     ;
     if ib != nil:
-      yc.ib = ib;
+      auto yc.ib = ib;
     ;
 
-    update yc;
+    auto apply yc;
 
     ok = if yc.o? then yc.o == eo else eo == nil;
 
     if not ok:
       Print("Error!\n");
       print (ia, ib, eo);
-      print yc;
+      print yc.o;
       return false;
     // else
     //   Print("OK\n");

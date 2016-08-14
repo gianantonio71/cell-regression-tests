@@ -4,21 +4,23 @@ type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
 type Tab = Ta, Tb;
 
 
-
-auto sampler
+cell sampler
 {
-  input Ta ia, Tb ib;
-  discrete input <a, b> take_sample;
+  input:
+    ia  : Ta;
+    ib  : Tb;
+    take_sample : <a, b>?;
 
-  state Maybe[Tab] last_sample = nil;
+  output:
+    last_sample : Maybe[Tab];
+    curr_sample : Tab?;
 
-  output Maybe[Tab] last_sample;
-  discrete output Tab curr_sample;
+  state:
+    last_sample : Maybe[Tab] = nil;
 
-
-  curr_sample := if take_sample == :a then ia else ib;
-
-  last_sample = just(curr_sample);
+  rules:
+    curr_sample := if take_sample == :a then ia else ib;
+    last_sample = just(curr_sample);
 }
 
 
@@ -39,22 +41,22 @@ SamplerTestSample* sampler_test_data = (
 
 Bool RunBasicSamplerTest(SamplerTestSample* test_data)
 {
-  auto sampler s;
+  auto s : sampler;
 
   els = nil;
 
   for ia, ib, ts, ecs <- test_data:
     if ia != nil:
-      s.ia = ia;
+      auto s.ia = ia;
     ;
     if ib != nil:
-      s.ib = ib;
+      auto s.ib = ib;
     ;
     if ts != nil:
-      s.take_sample = ts;
+      auto s.take_sample = ts;
     ;
 
-    update s;
+    auto apply s;
 
     els = just(ecs) if ecs != nil;
 
@@ -65,7 +67,8 @@ Bool RunBasicSamplerTest(SamplerTestSample* test_data)
       Print("ERROR ERROR ERROR!\n");
       print (cs_ok, ls_ok);
       print (ecs, els);
-      print s;
+      print s.last_sample;
+      print s.curr_sample;
       return false;
     // else
     //   Print("OK\n");

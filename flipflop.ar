@@ -1,60 +1,73 @@
-
-auto Bool flipflop(on, off)
+cell Bool flipflop(on, off)
 {
-  input Bool on, Bool off;
+  input:
+    on  : Bool;
+    off : Bool;
 
-  state Bool flipflop = if on and off then {fail;},
-                           on         then true,
-                           off        then false
-                                      else init_state;
+  state:
+    flipflop : Bool = if on and off then {fail;},
+                         on         then true,
+                         off        then false
+                                    else init_state;
 
-  init_state = false;
+  static:
+    init_state = false;
 
-  flipflop = {fail;}  if on and off,
-             true     if on,
-             false    if off;
+  rules:
+    flipflop = {fail;}  if on and off,
+               true     if on,
+               false    if off;
 }
 
 
-auto Bool flipflop_client
+cell Bool flipflop_client
 {
-  discrete input <on, off, same> action;
-  output Bool flipflop_state_bad;
+  input:
+    action : <on, off, same>?;
 
-  state Bool on = false, Bool off = false;
+  output:
+    flipflop_state_bad : Bool;
 
-  on = true  if action == :on,
-       false if action == :off;
+  state:
+    on  : Bool = false;
+    off : Bool = false;
 
-  off = true  if action == :off,
-        false if action == :on;
+  rules:
+    on = true  if action == :on,
+         false if action == :off;
+
+    off = true  if action == :off,
+          false if action == :on;
 
 
-  flipflop = flipflop(on=on, off=off);
+    flipflop = flipflop(on=on, off=off);
 
-  flipflop_client = flipflop;
+    flipflop_client = flipflop;
 
-  // flipflop_state_bad = flipflop.flipflop;
+    // flipflop_state_bad = flipflop.flipflop;
 }
 
 
-auto Bool flipflop_client_positional
+cell Bool flipflop_client_positional
 {
-  discrete input <on, off, same> action;
+  input:
+    action : <on, off, same>?;
 
-  state Bool on = false, Bool off = false;
+  state:
+    on  : Bool = false;
+    off : Bool = false;
 
-  on = true  if action == :on,
-       false if action == :off;
+  rules:
+    on = true  if action == :on,
+         false if action == :off;
 
-  off = true  if action == :off,
-        false if action == :on;
+    off = true  if action == :off,
+          false if action == :on;
 
+    flipflop = flipflop(on, off);
+    // flipflop = flipflop(action? and action == :on, action? and action == :off);
 
-  flipflop = flipflop(on, off);
-  // flipflop = flipflop(action? and action == :on, action? and action == :off);
-
-  flipflop_client_positional = flipflop;
+    flipflop_client_positional = flipflop;
 }
 
 
@@ -72,11 +85,11 @@ auto Bool flipflop_client_positional
 
 Bool RunBasicFlipFlopTest((<on, off, same, nil>, Bool) test_data)
 {
-  auto flipflop_client fc;
-  auto flipflop_client_positional fcp;
+  auto fc  : flipflop_client;
+  auto fcp : flipflop_client_positional;
 
-  update fc;
-  update fcp;
+  auto apply fc;
+  auto apply fcp;
   if fc != false or fcp != false:
     Print("ERROR: INITIAL UPDATE FAILED SOMEHOW!\n");
     print fc;
@@ -85,10 +98,10 @@ Bool RunBasicFlipFlopTest((<on, off, same, nil>, Bool) test_data)
   ;
 
   for a, er <- test_data:
-    fc.action = a;
-    fcp.action = a;
-    update fc;
-    update fcp;
+    auto fc.action = a;
+    auto fcp.action = a;
+    auto apply fc;
+    auto apply fcp;
     if fc != er or fcp != er:
       Print("ERROR! ERROR! ERROR!\n");
       print fc;

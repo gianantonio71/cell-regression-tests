@@ -1,18 +1,23 @@
-auto time_varying_0
+cell time_varying_0
 {
-  input Ta i;
+  input:
+    i : Ta;
 
-  state Nat c = 0;
+  output:
+    i  : Ta;
+    o  : Bool;
+    d  : <hello, bye>;
+    o2 : Bool;
+    c  : Nat;
 
-  output Ta i, Bool o, <hello, bye> d, Bool o2, Nat c;
+  state:
+    c : Nat = 0;
 
-  o = i == :a1 for 2ns;
-
-  d = if o then :hello else :bye;
-
-  o2 = i == :a3 for (2ns and not 5ns) or (10ns and not 12ns);
-
-  c = c + 1 if o2;
+  rules:
+    o = i == :a1 for 2ns;
+    d = if o then :hello else :bye;
+    o2 = i == :a3 for (2ns and not 5ns) or (10ns and not 12ns);
+    c = c + 1 if o2;
 }
 
 
@@ -54,19 +59,23 @@ auto time_varying_0
 
 Bool RunTimeVaryingTest0((Maybe[Ta], Nat, Bool, <hello, bye>, Bool, Nat)* test_data)
 {
-  auto time_varying_0 tm;
+  auto tm : time_varying_0;
 
   for mi, dt, eo, ed, eo2, ec @ j <- test_data:
     if mi != nil:
-      tm.i = match (mi) just(i?) = i;
+      auto tm.i = match (mi) just(i?) = i;
     ;
 
-    update tm elapsed dt;
+    auto apply tm after dt;
 
     if tm.o != eo or tm.d != ed or tm.o2 != eo2 or tm.c != ec:
       Print("Error\n");
       print (mi, dt, eo, ed, eo2, ec, j);
-      print tm;
+      print tm.i;
+      print tm.o;
+      print tm.d;
+      print tm.o2;
+      print tm.c;
       return false;
     // else
       // Print("OK\n");
