@@ -12,9 +12,9 @@ Reset reset(Int n)  = :reset(n);
 Incr increment  = :increment;
 Decr decrement  = :decrement;
 
-PolyMsg accumulate(Int n) = if n ==  1  then increment,
-                               n == -1  then decrement
-                                        else :accumulate(n);
+PolyMsg accumulate(Int n) = if   n ==  1  then increment
+                            elif n == -1  then decrement
+                                          else :accumulate(n);
 
 
 Int variation(PolyMsg msg):

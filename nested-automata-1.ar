@@ -11,7 +11,7 @@ cell filtered_history
     history : Ta+ = ();
 
   rules:
-    history = (history | input) : input;
+    history = (history || input) : input;
     input_filtered := input if input != :a2;
 }
 
@@ -61,7 +61,7 @@ Bool RunAllNestedAutomata1Tests()
   ehs = 0;
 
   for i, s <- nested_automata_1_test_data:
-    eh = (eh | i);
+    eh = (eh || i);
     ehs = _add_(ehs, 1);
     auto ta.i = i;
     auto apply ta;

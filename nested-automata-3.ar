@@ -72,7 +72,7 @@ Bool RunNestedAutomata3Test(Bool rand_times)
 
     if ta.counter_a != ec or ta.counter_b != ec:
       Print("ERROR!\n");
-      print [i: i, dt: dt, ct: ct];
+      print (i: i, dt: dt, ct: ct);
       print ta.counter_a;
       print ta.counter_b;
       return false;

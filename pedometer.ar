@@ -44,7 +44,7 @@ cell pedometer_0
     unused_param = (:a, :b);
 
     position_copy = position if has_moved;
-    track = (track | position) if has_moved;
+    track = (track || position) if has_moved;
     distance = distance + distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and length(track) > 1;
     unused_rule = reverse(track);
 }
@@ -65,7 +65,7 @@ cell pedometer
     distance : Float  = 0.0;
 
   rules:
-    track = (track | position) : position;
+    track = (track || position) : position;
     distance = distance + distance(position, #position) : position;
 }
 
@@ -83,10 +83,10 @@ cell pedometer
 
 Float* expected_distances
 {
-  ps = (point(x, y) : x, y <- route);
+  ps = (point(x, y) | x, y <- route);
   ds = (0.0);
   for i = 1..length(route):
-    ds = (ds | ds(i-1) + distance(ps(i-1), ps(i)));
+    ds = (ds || ds(i-1) + distance(ps(i-1), ps(i)));
   ;
   return ds;
 }
@@ -99,7 +99,7 @@ Bool RunBasicPedometerTest()
 
   exp_ds = expected_distances;
 
-  exp_track = (point(x, y) : x, y <- route);
+  exp_track = (point(x, y) | x, y <- route);
 
   for x, y @ i <- route:
     pos = point(x, y);

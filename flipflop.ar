@@ -5,10 +5,10 @@ cell Bool flipflop(on, off)
     off : Bool;
 
   state:
-    flipflop : Bool = if on and off then {fail;},
-                         on         then true,
-                         off        then false
-                                    else init_state;
+    flipflop : Bool = if   on and off then {fail;}
+                      elif on         then true
+                      elif off        then false
+                                      else init_state;
 
   static:
     init_state = false;

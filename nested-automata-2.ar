@@ -12,7 +12,7 @@ cell filtered_history_2
     history : Ta+ = ();
 
   rules:
-    history = (history | input) : input;
+    history = (history || input) : input;
     input_filtered := input if input != to_skip;
 }
 
@@ -62,7 +62,7 @@ Bool RunAllNestedAutomata2Tests()
   ehs = 0;
 
   for i, s1, s2 <- nested_automata_2_test_data:
-    eh = (eh | i) if i != :a2;
+    eh = (eh || i) if i != :a2;
     ehs = _add_(ehs, 1) if i != :a2;
     auto ta.i = i;
     auto apply ta;

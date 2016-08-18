@@ -60,7 +60,7 @@ String* split_chat_msg(Byte* msg_text)
     ;
 
     new_field = subseq(msg_text, i, j, nil);
-    fields = (fields | string(new_field)) if new_field != ();
+    fields = (fields || string(new_field)) if new_field != ();
 
     i = i + j;
   ;

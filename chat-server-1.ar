@@ -20,9 +20,9 @@ Bool ChatServer1CoreState.user_has_joined_room(UserId user, RoomId room)
 
 
 LoginCheck ChatServer1CoreState.login_check(UserId user, String name) =
-  if self.is_logged_in(user)    then :already_logged_in,
-     _has_key_(user_ids, name)  then :name_already_in_use
-                                else :ok;
+  if   self.is_logged_in(user)    then :already_logged_in
+  elif _has_key_(user_ids, name)  then :name_already_in_use
+                                  else :ok;
 
 
 LoginCheck ChatServer1CoreState.logout_check(UserId user) =
@@ -34,21 +34,21 @@ JoinRoomCheck ChatServer1CoreState.join_room_check(UserId user) =
 
 
 LeaveRoomCheck ChatServer1CoreState.leave_room_check(UserId user, RoomId room) =
-  if not self.is_logged_in(user)                then :not_logged_in,
-     not self.user_has_joined_room(user, room)  then :not_in_room
-                                                else :ok;
+  if   not self.is_logged_in(user)                then :not_logged_in
+  elif not self.user_has_joined_room(user, room)  then :not_in_room
+                                                  else :ok;
 
 
 SendMsgToUserCheck ChatServer1CoreState.action_check(SendMsgToUser msg) =
-  if not self.is_logged_in(msg.sender)  then :not_logged_in,
-     not self.user_exists(msg.receiver) then :unknown_receiver
-                                        else :ok;
+  if   not self.is_logged_in(msg.sender)  then :not_logged_in
+  elif not self.user_exists(msg.receiver) then :unknown_receiver
+                                          else :ok;
 
 
 SendMsgToRoomCheck ChatServer1CoreState.action_check(SendMsgToRoom msg) =
-  if not self.is_logged_in(msg.sender)                      then :not_logged_in,
-     not self.user_has_joined_room(msg.sender, msg.target)  then :not_in_room
-                                                            else :ok;
+  if   not self.is_logged_in(msg.sender)                      then :not_logged_in
+  elif not self.user_has_joined_room(msg.sender, msg.target)  then :not_in_room
+                                                              else :ok;
 
 
 ActionCheck ChatServer1CoreState.action_check(ChatServerCoreAction action):
@@ -80,7 +80,7 @@ ChatServer1CoreState.do(Logout msg)
   user_rooms  := remove_key(user_rooms, user);
 
   unaffected_rooms = remove_keys(room_users, rooms);
-  affected_rooms = [r -> users_left : r <- rooms, users_left = room_users[r] - [user], users_left != []];
+  affected_rooms = [r -> users_left | r <- rooms, users_left = room_users[r] - [user], users_left != []];
   room_users := unaffected_rooms & affected_rooms;
 }
 
@@ -191,7 +191,7 @@ ChatServer1.do(Received msg)
     ;
 
   else
-    pending_inputs := update(pending_inputs, channel, (pend_data | new_data));
+    pending_inputs := update(pending_inputs, channel, (pend_data || new_data));
   ;
 }
 
@@ -308,7 +308,7 @@ ChatServer1.do(SendMsgToRoom msg)
   if check_res == :ok:
     fwd_msg = "GOTROOMMSG " & core_state.user_names[sender] & " #" & target & " " & msg_text;
     receivers = rand_sort(lookup(core_state.room_users, target, []));
-    new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] : r @ i <- receivers));
+    new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] | r @ i <- receivers));
     msgs_sent = msgs_sent + length(receivers);
   ;
 
@@ -361,8 +361,8 @@ Bool RunAllChatServer1Tests()
 
   auto apply cs;
 
-  sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));
-  conn_ids = merge(([u -> i] : u @ i <- sorted_users));
+  sorted_users = rand_sort(set((u | u, unused_var <- chat_server_test_data_1)));
+  conn_ids = merge(([u -> i] | u @ i <- sorted_users));
 
   for i < size(conn_ids):
     auto cs.message = connect(i);

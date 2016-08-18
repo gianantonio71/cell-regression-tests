@@ -15,16 +15,16 @@ cell methods
     v2 : Ta = :l(d2);
 
   rules:
-    v1 = if a? and a == :reapply                        then :g(#d1),
-            a? and a :: <reapply(l1: Atom, l2: Atom)>   then a.l1 @ #d1,
-            i == :a3 and i != #i                        then :p(d1)
-                                                        else v1
+    v1 = if   a? and a == :reapply                        then :g(#d1)
+         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l1}(#d1)
+         elif i == :a3 and i != #i                        then :p(d1)
+                                                          else v1
          : i, a;
 
-    v2 = if a? and a == :reapply                        then :l(#d2),
-            a? and a :: <reapply(l1: Atom, l2: Atom)>   then a.l2 @ #d2,
-            i == :a4 and i != #i                        then :q(d2)
-                                                        else v2
+    v2 = if   a? and a == :reapply                        then :l(#d2)
+         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l2}(#d2)
+         elif i == :a4 and i != #i                        then :q(d2)
+                                                          else v2
          : i, a;
 
     d1 = :f(i);
@@ -150,7 +150,7 @@ Bool RunBasicMethodTests(Any* test_data)
       (t.v2, t.v2), (t.d2, t.d2), (t.v2, t.d2), (t.d2, t.v2)
     );
 
-    act_res = (t.my_other_meth(id1, id2) : id1, id2 <- id_combs);
+    act_res = (t.my_other_meth(id1, id2) | id1, id2 <- id_combs);
 
     if act_res != exp_res:
       Print("ERROR (METHODS):\n");
