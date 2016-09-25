@@ -141,6 +141,11 @@ Main(String* args)
   return if not ok;
   Print("OK\n");
 
+  Print("  Chat Server 2                            ");
+  ok = RunAllChatServer2Tests();
+  return if not ok;
+  Print("OK\n");
+
   Print("  After Rules                              ");
   ok = RunAllAfter0Tests();
   return if not ok;

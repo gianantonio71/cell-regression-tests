@@ -41,7 +41,7 @@ Any methods.my_meth(<d1> p) = d1;
 Any methods.my_meth(<d2> p) = d2;
 
 
-(Any, Any) methods.my_other_meth(<v1, v2, d1, d2> p1, <v1, v2, d1, d2> p2) = (self.my_meth(p1), self.my_meth(p2));
+(Any, Any) methods.my_other_meth(<v1, v2, d1, d2> p1, <v1, v2, d1, d2> p2) = (my_meth(p1), my_meth(p2));
 
 
 Any* method_test_data_1a = (

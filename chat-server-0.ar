@@ -13,57 +13,60 @@ ChatServer0CoreState <- ChatServerCoreAction
 }
 
 
-ChatServer0CoreState.do(Login msg)
+using ChatServer0CoreState
 {
-  user = msg.user;
-  name = msg.name;
-  user_names  := update(user_names, user, name);
-  user_ids    := update(user_ids, name, user);
-  user_rooms  := update(user_rooms, user, []);
-}
+  do(Login msg)
+  {
+    user = msg.user;
+    name = msg.name;
+    update user_names = update(user_names, user, name);
+    update user_ids   = update(user_ids, name, user);
+    update user_rooms = update(user_rooms, user, []);
+  }
 
 
-ChatServer0CoreState.do(Logout msg)
-{
-  user = msg.user;
-  name = user_names[user];
-  rooms = user_rooms[user];
+  do(Logout msg)
+  {
+    user = msg.user;
+    name = user_names[user];
+    rooms = user_rooms[user];
 
-  user_ids    := remove_key(user_ids, name);
-  user_names  := remove_key(user_names, user);
-  user_rooms  := remove_key(user_rooms, user);
+    update user_ids    = remove_key(user_ids, name);
+    update user_names  = remove_key(user_names, user);
+    update user_rooms  = remove_key(user_rooms, user);
 
-  unaffected_rooms = remove_keys(room_users, rooms);
-  affected_rooms = [r -> users_left | r <- rooms, users_left = room_users[r] - [user], users_left != []];
-  room_users := unaffected_rooms & affected_rooms;
-}
-
-
-ChatServer0CoreState.do(JoinRoom msg)
-{
-  user = msg.user;
-  room = msg.room;
-
-  new_rooms = user_rooms[user] & [room];
-  user_rooms := update(user_rooms, user, new_rooms);
-
-  new_users = lookup(room_users, room, []) & [user];
-  room_users := update(room_users, room, new_users);
-}
+    unaffected_rooms = remove_keys(room_users, rooms);
+    affected_rooms = [r -> users_left | r <- rooms, users_left = room_users[r] - [user], users_left != []];
+    update room_users = unaffected_rooms & affected_rooms;
+  }
 
 
-ChatServer0CoreState.do(LeaveRoom msg)
-{
-  user = msg.user;
-  room = msg.room;
+  do(JoinRoom msg)
+  {
+    user = msg.user;
+    room = msg.room;
 
-  new_rooms = user_rooms[user] - [room];
-  user_rooms := update(user_rooms, user, new_rooms);
+    new_rooms = user_rooms[user] & [room];
+    update user_rooms = update(user_rooms, user, new_rooms);
 
-  users_left = room_users[room] - [user];
-  room_users := if users_left != []
-    then update(room_users, room, users_left)
-    else remove_key(room_users, room);
+    new_users = lookup(room_users, room, []) & [user];
+    update room_users = update(room_users, room, new_users);
+  }
+
+
+  do(LeaveRoom msg)
+  {
+    user = msg.user;
+    room = msg.room;
+
+    new_rooms = user_rooms[user] - [room];
+    update user_rooms = update(user_rooms, user, new_rooms);
+
+    users_left = room_users[room] - [user];
+    update room_users = if users_left != []
+      then update(room_users, room, users_left)
+      else remove_key(room_users, room);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,161 +88,164 @@ ChatServer0 <- ChatServerMsg
 }
 
 
-ChatServer0.do(Connect msg)
+using ChatServer0
 {
-  pending_inputs := update(pending_inputs, msg.channel, ());
-}
+  do(Connect msg)
+  {
+    update pending_inputs = update(pending_inputs, msg.channel, ());
+  }
 
 
-ChatServer0.do(Disconnect msg)
-{
-  channel = msg.channel;
-  pending_inputs := remove_key(pending_inputs, channel);
-  is_logged_in = has_key(core_state.user_names, channel);
-  core_state <- logout(user: channel) if is_logged_in;
-}
+  do(Disconnect msg)
+  {
+    channel = msg.channel;
+    update pending_inputs = remove_key(pending_inputs, channel);
+    is_logged_in = has_key(core_state.user_names, channel);
+    core_state <- logout(user: channel) if is_logged_in;
+  }
 
 
-ChatServer0.do(Received msg)
-{
-  channel = msg.channel;
-  new_data = msg.data;
-  pend_data = pending_inputs[channel];
+  do(Received msg)
+  {
+    channel = msg.channel;
+    new_data = msg.data;
+    pend_data = pending_inputs[channel];
 
-  if new_data == ascii_newline:
-    pending_inputs := update(pending_inputs, channel, ());
-    maybe_msg = try_parse_msg(pending_inputs[channel], channel);
-    if maybe_msg != nil:
-      do(value(maybe_msg));
+    if new_data == ascii_newline:
+      update pending_inputs = update(pending_inputs, channel, ());
+      maybe_msg = try_parse_msg(pending_inputs[channel], channel);
+      if maybe_msg != nil:
+        do(value(maybe_msg));
+      else
+        update data_to_send = data_to_send & [msg_counter -> (channel, "ERROR syntax error")];
+        update msg_counter = msg_counter + 1;
+      ;
+
     else
-      data_to_send := data_to_send & [msg_counter -> (channel, "ERROR syntax error")];
-      msg_counter := msg_counter + 1;
+      update pending_inputs = update(pending_inputs, channel, (pend_data || new_data));
     ;
-
-  else
-    pending_inputs := update(pending_inputs, channel, (pend_data || new_data));
-  ;
-}
+  }
 
 
-ChatServer0.do(Sent msg)
-{
-  data_to_send := remove_key(data_to_send, msg.msg_id);
-}
+  do(Sent msg)
+  {
+    update data_to_send = remove_key(data_to_send, msg.msg_id);
+  }
 
-////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
 
-ChatServer0.do(Login msg)
-{
-  user = msg.user;
-  name = msg.name;
+  do(Login msg)
+  {
+    user = msg.user;
+    name = msg.name;
 
-  already_logged_in = has_key(core_state.user_names, user);
-  name_already_taken = has_key(core_state.user_ids, name);
+    already_logged_in = has_key(core_state.user_names, user);
+    name_already_taken = has_key(core_state.user_ids, name);
 
-  core_state <- msg if not {already_logged_in or name_already_taken};
+    core_state <- msg if not {already_logged_in or name_already_taken};
 
-  resp_msg = if   already_logged_in    then "ERROR already logged in"
-             elif name_already_taken   then "ERROR name already in use"
-                                       else "OK";
+    resp_msg = if   already_logged_in    then "ERROR already logged in"
+               elif name_already_taken   then "ERROR name already in use"
+                                         else "OK";
 
-  data_to_send := update(data_to_send, msg_counter, (user, resp_msg));
-  msg_counter := msg_counter + 1;
-}
-
-
-ChatServer0.do(Logout msg)
-{
-  core_state <- msg if has_key(core_state.user_names, msg.user);
-}
+    update data_to_send = update(data_to_send, msg_counter, (user, resp_msg));
+    update msg_counter = msg_counter + 1;
+  }
 
 
-ChatServer0.do(JoinRoom msg)
-{
-  user = msg.user;
-
-  is_logged_in = has_key(core_state.user_names, user);
-
-  core_state <- msg if is_logged_in;
-
-  resp_msg = if is_logged_in then "OK" else "ERROR not logged in";
-
-  data_to_send := update(data_to_send, msg_counter, (user, resp_msg));
-  msg_counter  := msg_counter + 1;
-}
+  do(Logout msg)
+  {
+    core_state <- msg if has_key(core_state.user_names, msg.user);
+  }
 
 
-ChatServer0.do(LeaveRoom msg)
-{
-  user = msg.user;
-  room = msg.room;
+  do(JoinRoom msg)
+  {
+    user = msg.user;
 
-  is_logged_in = has_key(core_state.user_names, user);
-  has_joined_room = is_logged_in and core_state.user_rooms[user](room);
+    is_logged_in = has_key(core_state.user_names, user);
 
-  core_state <- msg if has_joined_room;
+    core_state <- msg if is_logged_in;
 
-  resp_msg = if   not is_logged_in    then "ERROR not logged in"
-             elif not has_joined_room then "ERROR never joined room"
-                                      else "OK";
+    resp_msg = if is_logged_in then "OK" else "ERROR not logged in";
 
-  data_to_send := update(data_to_send, msg_counter, (user, resp_msg));
-  msg_counter  := msg_counter + 1;
-}
+    update data_to_send = update(data_to_send, msg_counter, (user, resp_msg));
+    update msg_counter  = msg_counter + 1;
+  }
 
 
-ChatServer0.do(SendMsgToUser msg)
-{
-  sender = msg.sender;
-  receiver = msg.receiver;
-  msg_text = msg.msg_text;
+  do(LeaveRoom msg)
+  {
+    user = msg.user;
+    room = msg.room;
 
-  is_logged_in = has_key(core_state.user_names, sender);
-  target_exists = has_key(core_state.user_ids, receiver);
+    is_logged_in = has_key(core_state.user_names, user);
+    has_joined_room = is_logged_in and core_state.user_rooms[user](room);
 
-  resp_msg = if   not is_logged_in  then "ERROR not logged in"
-             elif not target_exists then "ERROR unknown user"
-                                    else "OK";
+    core_state <- msg if has_joined_room;
 
-  new_data_to_send = [msg_counter -> (sender, resp_msg)];
-  msgs_sent = 1;
-
-  if is_logged_in and target_exists:
-    fwd_msg = "GOTUSERMSG " & core_state.user_names[sender] & " " & msg_text;
-    new_data_to_send = new_data_to_send & [msg_counter + msgs_sent -> (core_state.user_ids[receiver], fwd_msg)];
-    msgs_sent = msgs_sent + 1;
-  ;
-
-  data_to_send := data_to_send & new_data_to_send;
-  msg_counter := msg_counter + msgs_sent;
-}
-
-
-ChatServer0.do(SendMsgToRoom msg)
-{
-  sender = msg.sender;
-  target = msg.target;
-  msg_text = msg.msg_text;
-
-  is_logged_in = has_key(core_state.user_names, sender);
-  has_joined_room = is_logged_in and core_state.user_rooms[sender](target);
-
-  resp_msg = if   not is_logged_in      then "ERROR not logged in"
-             elif not has_joined_room   then "ERROR never joined room"
+    resp_msg = if   not is_logged_in    then "ERROR not logged in"
+               elif not has_joined_room then "ERROR never joined room"
                                         else "OK";
 
-  new_data_to_send = [msg_counter -> (sender, resp_msg)];
-  msgs_sent = 1;
+    update data_to_send = update(data_to_send, msg_counter, (user, resp_msg));
+    update msg_counter  = msg_counter + 1;
+  }
 
-  if is_logged_in:
-    fwd_msg = "GOTROOMMSG " & core_state.user_names[sender] & " #" & target & " " & msg_text;
-    receivers = rand_sort(lookup(core_state.room_users, target, []));
-    new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] | r @ i <- receivers));
-    msgs_sent = msgs_sent + length(receivers);
-  ;
 
-  data_to_send := data_to_send & new_data_to_send;
-  msg_counter := msg_counter + msgs_sent;
+  do(SendMsgToUser msg)
+  {
+    sender = msg.sender;
+    receiver = msg.receiver;
+    msg_text = msg.msg_text;
+
+    is_logged_in = has_key(core_state.user_names, sender);
+    target_exists = has_key(core_state.user_ids, receiver);
+
+    resp_msg = if   not is_logged_in  then "ERROR not logged in"
+               elif not target_exists then "ERROR unknown user"
+                                      else "OK";
+
+    new_data_to_send = [msg_counter -> (sender, resp_msg)];
+    msgs_sent = 1;
+
+    if is_logged_in and target_exists:
+      fwd_msg = "GOTUSERMSG " & core_state.user_names[sender] & " " & msg_text;
+      new_data_to_send = new_data_to_send & [msg_counter + msgs_sent -> (core_state.user_ids[receiver], fwd_msg)];
+      msgs_sent = msgs_sent + 1;
+    ;
+
+    update data_to_send = data_to_send & new_data_to_send;
+    update msg_counter = msg_counter + msgs_sent;
+  }
+
+
+  do(SendMsgToRoom msg)
+  {
+    sender = msg.sender;
+    target = msg.target;
+    msg_text = msg.msg_text;
+
+    is_logged_in = has_key(core_state.user_names, sender);
+    has_joined_room = is_logged_in and core_state.user_rooms[sender](target);
+
+    resp_msg = if   not is_logged_in      then "ERROR not logged in"
+               elif not has_joined_room   then "ERROR never joined room"
+                                          else "OK";
+
+    new_data_to_send = [msg_counter -> (sender, resp_msg)];
+    msgs_sent = 1;
+
+    if is_logged_in:
+      fwd_msg = "GOTROOMMSG " & core_state.user_names[sender] & " #" & target & " " & msg_text;
+      receivers = rand_sort(lookup(core_state.room_users, target, []));
+      new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] | r @ i <- receivers));
+      msgs_sent = msgs_sent + length(receivers);
+    ;
+
+    update data_to_send = data_to_send & new_data_to_send;
+    update msg_counter = msg_counter + msgs_sent;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -43,12 +43,12 @@ PolymorphicMethodsInnerCounter <- Reset
 
 PolymorphicMethodsInnerCounter <- Incr
 {
-  a_counter := _add_(a_counter, 1);
+  update a_counter = _add_(a_counter, 1);
 }
 
 PolymorphicMethodsInnerCounter <- Decr
 {
-  a_counter := _sub_(a_counter, 1);
+  update a_counter = _sub_(a_counter, 1);
 }
 
 PolymorphicMethodsInnerCounter <- Acc
@@ -57,38 +57,38 @@ PolymorphicMethodsInnerCounter <- Acc
 }
 
 
-PolymorphicMethodsInnerCounter.run(Reset msg)
+using PolymorphicMethodsInnerCounter
 {
-  a_counter := _obj_(msg);
+  run(Reset msg)
+  {
+    update a_counter = _obj_(msg);
+  }
+
+  run(Incr msg)
+  {
+    update a_counter = _add_(a_counter, 1);
+  }
+
+  run(Decr msg)
+  {
+    update a_counter = _sub_(a_counter, 1);
+  }
+
+  run(Acc msg)
+  {
+    update a_counter = _add_(a_counter, _obj_(msg));
+  }
+
+  reset()
+  {
+    update a_counter = 0;
+  }
+
+  set_counter(Nat value)
+  {
+    update a_counter = value;
+  }
 }
-
-PolymorphicMethodsInnerCounter.run(Incr msg)
-{
-  a_counter := _add_(a_counter, 1);
-}
-
-PolymorphicMethodsInnerCounter.run(Decr msg)
-{
-  a_counter := _sub_(a_counter, 1);
-}
-
-PolymorphicMethodsInnerCounter.run(Acc msg)
-{
-  a_counter := _add_(a_counter, _obj_(msg));
-}
-
-PolymorphicMethodsInnerCounter.reset()
-{
-  a_counter := 0;
-}
-
-PolymorphicMethodsInnerCounter.set_counter(Nat value)
-{
-  a_counter := value;
-}
-
-
-
 
 
 cell polymorphic_methods_some_counter

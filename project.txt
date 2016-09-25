@@ -36,6 +36,7 @@ reactive/polymorphic-methods.ar
 reactive/chat-server.ar
 reactive/chat-server-0.ar
 reactive/chat-server-1.ar
+reactive/chat-server-2.ar
 
 reactive/after-rules-0.ar
 
