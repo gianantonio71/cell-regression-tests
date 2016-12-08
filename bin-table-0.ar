@@ -1,0 +1,470 @@
+schema BinTableColsPerms
+{
+  bin_rel_a(Nat, String);
+  bin_rel_b(Nat, String) [key: 0];
+  bin_rel_c(Nat, String) [key: 0, key: 1];
+
+  bin_rel_d(Nat, String) [key: 1];
+}
+
+
+BinTableColsPerms <- <insert_a(Nat, String)>
+{
+  n, s = _obj_(it);
+  insert bin_rel_a(n, s);
+}
+
+
+BinTableColsPerms <- <insert_b(Nat, String)>
+{
+  n, s = _obj_(it);
+  insert bin_rel_b(n, s);
+}
+
+
+BinTableColsPerms <- <insert_c(Nat, String)>
+{
+  n, s = _obj_(it);
+  insert bin_rel_c(n, s);
+}
+
+
+BinTableColsPerms <- <insert_d(Nat, String)>
+{
+  n, s = _obj_(it);
+  insert bin_rel_d(n, s);
+}
+
+
+BinTableColsPerms <- <update_a(Nat, String)>
+{
+  n, s = _obj_(it);
+  update bin_rel_a(n, s);
+}
+
+
+BinTableColsPerms <- <update_b(Nat, String)>
+{
+  n, s = _obj_(it);
+  update bin_rel_b(n, s);
+}
+
+
+BinTableColsPerms <- <update_c(Nat, String)>
+{
+  n, s = _obj_(it);
+  update bin_rel_c(n, s);
+}
+
+
+BinTableColsPerms <- <update_d(Nat, String)>
+{
+  n, s = _obj_(it);
+  update bin_rel_d(n, s);
+}
+
+
+BinTableColsPerms <- (Nat, String)
+{
+  n, s = it;
+
+  insert bin_rel_a(n, s);
+  insert bin_rel_b(n, s);
+  insert bin_rel_c(n, s);
+  insert bin_rel_d(n, s);
+}
+
+
+BinTableColsPerms <- Nat
+{
+  delete bin_rel_a(it, ?);
+  delete bin_rel_b(it, ?);
+  delete bin_rel_c(it, ?);
+  delete bin_rel_d(it, ?);
+}
+
+
+BinTableColsPerms <- String
+{
+  delete bin_rel_a(?, it);
+  delete bin_rel_b(?, it);
+  delete bin_rel_c(?, it);
+  delete bin_rel_d(?, it);
+}
+
+
+BinTableColsPerms <- <del_01(Nat, String)>
+{
+  n, s = _obj_(it);
+
+  delete bin_rel_a(n, s);
+  delete bin_rel_b(n, s);
+  delete bin_rel_c(n, s);
+  delete bin_rel_d(n, s);
+}
+
+
+using BinTableColsPerms
+{
+  (Nat, String) rel_a_dump = [(n, s) | n : s <- bin_rel_a(?, ?)];
+  (Nat, String) rel_b_dump = [(n, s) | n : s <- bin_rel_b(?, ?)];
+  (Nat, String) rel_c_dump = [(n, s) | n : s <- bin_rel_c(?, ?)];
+  (Nat, String) rel_d_dump = [(n, s) | n : s <- bin_rel_d(?, ?)];
+
+  (Nat, String) rel_a_dump_2 = [(n, s) | n : s <- bin_rel_a];
+  (Nat, String) rel_b_dump_2 = [(n, s) | n : s <- bin_rel_b];
+  (Nat, String) rel_c_dump_2 = [(n, s) | n : s <- bin_rel_c];
+  (Nat, String) rel_d_dump_2 = [(n, s) | n : s <- bin_rel_d];
+
+  (Nat, String) rel_dumps = [
+      rel_a_dump,
+      rel_b_dump,
+      rel_c_dump,
+      rel_d_dump,
+      rel_a_dump_2,
+      rel_b_dump_2,
+      rel_c_dump_2,
+      rel_d_dump_2
+    ];
+
+  Bool is_ok = _len_(_isort_(rel_dumps)) == 1;
+
+  [Bool] in(Nat n, String s) = [
+      bin_rel_a(n, s),
+      bin_rel_b(n, s),
+      bin_rel_c(n, s),
+      bin_rel_d(n, s)
+    ];
+
+  [Bool] in(Nat n) = [
+      bin_rel_a(n, ?),
+      bin_rel_b(n, ?),
+      bin_rel_c(n, ?),
+      bin_rel_d(n, ?)
+    ];
+
+  [Bool] in(String s) = [
+      bin_rel_a(?, s),
+      bin_rel_b(?, s),
+      bin_rel_c(?, s),
+      bin_rel_d(?, s)
+    ];
+
+
+  [String] lookup(Nat n) = [
+      bin_rel_a(n),
+      bin_rel_b(n),
+      bin_rel_c(n),
+      bin_rel_d(n)
+    ];
+
+  [Nat] lookup(String s) = [
+      bin_rel_a(*, s),
+      bin_rel_b(*, s),
+      bin_rel_c(*, s),
+      bin_rel_d(*, s)
+    ];
+
+  [+[Nat]] projection(String s) = [
+      [n | n <- bin_rel_a(?, s)],
+      [n | n <- bin_rel_b(?, s)],
+      [n | n <- bin_rel_c(?, s)],
+      [n | n <- bin_rel_d(?, s)]
+    ];
+
+  [+[String]] projection(Nat n) = [
+      [s | s <- bin_rel_a(n, ?)],
+      [s | s <- bin_rel_b(n, ?)],
+      [s | s <- bin_rel_c(n, ?)],
+      [s | s <- bin_rel_d(n, ?)]
+    ];
+}
+
+
+(Nat, String)+ bin_table_cols_perms_test_data = (
+    ( 0, " - A - "),
+    ( 1, " - B - "),
+    ( 2, " - C - "),
+    ( 3, " - D - "),
+    ( 4, " - E - "),
+    ( 5, " - F - "),
+    ( 6, " - G - "),
+    ( 7, " - H - "),
+    ( 8, " - I - "),
+    ( 9, " - L - "),
+    (10, " - M - "),
+    (11, " - N - "),
+    (12, " - O - "),
+    (13, " - P - "),
+    (14, " - Q - "),
+    (15, " - R - ")
+  );
+
+
+Bool RunAllBinTableColsPermsTests()
+{
+  auto a : BinTableColsPerms;
+
+  test_data = bin_table_cols_perms_test_data;
+
+  // Inserting
+  ok = nil;
+  for t <- test_data:
+    auto ok = a <- t;
+    if not ok:
+      Print("ERROR (1)\n");
+      return false;
+    ;
+    if not a.is_ok:
+      Print("ERROR (2)\n");
+      return false;
+    ;
+  ;
+
+  // Testing projections
+  for n, s <- test_data:
+    sss = _isort_(a.projection(n));
+    if _len_(sss) != 1:
+      Print("ERROR (2.1)\n");
+      return false;
+    ;
+    ss = _isort_(sss(0));
+    if _len_(ss) != 1:
+      Print("ERROR (2.2)\n");
+      return false;
+    ;
+    if ss(0) != s:
+      Print("ERROR (2.3)\n");
+      return false;
+    ;
+
+    nss = _isort_(a.projection(s));
+    if _len_(nss) != 1:
+      Print("ERROR (2.4)\n");
+      return false;
+    ;
+    ns = _isort_(nss(0));
+    if _len_(ns) != 1:
+      Print("ERROR (2.5)\n");
+      return false;
+    ;
+    if ns(0) != n:
+      Print("ERROR (2.6)\n");
+      return false;
+    ;
+
+    // Print(".");
+  ;
+
+  // Deleting by first column
+  t = test_data(8);
+  auto ok = a <- t(0);
+  if not ok:
+    Print("ERROR (3)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (4)\n");
+    return false;
+  ;
+
+  // Deleting by second column
+  t = test_data(3);
+  auto ok = a <- t(1);
+  if not ok:
+    Print("ERROR (5)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (6)\n");
+    return false;
+  ;
+
+  // Deleting by all columns
+  t = test_data(7);
+  auto ok = a <- :del(t);
+  if not ok:
+    Print("ERROR (7)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (8)\n");
+    return false;
+  ;
+
+  deleted = [8, 3, 7];
+
+  for n, s <- test_data:
+    rs01 = _isort_(a.in(n, s));
+    rs0 = _isort_(a.in(n));
+    rs1 = _isort_(a.in(s));
+    if rs01 != rs0 or rs01 != rs1:
+      Print("ERROR (9)\n");
+      return false;
+    ;
+    if _len_(rs01) != 1:
+      Print("ERROR (10)\n");
+      return false;
+    ;
+    if rs01(0) != not deleted(n):
+      Print("ERROR (11)\n");
+      return false;
+    ;
+
+    if not deleted(n):
+      ns = _isort_(a.lookup(s));
+      ss = _isort_(a.lookup(n));
+      if _len_(ns) != 1 or _len_(ss) != 1:
+        Print("ERROR (12)\n");
+        return false;
+      ;
+      if ns(0) != n or ss(0) != s:
+        Print("ERROR (13)\n");
+        return false;
+      ;
+    ;
+  ;
+
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Bool conflict(T+ t1, T+ t2, [[+Nat]] keys)
+{
+  assert _len_(t1) == _len_(t2);
+
+  for k <- isort(keys):
+    k1 = (f | f @ i <- t1, k(i));
+    k2 = (f | f @ i <- t2, k(i));
+    return true if k1 == k2;
+  ;
+  return false;
+
+  T* isort([T] ks) = _isort_(ks);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
+{
+  auto a : BinTableColsPerms;
+
+  ns = (0, 1, 2);
+  ss = ("A", "B", "C");
+
+  curr_tuples = [];
+
+  ok = nil;
+
+  for n <- ns; s <- ss:
+    nt = (n, s);
+    exp_ok = not (t <- curr_tuples | conflict(nt, t, keys));
+    auto ok = a <- msg(nt);
+    if ok != exp_ok:
+      Print("ERROR ERROR ERROR\n");
+      print curr_tuples;
+      print nt;
+      print exp_ok;
+      print ok;
+      return false;
+    ;
+    // Print("OK\n");
+    curr_tuples = _union_([curr_tuples, [nt]]) if ok;
+  ;
+
+  return true;
+}
+
+
+[Atom -> [[+Nat]]] bin_rels_keys_by_msg = (
+    insert_a: [],
+    insert_b: [[0]],
+    insert_c: [[0], [1]],
+    insert_d: [[1]]
+  );
+
+
+Bool RunAllBinTableKeyCheckTests()
+{
+  ok = nil;
+  for m, ks <- _isort_([(m, ks) | m : ks <- bin_rels_keys_by_msg]):
+    ok = RunBinTableKeyCheckTests(m, ks);
+    if not ok:
+      Print("ERROR ERROR ERROR!\n");
+      print (m, ks);
+      return false;
+    ;
+  ;
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
+{
+  auto a : BinTableColsPerms;
+
+  ns = (0, 1, 2, 3, 4);
+  ss = ("A", "B", "C", "D", "E");
+
+  curr_tuples = [];
+
+  ok = nil;
+
+  for n <- ns; s <- ss:
+    nt = (n, s);
+    exp_tuples = _union_([[t | t <- curr_tuples, not conflict(nt, t, keys)], [nt]]);
+    auto ok = a <- msg(nt);
+    if not ok:
+      Print("ERROR (1)\n");
+      print curr_tuples;
+      print nt;
+      return false;
+    ;
+    new_tuples = match (msg)
+      update_a  = [(n1, s1) | n1 : s1 <- a.bin_rel_a],
+      update_b  = [(n1, s1) | n1 : s1 <- a.bin_rel_b(?, ?)],
+      update_c  = [(n1, s1) | n1 : s1 <- a.bin_rel_c],
+      update_d  = [(n1, s1) | n1 : s1 <- a.bin_rel_d(?, ?)];
+
+    if new_tuples != exp_tuples:
+      Print("ERROR (2)\n");
+      print curr_tuples;
+      print nt;
+      print exp_tuples;
+      print new_tuples;
+      return false;
+    ;
+    curr_tuples = new_tuples;
+    // Print(".");
+  ;
+
+  return true;
+}
+
+
+[Atom -> [[+Nat]]] bin_rels_update_keys_by_msg = (
+    update_a: [],
+    update_b: [[0]],
+    update_c: [[0], [1]],
+    update_d: [[1]]
+  );
+
+
+Bool RunAllBinTableUpdateTests()
+{
+  ok = nil;
+  for m, ks <- _isort_([(m, ks) | m : ks <- bin_rels_update_keys_by_msg]):
+    ok = RunBinTableUpdateTests(m, ks);
+    if not ok:
+      Print("\nERROR: Binary table update tests\n");
+      print (m, ks);
+      return false;
+    ;
+  ;
+  return true;
+}

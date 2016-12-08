@@ -1,6 +1,6 @@
 schema ChatServer2CoreState
 {
-  username(UserId!, String!);
+  username(UserId, String) [key: 0, key: 1];
   joined(UserId, RoomId);
 }
 
@@ -92,8 +92,8 @@ schema ChatServer2
 
   msg_counter : Nat = 0;
 
-  pending_inputs(Nat!, Byte*);
-  data_to_send(Nat!, (Nat, String));
+  pending_inputs(Nat, Byte*) [key: 0];
+  data_to_send(Nat, (Nat, String)) [key: 0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

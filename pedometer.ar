@@ -9,11 +9,11 @@ Float sqrt(Float x) = _fsqrt_(x);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-type Point = point(x: Float, y: Float);
+type PointF = point(x: Float, y: Float);
 
-Point point(Float x, Float y) = point(x: x, y: y);
+PointF point(Float x, Float y) = point(x: x, y: y);
 
-Float point_to_point_distance(Point p1, Point p2)
+Float point_to_point_distance(PointF p1, PointF p2)
 {
   dx = p1.x - p2.x;
   dy = p1.y - p2.y;
@@ -26,17 +26,17 @@ cell pedometer_0
 {
   input:
     has_moved     : Bool;
-    position      : Point;
+    position      : PointF;
     unused_input  : Any;
 
   output:
-    position_copy : Point;
-    track         : Point*;
+    position_copy : PointF;
+    track         : PointF*;
     distance      : Float;
 
   state:
-    position_copy     : Point   = position;
-    track             : Point*  = (position);
+    position_copy     : PointF   = position;
+    track             : PointF*  = (position);
     distance          : Float   = 0.0;
     unused_state_var  : Any     = :f((:a, :b, :c));
 
@@ -54,14 +54,14 @@ cell pedometer_0
 cell pedometer
 {
   input:
-    position : Point;
+    position : PointF;
 
   output:
-    track    : Point*;
+    track    : PointF*;
     distance : Float;
 
   state:
-    track    : Point* = (position);
+    track    : PointF* = (position);
     distance : Float  = 0.0;
 
   rules:

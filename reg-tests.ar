@@ -166,5 +166,40 @@ Main(String* args)
   return if not ok;
   Print("OK\n");
 
+  Print("  Binary table columns permutations tests  ");
+  ok = RunAllBinTableColsPermsTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Binary table key check tests             ");
+  ok = RunAllBinTableKeyCheckTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Binary table update tests                ");
+  ok = RunAllBinTableUpdateTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Ternary table columns permutations tests ");
+  ok = RunAllTernTableColsPermsTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Ternary table key check tests            ");
+  ok = RunAllTernTableKeyCheckTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Ternary table update tests               ");
+  ok = RunAllTernTableUpdateTests();
+  return if not ok;
+  Print("OK\n");
+
+  Print("  Relation objects tests                   ");
+  ok = RunAllRelObjsTests();
+  return if not ok;
+  Print("OK\n");
+
   Print("\nAll tests successful\n");
 }

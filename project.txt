@@ -46,4 +46,9 @@ reactive/flipflop.ar
 
 reactive/inheritance-0.ar
 
+reactive/bin-table-0.ar
+reactive/tern-table-0.ar
+
+reactive/rel-objs.ar
+
 reactive/reg-tests.ar

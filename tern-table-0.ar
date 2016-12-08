@@ -1,0 +1,955 @@
+type Point  = point(x: Int, y: Int);
+
+
+schema TernTableColsPerms
+{
+  tern_rel_a(Nat, String, Point);
+  tern_rel_b(Nat, String, Point) [key: 0:1];
+  tern_rel_c(Nat, String, Point) [key: 0:1, key: 2];
+  tern_rel_d(Nat, String, Point) [key: 0:1, key: 1:2];
+  tern_rel_e(Nat, String, Point) [key: 0:1, key: 1:2, key: 2:0];
+
+  tern_rel_f(Nat, String, Point) [key: 1:2];
+  tern_rel_g(Nat, String, Point) [key: 2:0];
+  tern_rel_h(Nat, String, Point) [key: 1:2, key: 0];
+  tern_rel_i(Nat, String, Point) [key: 2:0, key: 1];
+  tern_rel_j(Nat, String, Point) [key: 0:1, key: 0:2];
+  tern_rel_k(Nat, String, Point) [key: 0:2, key: 1:2];
+}
+
+
+TernTableColsPerms <- <insert_a(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_a(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_b(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_b(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_c(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_c(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_d(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_d(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_e(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_e(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_f(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_f(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_g(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_g(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_h(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_h(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_i(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_i(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_j(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_j(n, s, p);
+}
+
+
+TernTableColsPerms <- <insert_k(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  insert tern_rel_k(n, s, p);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TernTableColsPerms <- <update_a(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_a(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_b(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_b(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_c(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_c(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_d(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_d(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_e(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_e(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_f(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_f(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_g(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_g(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_h(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_h(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_i(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_i(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_j(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_j(n, s, p);
+}
+
+
+TernTableColsPerms <- <update_k(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+  update tern_rel_k(n, s, p);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TernTableColsPerms <- (Nat, String, Point)
+{
+  n, s, p = it;
+
+  insert tern_rel_a(n, s, p);
+  insert tern_rel_b(n, s, p);
+  insert tern_rel_c(n, s, p);
+  insert tern_rel_d(n, s, p);
+  insert tern_rel_e(n, s, p);
+  insert tern_rel_f(n, s, p);
+  insert tern_rel_g(n, s, p);
+  insert tern_rel_h(n, s, p);
+  insert tern_rel_i(n, s, p);
+  insert tern_rel_j(n, s, p);
+  insert tern_rel_k(n, s, p);
+}
+
+
+TernTableColsPerms <- Nat
+{
+  delete tern_rel_a(it, ?, ?);
+  delete tern_rel_b(it, ?, ?);
+  delete tern_rel_c(it, ?, ?);
+  delete tern_rel_d(it, ?, ?);
+  delete tern_rel_e(it, ?, ?);
+  delete tern_rel_f(it, ?, ?);
+  delete tern_rel_g(it, ?, ?);
+  delete tern_rel_h(it, ?, ?);
+  delete tern_rel_i(it, ?, ?);
+  delete tern_rel_j(it, ?, ?);
+  delete tern_rel_k(it, ?, ?);
+}
+
+
+TernTableColsPerms <- String
+{
+  delete tern_rel_a(?, it, ?);
+  delete tern_rel_b(?, it, ?);
+  delete tern_rel_c(?, it, ?);
+  delete tern_rel_d(?, it, ?);
+  delete tern_rel_e(?, it, ?);
+  delete tern_rel_f(?, it, ?);
+  delete tern_rel_g(?, it, ?);
+  delete tern_rel_h(?, it, ?);
+  delete tern_rel_i(?, it, ?);
+  delete tern_rel_j(?, it, ?);
+  delete tern_rel_k(?, it, ?);
+}
+
+
+TernTableColsPerms <- Point
+{
+  delete tern_rel_a(?, ?, it);
+  delete tern_rel_b(?, ?, it);
+  delete tern_rel_c(?, ?, it);
+  delete tern_rel_d(?, ?, it);
+  delete tern_rel_e(?, ?, it);
+  delete tern_rel_f(?, ?, it);
+  delete tern_rel_g(?, ?, it);
+  delete tern_rel_h(?, ?, it);
+  delete tern_rel_i(?, ?, it);
+  delete tern_rel_j(?, ?, it);
+  delete tern_rel_k(?, ?, it);
+}
+
+
+TernTableColsPerms <- <del_01(Nat, String)>
+{
+  n, s = _obj_(it);
+
+  delete tern_rel_a(n, s, ?);
+  delete tern_rel_b(n, s, ?);
+  delete tern_rel_c(n, s, ?);
+  delete tern_rel_d(n, s, ?);
+  delete tern_rel_e(n, s, ?);
+  delete tern_rel_f(n, s, ?);
+  delete tern_rel_g(n, s, ?);
+  delete tern_rel_h(n, s, ?);
+  delete tern_rel_i(n, s, ?);
+  delete tern_rel_j(n, s, ?);
+  delete tern_rel_k(n, s, ?);
+}
+
+
+TernTableColsPerms <- <del_02(Nat, Point)>
+{
+  n, p = _obj_(it);
+
+  delete tern_rel_a(n, ?, p);
+  delete tern_rel_b(n, ?, p);
+  delete tern_rel_c(n, ?, p);
+  delete tern_rel_d(n, ?, p);
+  delete tern_rel_e(n, ?, p);
+  delete tern_rel_f(n, ?, p);
+  delete tern_rel_g(n, ?, p);
+  delete tern_rel_h(n, ?, p);
+  delete tern_rel_i(n, ?, p);
+  delete tern_rel_j(n, ?, p);
+  delete tern_rel_k(n, ?, p);
+}
+
+
+TernTableColsPerms <- <del_12(String, Point)>
+{
+  s, p = _obj_(it);
+
+  delete tern_rel_a(?, s, p);
+  delete tern_rel_b(?, s, p);
+  delete tern_rel_c(?, s, p);
+  delete tern_rel_d(?, s, p);
+  delete tern_rel_e(?, s, p);
+  delete tern_rel_f(?, s, p);
+  delete tern_rel_g(?, s, p);
+  delete tern_rel_h(?, s, p);
+  delete tern_rel_i(?, s, p);
+  delete tern_rel_j(?, s, p);
+  delete tern_rel_k(?, s, p);
+}
+
+
+TernTableColsPerms <- <del_012(Nat, String, Point)>
+{
+  n, s, p = _obj_(it);
+
+  delete tern_rel_a(n, s, p);
+  delete tern_rel_b(n, s, p);
+  delete tern_rel_c(n, s, p);
+  delete tern_rel_d(n, s, p);
+  delete tern_rel_e(n, s, p);
+  delete tern_rel_f(n, s, p);
+  delete tern_rel_g(n, s, p);
+  delete tern_rel_h(n, s, p);
+  delete tern_rel_i(n, s, p);
+  delete tern_rel_j(n, s, p);
+  delete tern_rel_k(n, s, p);
+}
+
+
+using TernTableColsPerms
+{
+  (Nat, String, Point) rel_a_dump = [(n, s, p) | n : s : p <- tern_rel_a(?, ?, ?)];
+  (Nat, String, Point) rel_b_dump = [(n, s, p) | n : s : p <- tern_rel_b(?, ?, ?)];
+  (Nat, String, Point) rel_c_dump = [(n, s, p) | n : s : p <- tern_rel_c(?, ?, ?)];
+  (Nat, String, Point) rel_d_dump = [(n, s, p) | n : s : p <- tern_rel_d(?, ?, ?)];
+  (Nat, String, Point) rel_e_dump = [(n, s, p) | n : s : p <- tern_rel_e(?, ?, ?)];
+  (Nat, String, Point) rel_f_dump = [(n, s, p) | n : s : p <- tern_rel_f(?, ?, ?)];
+  (Nat, String, Point) rel_g_dump = [(n, s, p) | n : s : p <- tern_rel_g(?, ?, ?)];
+  (Nat, String, Point) rel_h_dump = [(n, s, p) | n : s : p <- tern_rel_h(?, ?, ?)];
+  (Nat, String, Point) rel_i_dump = [(n, s, p) | n : s : p <- tern_rel_i(?, ?, ?)];
+  (Nat, String, Point) rel_j_dump = [(n, s, p) | n : s : p <- tern_rel_j(?, ?, ?)];
+  (Nat, String, Point) rel_k_dump = [(n, s, p) | n : s : p <- tern_rel_k(?, ?, ?)];
+
+  (Nat, String, Point) rel_a_dump_2 = [(n, s, p) | n : s : p <- tern_rel_a];
+  (Nat, String, Point) rel_b_dump_2 = [(n, s, p) | n : s : p <- tern_rel_b];
+  (Nat, String, Point) rel_c_dump_2 = [(n, s, p) | n : s : p <- tern_rel_c];
+  (Nat, String, Point) rel_d_dump_2 = [(n, s, p) | n : s : p <- tern_rel_d];
+  (Nat, String, Point) rel_e_dump_2 = [(n, s, p) | n : s : p <- tern_rel_e];
+  (Nat, String, Point) rel_f_dump_2 = [(n, s, p) | n : s : p <- tern_rel_f];
+  (Nat, String, Point) rel_g_dump_2 = [(n, s, p) | n : s : p <- tern_rel_g];
+  (Nat, String, Point) rel_h_dump_2 = [(n, s, p) | n : s : p <- tern_rel_h];
+  (Nat, String, Point) rel_i_dump_2 = [(n, s, p) | n : s : p <- tern_rel_i];
+  (Nat, String, Point) rel_j_dump_2 = [(n, s, p) | n : s : p <- tern_rel_j];
+  (Nat, String, Point) rel_k_dump_2 = [(n, s, p) | n : s : p <- tern_rel_k];
+
+  (Nat, String, Point) rel_dumps = [
+      rel_a_dump,
+      rel_b_dump,
+      rel_c_dump,
+      rel_d_dump,
+      rel_e_dump,
+      rel_f_dump,
+      rel_g_dump,
+      rel_h_dump,
+      rel_i_dump,
+      rel_j_dump,
+      rel_k_dump,
+      rel_a_dump_2,
+      rel_b_dump_2,
+      rel_c_dump_2,
+      rel_d_dump_2,
+      rel_e_dump_2,
+      rel_f_dump_2,
+      rel_g_dump_2,
+      rel_h_dump_2,
+      rel_i_dump_2,
+      rel_j_dump_2,
+      rel_k_dump_2
+    ];
+
+  Bool is_ok = _len_(_isort_(rel_dumps)) == 1;
+
+  [Bool] in(Nat n, String s, Point p) = [
+      tern_rel_a(n, s, p),
+      tern_rel_b(n, s, p),
+      tern_rel_c(n, s, p),
+      tern_rel_d(n, s, p),
+      tern_rel_e(n, s, p),
+      tern_rel_f(n, s, p),
+      tern_rel_g(n, s, p),
+      tern_rel_h(n, s, p),
+      tern_rel_i(n, s, p),
+      tern_rel_j(n, s, p),
+      tern_rel_k(n, s, p)
+    ];
+
+  [Bool] in(Nat n) = [
+      tern_rel_a(n, ?, ?),
+      tern_rel_b(n, ?, ?),
+      tern_rel_c(n, ?, ?),
+      tern_rel_d(n, ?, ?),
+      tern_rel_e(n, ?, ?),
+      tern_rel_f(n, ?, ?),
+      tern_rel_g(n, ?, ?),
+      tern_rel_h(n, ?, ?),
+      tern_rel_i(n, ?, ?),
+      tern_rel_j(n, ?, ?),
+      tern_rel_k(n, ?, ?)
+    ];
+
+  [Bool] in(String s) = [
+      tern_rel_a(?, s, ?),
+      tern_rel_b(?, s, ?),
+      tern_rel_c(?, s, ?),
+      tern_rel_d(?, s, ?),
+      tern_rel_e(?, s, ?),
+      tern_rel_f(?, s, ?),
+      tern_rel_g(?, s, ?),
+      tern_rel_h(?, s, ?),
+      tern_rel_i(?, s, ?),
+      tern_rel_j(?, s, ?),
+      tern_rel_k(?, s, ?)
+    ];
+
+  [Bool] in(Point p) = [
+      tern_rel_a(?, ?, p),
+      tern_rel_b(?, ?, p),
+      tern_rel_c(?, ?, p),
+      tern_rel_d(?, ?, p),
+      tern_rel_e(?, ?, p),
+      tern_rel_f(?, ?, p),
+      tern_rel_g(?, ?, p),
+      tern_rel_h(?, ?, p),
+      tern_rel_i(?, ?, p),
+      tern_rel_j(?, ?, p),
+      tern_rel_k(?, ?, p)
+    ];
+
+  [Bool] in(Nat n, String s) = [
+      tern_rel_a(n, s, ?),
+      tern_rel_b(n, s, ?),
+      tern_rel_c(n, s, ?),
+      tern_rel_d(n, s, ?),
+      tern_rel_e(n, s, ?),
+      tern_rel_f(n, s, ?),
+      tern_rel_g(n, s, ?),
+      tern_rel_h(n, s, ?),
+      tern_rel_i(n, s, ?),
+      tern_rel_j(n, s, ?),
+      tern_rel_k(n, s, ?)
+    ];
+
+  [Bool] in(Nat n, Point p) = [
+      tern_rel_a(n, ?, p),
+      tern_rel_b(n, ?, p),
+      tern_rel_c(n, ?, p),
+      tern_rel_d(n, ?, p),
+      tern_rel_e(n, ?, p),
+      tern_rel_f(n, ?, p),
+      tern_rel_g(n, ?, p),
+      tern_rel_h(n, ?, p),
+      tern_rel_i(n, ?, p),
+      tern_rel_j(n, ?, p),
+      tern_rel_k(n, ?, p)
+    ];
+
+  [Bool] in(String s, Point p) = [
+      tern_rel_a(?, s, p),
+      tern_rel_b(?, s, p),
+      tern_rel_c(?, s, p),
+      tern_rel_d(?, s, p),
+      tern_rel_e(?, s, p),
+      tern_rel_f(?, s, p),
+      tern_rel_g(?, s, p),
+      tern_rel_h(?, s, p),
+      tern_rel_i(?, s, p),
+      tern_rel_j(?, s, p),
+      tern_rel_k(?, s, p)
+    ];
+
+
+  [Point] lookup(Nat n, String s) = [
+      tern_rel_a(n, s),
+      tern_rel_b(n, s),
+      tern_rel_c(n, s),
+      tern_rel_d(n, s),
+      tern_rel_e(n, s),
+      tern_rel_f(n, s),
+      tern_rel_g(n, s),
+      tern_rel_h(n, s),
+      tern_rel_i(n, s),
+      tern_rel_j(n, s),
+      tern_rel_k(n, s)
+    ];
+
+  [String] lookup(Nat n, Point p) = [
+      tern_rel_a(n, *, p),
+      tern_rel_b(n, *, p),
+      tern_rel_c(n, *, p),
+      tern_rel_d(n, *, p),
+      tern_rel_e(n, *, p),
+      tern_rel_f(n, *, p),
+      tern_rel_g(n, *, p),
+      tern_rel_h(n, *, p),
+      tern_rel_i(n, *, p),
+      tern_rel_j(n, *, p),
+      tern_rel_k(n, *, p)
+    ];
+
+  [Nat] lookup(String s, Point p) = [
+      tern_rel_a(*, s, p),
+      tern_rel_b(*, s, p),
+      tern_rel_c(*, s, p),
+      tern_rel_d(*, s, p),
+      tern_rel_e(*, s, p),
+      tern_rel_f(*, s, p),
+      tern_rel_g(*, s, p),
+      tern_rel_h(*, s, p),
+      tern_rel_i(*, s, p),
+      tern_rel_j(*, s, p),
+      tern_rel_k(*, s, p)
+    ];
+
+  [+[Point]] projection(Nat n, String s) = [
+      [p | p <- tern_rel_a(n, s, ?)],
+      [p | p <- tern_rel_b(n, s, ?)],
+      [p | p <- tern_rel_c(n, s, ?)],
+      [p | p <- tern_rel_d(n, s, ?)],
+      [p | p <- tern_rel_e(n, s, ?)],
+      [p | p <- tern_rel_f(n, s, ?)],
+      [p | p <- tern_rel_g(n, s, ?)],
+      [p | p <- tern_rel_h(n, s, ?)],
+      [p | p <- tern_rel_i(n, s, ?)],
+      [p | p <- tern_rel_j(n, s, ?)],
+      [p | p <- tern_rel_k(n, s, ?)]
+    ];
+
+  [+[String]] projection(Nat n, Point p) = [
+      [s | s <- tern_rel_a(n, ?, p)],
+      [s | s <- tern_rel_b(n, ?, p)],
+      [s | s <- tern_rel_c(n, ?, p)],
+      [s | s <- tern_rel_d(n, ?, p)],
+      [s | s <- tern_rel_e(n, ?, p)],
+      [s | s <- tern_rel_f(n, ?, p)],
+      [s | s <- tern_rel_g(n, ?, p)],
+      [s | s <- tern_rel_h(n, ?, p)],
+      [s | s <- tern_rel_i(n, ?, p)],
+      [s | s <- tern_rel_j(n, ?, p)],
+      [s | s <- tern_rel_k(n, ?, p)]
+    ];
+
+  [+[Nat]] projection(String s, Point p) = [
+      [n | n <- tern_rel_a(?, s, p)],
+      [n | n <- tern_rel_b(?, s, p)],
+      [n | n <- tern_rel_c(?, s, p)],
+      [n | n <- tern_rel_d(?, s, p)],
+      [n | n <- tern_rel_e(?, s, p)],
+      [n | n <- tern_rel_f(?, s, p)],
+      [n | n <- tern_rel_g(?, s, p)],
+      [n | n <- tern_rel_h(?, s, p)],
+      [n | n <- tern_rel_i(?, s, p)],
+      [n | n <- tern_rel_j(?, s, p)],
+      [n | n <- tern_rel_k(?, s, p)]
+    ];
+
+
+
+  [+[(String, Point)]] projection(Nat n) = [
+      [(s, p) | s : p <- tern_rel_a(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_b(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_c(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_d(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_e(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_f(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_g(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_h(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_i(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_j(n, ?, ?)],
+      [(s, p) | s : p <- tern_rel_k(n, ?, ?)]
+    ];
+
+  [+[(Nat, Point)]] projection(String s) = [
+      [(n, p) | n : p <- tern_rel_a(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_b(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_c(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_d(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_e(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_f(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_g(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_h(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_i(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_j(?, s, ?)],
+      [(n, p) | n : p <- tern_rel_k(?, s, ?)]
+    ];
+
+  [+[(Nat, String)]] projection(Point p) = [
+      [(n, s) | n : s <- tern_rel_a(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_b(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_c(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_d(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_e(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_f(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_g(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_h(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_i(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_j(?, ?, p)],
+      [(n, s) | n : s <- tern_rel_k(?, ?, p)]
+    ];
+}
+
+
+(Nat, String, Point)+ tern_table_cols_perms_test_data = (
+    ( 0, " - A - ", point(x:  0, y: 800)),
+    ( 1, " - B - ", point(x:  1, y: 510)),
+    ( 2, " - C - ", point(x:  2, y: 320)),
+    ( 3, " - D - ", point(x:  3, y: 630)),
+    ( 4, " - E - ", point(x:  4, y: 440)),
+    ( 5, " - F - ", point(x:  5, y: 750)),
+    ( 6, " - G - ", point(x:  6, y: 160)),
+    ( 7, " - H - ", point(x:  7, y: 270)),
+    ( 8, " - I - ", point(x:  8, y: 280)),
+    ( 9, " - L - ", point(x:  9, y: 990)),
+    (10, " - M - ", point(x: 10, y: 500)),
+    (11, " - N - ", point(x: 11, y: 910)),
+    (12, " - O - ", point(x: 12, y: 320)),
+    (13, " - P - ", point(x: 13, y: 430)),
+    (14, " - Q - ", point(x: 14, y: 640)),
+    (15, " - R - ", point(x: 15, y: 550))
+  );
+
+
+Bool RunAllTernTableColsPermsTests()
+{
+  auto a : TernTableColsPerms;
+
+  test_data = tern_table_cols_perms_test_data;
+
+  // Inserting
+  ok = nil;
+  for t <- test_data:
+    auto ok = a <- t;
+    if not ok:
+      Print("ERROR (1)\n");
+      return false;
+    ;
+    if not a.is_ok:
+      Print("ERROR (2)\n");
+      return false;
+    ;
+  ;
+
+  // Testing projections
+  for n, s, p <- test_data:
+    nss = _isort_(a.projection(s, p));
+    if _len_(nss) != 1 or _len_(_isort_(nss(0))) != 1 or _isort_(nss(0))(0) != n:
+      Print("ERROR (2.1)\n");
+      return false;
+    ;
+
+    sss = _isort_(a.projection(n, p));
+    if _len_(sss) != 1 or _len_(_isort_(sss(0))) != 1 or _isort_(sss(0))(0) != s:
+      Print("ERROR (2.2)\n");
+      return false;
+    ;
+
+    pss = _isort_(a.projection(n, s));
+    if _len_(pss) != 1 or _len_(_isort_(pss(0))) != 1 or _isort_(pss(0))(0) != p:
+      Print("ERROR (2.3)\n");
+      return false;
+    ;
+
+    spss = _isort_(a.projection(n));
+    if _len_(spss) != 1 or _len_(_isort_(spss(0))) != 1 or _isort_(spss(0))(0) != (s, p):
+      Print("ERROR (2.4)\n");
+      return false;
+    ;
+
+    npss = _isort_(a.projection(s));
+    if _len_(npss) != 1 or _len_(_isort_(npss(0))) != 1 or _isort_(npss(0))(0) != (n, p):
+      Print("ERROR (2.5)\n");
+      return false;
+    ;
+
+    nsss = _isort_(a.projection(p));
+    if _len_(nsss) != 1 or _len_(_isort_(nsss(0))) != 1 or _isort_(nsss(0))(0) != (n, s):
+      Print("ERROR (2.6)\n");
+      return false;
+    ;
+
+    // Print(".");
+  ;
+
+  // Deleting by first column
+  t = test_data(8);
+  auto ok = a <- t(0);
+  if not ok:
+    Print("ERROR (3)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (4)\n");
+    return false;
+  ;
+
+  // Deleting by second column
+  t = test_data(3);
+  auto ok = a <- t(1);
+  if not ok:
+    Print("ERROR (5)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (6)\n");
+    return false;
+  ;
+
+  // Deleting by third column
+  t = test_data(12);
+  auto ok = a <- t(2);
+  if not ok:
+    Print("ERROR (7)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (8)\n");
+    return false;
+  ;
+
+  // Deleting by first and second columns
+  t = test_data(15);
+  auto ok = a <- :del_01(t(0), t(1));
+  if not ok:
+    Print("ERROR (9)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (10)\n");
+    return false;
+  ;
+
+  // Deleting by first and third columns
+  t = test_data(10);
+  auto ok = a <- :del_02(t(0), t(2));
+  if not ok:
+    Print("ERROR (9)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (10)\n");
+    return false;
+  ;
+
+  // Deleting by second and third columns
+  t = test_data(2);
+  auto ok = a <- :del_12(t(1), t(2));
+  if not ok:
+    Print("ERROR (11)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (12)\n");
+    return false;
+  ;
+
+  // Deleting by all columns
+  t = test_data(7);
+  auto ok = a <- :del_012(t(0), t(1), t(2));
+  if not ok:
+    Print("ERROR (13)\n");
+    return false;
+  ;
+  if not a.is_ok:
+    Print("ERROR (14)\n");
+    return false;
+  ;
+
+  deleted = [8, 3, 12, 15, 10, 2, 7];
+
+  for n, s, p <- test_data:
+    rs = _isort_(a.in(n, s, p));
+    rs0 = _isort_(a.in(n));
+    rs1 = _isort_(a.in(s));
+    rs2 = _isort_(a.in(p));
+    rs01 = _isort_(a.in(n, s));
+    rs02 = _isort_(a.in(n, p));
+    rs12 = _isort_(a.in(s, p));
+    if rs != rs0 or rs != rs1 or rs != rs2 or rs != rs01 or rs != rs02 or rs != rs12:
+      Print("ERROR (15)\n");
+      return false;
+    ;
+    if _len_(rs) != 1:
+      Print("ERROR (16)\n");
+      return false;
+    ;
+    if rs(0) != not deleted(n):
+      Print("ERROR (17)\n");
+      return false;
+    ;
+
+    if not deleted(n):
+      ns = _isort_(a.lookup(s, p));
+      ss = _isort_(a.lookup(n, p));
+      ps = _isort_(a.lookup(n, s));
+      if _len_(ns) != 1 or _len_(ss) != 1 or _len_(ps) != 1:
+        Print("ERROR (18)\n");
+        return false;
+      ;
+      if ns(0) != n or ss(0) != s or ps(0) != p:
+        Print("ERROR (19)\n");
+        return false;
+      ;
+    ;
+  ;
+
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Bool RunTernTableKeyCheckTests(Atom msg, [[+Nat]] keys)
+{
+  auto a : TernTableColsPerms;
+
+  ns = (0, 1, 2);
+  ss = ("A", "B", "C");
+  ps = (point(x: 52, y: 75), point(x: 24, y:78), point(x: 62, y: 3));
+
+  curr_tuples = [];
+
+  ok = nil;
+
+  for n <- ns; s <- ss; p <- ps:
+    nt = (n, s, p);
+    exp_ok = not (t <- curr_tuples | conflict(nt, t, keys));
+    auto ok = a <- msg(nt);
+    if ok != exp_ok:
+      Print("ERROR ERROR ERROR\n");
+      print curr_tuples;
+      print nt;
+      print exp_ok;
+      print ok;
+      return false;
+    ;
+    // Print("OK\n");
+    curr_tuples = _union_([curr_tuples, [nt]]) if ok;
+  ;
+
+  return true;
+}
+
+
+
+[Atom -> [[+Nat]]] tern_rels_keys_by_msg = (
+    insert_a: [],
+    insert_b: [[0, 1]],
+    insert_c: [[0, 1], [2]],
+    insert_d: [[0, 1], [1, 2]],
+    insert_e: [[0, 1], [1, 2], [2, 0]],
+    insert_f: [[1, 2]],
+    insert_g: [[2, 0]],
+    insert_h: [[1, 2], [0]],
+    insert_i: [[2, 0], [1]],
+    insert_j: [[0, 1], [0, 2]],
+    insert_k: [[0, 2], [1, 2]]
+  );
+
+
+Bool RunAllTernTableKeyCheckTests()
+{
+  ok = nil;
+  for m, ks <- _isort_([(m, ks) | m : ks <- tern_rels_keys_by_msg]):
+    ok = RunTernTableKeyCheckTests(m, ks);
+    if not ok:
+      Print("ERROR ERROR ERROR!\n");
+      print (m, ks);
+      return false;
+    ;
+  ;
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Bool RunTernTableUpdateTests(Atom msg, [[+Nat]] keys)
+{
+  auto a : TernTableColsPerms;
+
+  ns = (0, 1, 2, 3, 4);
+  ss = ("A", "B", "C", "D", "E");
+  ps = (
+    point(x: 52, y: 75),
+    point(x: 19, y: 60),
+    point(x: 25, y: 42),
+    point(x: 12, y: 16),
+    point(x: 76, y: 13)
+  );
+
+  curr_tuples = [];
+
+  ok = nil;
+
+  for an_n <- ns; an_s <- ss; a_p <- ps:
+    nt = (an_n, an_s, a_p);
+    exp_tuples = _union_([[t | t <- curr_tuples, not conflict(nt, t, keys)], [nt]]);
+    auto ok = a <- msg(nt);
+    if not ok:
+      Print("ERROR (1)\n");
+      print curr_tuples;
+      print nt;
+      return false;
+    ;
+    new_tuples = match (msg)
+      update_a  = [(n, s, p) | n : s : p <- a.tern_rel_a],
+      update_b  = [(n, s, p) | n : s : p <- a.tern_rel_b(?, ?, ?)],
+      update_c  = [(n, s, p) | n : s : p <- a.tern_rel_c],
+      update_d  = [(n, s, p) | n : s : p <- a.tern_rel_d],
+      update_e  = [(n, s, p) | n : s : p <- a.tern_rel_e],
+      update_f  = [(n, s, p) | n : s : p <- a.tern_rel_f],
+      update_g  = [(n, s, p) | n : s : p <- a.tern_rel_g(?, ?, ?)],
+      update_h  = [(n, s, p) | n : s : p <- a.tern_rel_h],
+      update_i  = [(n, s, p) | n : s : p <- a.tern_rel_i(?, ?, ?)],
+      update_j  = [(n, s, p) | n : s : p <- a.tern_rel_j(?, ?, ?)],
+      update_k  = [(n, s, p) | n : s : p <- a.tern_rel_k];
+
+    if new_tuples != exp_tuples:
+      Print("ERROR (2)\n");
+      print curr_tuples;
+      print nt;
+      print exp_tuples;
+      print new_tuples;
+      return false;
+    ;
+    curr_tuples = new_tuples;
+    // Print(".");
+  ;
+
+  return true;
+}
+
+
+[Atom -> [[+Nat]]] tern_rels_update_keys_by_msg = (
+    update_a: [],
+    update_b: [[0, 1]],
+    update_c: [[0, 1], [2]],
+    update_d: [[0, 1], [1, 2]],
+    update_e: [[0, 1], [1, 2], [2, 0]],
+    update_f: [[1, 2]],
+    update_g: [[2, 0]],
+    update_h: [[1, 2], [0]],
+    update_i: [[2, 0], [1]],
+    update_j: [[0, 1], [0, 2]],
+    update_k: [[0, 2], [1, 2]]
+  );
+
+
+Bool RunAllTernTableUpdateTests()
+{
+  ok = nil;
+  for m, ks <- _isort_([(m, ks) | m : ks <- tern_rels_update_keys_by_msg]):
+    ok = RunTernTableUpdateTests(m, ks);
+    if not ok:
+      Print("ERROR: Ternary table update tests\n");
+      print (m, ks);
+      return false;
+    ;
+  ;
+  return true;
+}
