@@ -10,7 +10,7 @@ cell full_history
     history : Ta+ = (input);
 
   rules:
-    history = (history || input) : input;
+    history = (history | input) : input;
 }
 
 
@@ -42,7 +42,7 @@ Bool RunAllFullHistoryTests()
   ehs = 0;
 
   for i <- full_history_test_data:
-    eh = (eh || i);
+    eh = (eh | i);
     ehs = _add_(ehs, 1);
     auto fhc.i = i;
     auto apply fhc;

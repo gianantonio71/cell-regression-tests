@@ -33,12 +33,12 @@ cell cont_to_disc_client
   (:a0, false, 0),
   (:a1, false, 0),
   (:a2, false, 0),
-  (:a3, true , 1),
+  (:a3, true,  1),
   (:a4, false, 1),
-  (:a0, true , 2),
+  (:a0, true,  2),
   (:a1, false, 2),
   (:a2, false, 2),
-  (:a3, true , 3),
+  (:a3, true,  3),
   (:a4, false, 3)
 );
 

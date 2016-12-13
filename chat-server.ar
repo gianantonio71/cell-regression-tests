@@ -60,7 +60,7 @@ String* split_chat_msg(Byte* msg_text)
     ;
 
     new_field = subseq(msg_text, i, j, nil);
-    fields = (fields || string(new_field)) if new_field != ();
+    fields = (fields | string(new_field)) if new_field != ();
 
     i = i + j;
   ;
@@ -126,25 +126,25 @@ Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
 
 
 [Nat -> (Nat, String)] chat_server_exp_res_1 = [
-  0 -> (0, "OK"),
-  1 -> (0, "OK"),
-  2 -> (1, "OK"),
-  3 -> (1, "OK"),
-  4 -> (2, "OK"),
-  5 -> (2, "OK"),
-  6 -> (1, "OK"),
-  7 -> (0, "GOTROOMMSG alice #news hi everyone"),
-  8 -> (1, "GOTROOMMSG alice #news hi everyone"),
-  9 -> (2, "GOTROOMMSG alice #news hi everyone"),
-  10 -> (0, "OK"),
-  11 -> (0, "GOTROOMMSG bob #news nothing much happened after that"),
-  12 -> (1, "GOTROOMMSG bob #news nothing much happened after that"),
-  13 -> (2, "GOTROOMMSG bob #news nothing much happened after that"),
-  14 -> (2, "OK"),
-  15 -> (1, "GOTUSERMSG carol hi alice, where've you been?"),
-  16 -> (1, "ERROR syntax error"),
-  17 -> (1, "OK"),
-  18 -> (2, "GOTUSERMSG alice on vacation"),
-  19 -> (2, "ERROR never joined room"),
+  0 -> (0, "OK");
+  1 -> (0, "OK");
+  2 -> (1, "OK");
+  3 -> (1, "OK");
+  4 -> (2, "OK");
+  5 -> (2, "OK");
+  6 -> (1, "OK");
+  7 -> (0, "GOTROOMMSG alice #news hi everyone");
+  8 -> (1, "GOTROOMMSG alice #news hi everyone");
+  9 -> (2, "GOTROOMMSG alice #news hi everyone");
+  10 -> (0, "OK");
+  11 -> (0, "GOTROOMMSG bob #news nothing much happened after that");
+  12 -> (1, "GOTROOMMSG bob #news nothing much happened after that");
+  13 -> (2, "GOTROOMMSG bob #news nothing much happened after that");
+  14 -> (2, "OK");
+  15 -> (1, "GOTUSERMSG carol hi alice, where've you been?");
+  16 -> (1, "ERROR syntax error");
+  17 -> (1, "OK");
+  18 -> (2, "GOTUSERMSG alice on vacation");
+  19 -> (2, "ERROR never joined room");
   20 -> (0, "ERROR unknown user")
 ];

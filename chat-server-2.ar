@@ -165,7 +165,7 @@ using ChatServer2
       ;
 
     else
-      update pending_inputs(channel, (pend_data || new_data));
+      update pending_inputs(channel, (pend_data | new_data));
     ;
   }
 
@@ -279,7 +279,7 @@ using ChatServer2
 
     if check_res == :ok:
       fwd_msg = "GOTROOMMSG " & core_state.username(msg.sender) & " #" & msg.target & " " & msg.msg_text;
-      receivers = [r | r <- core_state.joined(?, msg.target)];
+      receivers = [r : r <- core_state.joined(?, msg.target)];
       for r @ i <- rand_sort(receivers):
         insert data_to_send(counter + i, (r, fwd_msg));
       ;
@@ -308,7 +308,7 @@ cell chat_server_2_wrapper
   rules:
     core_server <- message;
 
-    data_to_send = [id -> data | id : data <- core_server.data_to_send(?, ?)];
+    data_to_send = [id -> data : id, data <- core_server.data_to_send(?, ?)];
 
     //## DEBUGGING CODE
     msg_counter = core_server.msg_counter;
@@ -322,8 +322,8 @@ Bool RunAllChatServer2Tests()
 
   auto apply cs;
 
-  sorted_users = rand_sort(set((u | u, unused_var <- chat_server_test_data_1)));
-  conn_ids = merge(([u -> i] | u @ i <- sorted_users));
+  sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));
+  conn_ids = merge(([u -> i] : u @ i <- sorted_users));
 
   for i < size(conn_ids):
     auto cs.message = connect(i);

@@ -150,7 +150,7 @@ Bool RunBasicMethodTests(Any* test_data)
       (t.v2, t.v2), (t.d2, t.d2), (t.v2, t.d2), (t.d2, t.v2)
     );
 
-    act_res = (t.my_other_meth(id1, id2) | id1, id2 <- id_combs);
+    act_res = (t.my_other_meth(id1, id2) : id1, id2 <- id_combs);
 
     if act_res != exp_res:
       Print("ERROR (METHODS):\n");

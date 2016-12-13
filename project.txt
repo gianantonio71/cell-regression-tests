@@ -51,4 +51,4 @@ reactive/tern-table-0.ar
 
 reactive/rel-objs.ar
 
-reactive/reg-tests.ar
+reactive/main.ar

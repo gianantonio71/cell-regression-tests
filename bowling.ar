@@ -4,7 +4,7 @@ Nat* frames_offsets(Nat* throws)
   offsets = ();
   i = 0;
   while i < len and length(offsets) < 10:
-    offsets = (offsets || i);
+    offsets = (offsets | i);
     i = i + if throws(i) == 10 then 1 else 2;
   ;
   return offsets;
@@ -39,13 +39,13 @@ cell bowling
     throws : Nat* = ();
 
   rules:
-    throws = (throws || throw);
+    throws = (throws | throw);
     // throws = (throws || throw) : throw;
 
     throw_copy := throw;
 
     // frames_scores = frames_scores(throws);
-    frames_scores = (frame_score(throws, o) | o <- frames_offsets(throws));
+    frames_scores = (frame_score(throws, o) : o <- frames_offsets(throws));
 
     cumulative_scores = partial_sums(frames_scores);
 

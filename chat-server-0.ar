@@ -36,7 +36,7 @@ using ChatServer0CoreState
     update user_rooms  = remove_key(user_rooms, user);
 
     unaffected_rooms = remove_keys(room_users, rooms);
-    affected_rooms = [r -> users_left | r <- rooms, users_left = room_users[r] - [user], users_left != []];
+    affected_rooms = [r -> users_left : r <- rooms; users_left = room_users[r] - [user]; users_left != []];
     update room_users = unaffected_rooms & affected_rooms;
   }
 
@@ -122,7 +122,7 @@ using ChatServer0
       ;
 
     else
-      update pending_inputs = update(pending_inputs, channel, (pend_data || new_data));
+      update pending_inputs = update(pending_inputs, channel, (pend_data | new_data));
     ;
   }
 
@@ -239,7 +239,7 @@ using ChatServer0
     if is_logged_in:
       fwd_msg = "GOTROOMMSG " & core_state.user_names[sender] & " #" & target & " " & msg_text;
       receivers = rand_sort(lookup(core_state.room_users, target, []));
-      new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] | r @ i <- receivers));
+      new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] : r @ i <- receivers));
       msgs_sent = msgs_sent + length(receivers);
     ;
 
@@ -255,8 +255,8 @@ Bool RunAllChatServer0Tests()
 {
   auto cs : ChatServer0;
 
-  sorted_users = rand_sort(set((u | u, unused_var <- chat_server_test_data_1)));
-  conn_ids = merge(([u -> i] | u @ i <- sorted_users));
+  sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));
+  conn_ids = merge(([u -> i] : u @ i <- sorted_users));
 
   for i < size(conn_ids):
     auto ok = cs <- connect(i);

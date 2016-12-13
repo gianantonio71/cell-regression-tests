@@ -82,13 +82,13 @@ Bool RunBasicMineTest()
 
     errors = ();
     if mine.pump_must_be_on != po:
-      errors = (errors || "Pump-On error detected. Expected value: " & if po then "ON" else "OFF");
+      errors = (errors | "Pump-On error detected. Expected value: " & if po then "ON" else "OFF");
     ;
     if mine.evacuation_needed != en:
-      errors = (errors || "Evacuation-Needed error detected. Expected value: " & if en then "ON" else "OFF");
+      errors = (errors | "Evacuation-Needed error detected. Expected value: " & if en then "ON" else "OFF");
     ;
     if mine.error_detected != ed:
-      errors = (errors || "Error-Detected error detected. Expected value:" & if ed then "ON" else "OFF");
+      errors = (errors | "Error-Detected error detected. Expected value:" & if ed then "ON" else "OFF");
     ;
     if errors != ():
       Print("\n");
@@ -159,15 +159,15 @@ Bool RunNullMineTest()
     errors = ();
 
     if mine.pump_must_be_on?? and mine.pump_must_be_on != ref_mine.pump_must_be_on:
-      errors = (errors || "\nError: pump_must_be_on = " & printed(mine.pump_must_be_on));
+      errors = (errors | "\nError: pump_must_be_on = " & printed(mine.pump_must_be_on));
     ;
 
     if mine.evacuation_needed?? and mine.evacuation_needed != ref_mine.evacuation_needed:
-      errors = (errors || "\nError: evacuation_needed = " & printed(mine.evacuation_needed));
+      errors = (errors | "\nError: evacuation_needed = " & printed(mine.evacuation_needed));
     ;
 
     if mine.error_detected?? and mine.error_detected != ref_mine.error_detected:
-      errors = (errors || "\nError: error_detected = " & printed(mine.error_detected));
+      errors = (errors | "\nError: error_detected = " & printed(mine.error_detected));
     ;
 
     if errors != ():

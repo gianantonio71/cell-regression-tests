@@ -106,77 +106,77 @@ BinTableColsPerms <- <del_01(Nat, String)>
 
 using BinTableColsPerms
 {
-  (Nat, String) rel_a_dump = [(n, s) | n : s <- bin_rel_a(?, ?)];
-  (Nat, String) rel_b_dump = [(n, s) | n : s <- bin_rel_b(?, ?)];
-  (Nat, String) rel_c_dump = [(n, s) | n : s <- bin_rel_c(?, ?)];
-  (Nat, String) rel_d_dump = [(n, s) | n : s <- bin_rel_d(?, ?)];
+  (Nat, String) rel_a_dump = [(n, s) : n, s <- bin_rel_a(?, ?)];
+  (Nat, String) rel_b_dump = [(n, s) : n, s <- bin_rel_b(?, ?)];
+  (Nat, String) rel_c_dump = [(n, s) : n, s <- bin_rel_c(?, ?)];
+  (Nat, String) rel_d_dump = [(n, s) : n, s <- bin_rel_d(?, ?)];
 
-  (Nat, String) rel_a_dump_2 = [(n, s) | n : s <- bin_rel_a];
-  (Nat, String) rel_b_dump_2 = [(n, s) | n : s <- bin_rel_b];
-  (Nat, String) rel_c_dump_2 = [(n, s) | n : s <- bin_rel_c];
-  (Nat, String) rel_d_dump_2 = [(n, s) | n : s <- bin_rel_d];
+  (Nat, String) rel_a_dump_2 = [(n, s) : n, s <- bin_rel_a];
+  (Nat, String) rel_b_dump_2 = [(n, s) : n, s <- bin_rel_b];
+  (Nat, String) rel_c_dump_2 = [(n, s) : n, s <- bin_rel_c];
+  (Nat, String) rel_d_dump_2 = [(n, s) : n, s <- bin_rel_d];
 
   (Nat, String) rel_dumps = [
-      rel_a_dump,
-      rel_b_dump,
-      rel_c_dump,
-      rel_d_dump,
-      rel_a_dump_2,
-      rel_b_dump_2,
-      rel_c_dump_2,
+      rel_a_dump;
+      rel_b_dump;
+      rel_c_dump;
+      rel_d_dump;
+      rel_a_dump_2;
+      rel_b_dump_2;
+      rel_c_dump_2;
       rel_d_dump_2
     ];
 
   Bool is_ok = _len_(_isort_(rel_dumps)) == 1;
 
   [Bool] in(Nat n, String s) = [
-      bin_rel_a(n, s),
-      bin_rel_b(n, s),
-      bin_rel_c(n, s),
+      bin_rel_a(n, s);
+      bin_rel_b(n, s);
+      bin_rel_c(n, s);
       bin_rel_d(n, s)
     ];
 
   [Bool] in(Nat n) = [
-      bin_rel_a(n, ?),
-      bin_rel_b(n, ?),
-      bin_rel_c(n, ?),
+      bin_rel_a(n, ?);
+      bin_rel_b(n, ?);
+      bin_rel_c(n, ?);
       bin_rel_d(n, ?)
     ];
 
   [Bool] in(String s) = [
-      bin_rel_a(?, s),
-      bin_rel_b(?, s),
-      bin_rel_c(?, s),
+      bin_rel_a(?, s);
+      bin_rel_b(?, s);
+      bin_rel_c(?, s);
       bin_rel_d(?, s)
     ];
 
 
   [String] lookup(Nat n) = [
-      bin_rel_a(n),
-      bin_rel_b(n),
-      bin_rel_c(n),
+      bin_rel_a(n);
+      bin_rel_b(n);
+      bin_rel_c(n);
       bin_rel_d(n)
     ];
 
   [Nat] lookup(String s) = [
-      bin_rel_a(*, s),
-      bin_rel_b(*, s),
-      bin_rel_c(*, s),
+      bin_rel_a(*, s);
+      bin_rel_b(*, s);
+      bin_rel_c(*, s);
       bin_rel_d(*, s)
     ];
 
   [+[Nat]] projection(String s) = [
-      [n | n <- bin_rel_a(?, s)],
-      [n | n <- bin_rel_b(?, s)],
-      [n | n <- bin_rel_c(?, s)],
-      [n | n <- bin_rel_d(?, s)]
+      [n : n <- bin_rel_a(?, s)];
+      [n : n <- bin_rel_b(?, s)];
+      [n : n <- bin_rel_c(?, s)];
+      [n : n <- bin_rel_d(?, s)]
     ];
 
   [+[String]] projection(Nat n) = [
-      [s | s <- bin_rel_a(n, ?)],
-      [s | s <- bin_rel_b(n, ?)],
-      [s | s <- bin_rel_c(n, ?)],
-      [s | s <- bin_rel_d(n, ?)]
+      [s : s <- bin_rel_a(n, ?)];
+      [s : s <- bin_rel_b(n, ?)];
+      [s : s <- bin_rel_c(n, ?)];
+      [s : s <- bin_rel_d(n, ?)]
     ];
 }
 
@@ -292,7 +292,7 @@ Bool RunAllBinTableColsPermsTests()
     return false;
   ;
 
-  deleted = [8, 3, 7];
+  deleted = [8; 3; 7];
 
   for n, s <- test_data:
     rs01 = _isort_(a.in(n, s));
@@ -336,8 +336,8 @@ Bool conflict(T+ t1, T+ t2, [[+Nat]] keys)
   assert _len_(t1) == _len_(t2);
 
   for k <- isort(keys):
-    k1 = (f | f @ i <- t1, k(i));
-    k2 = (f | f @ i <- t2, k(i));
+    k1 = (f : f @ i <- t1; k(i));
+    k2 = (f : f @ i <- t2; k(i));
     return true if k1 == k2;
   ;
   return false;
@@ -361,7 +361,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
   for n <- ns; s <- ss:
     nt = (n, s);
-    exp_ok = not (t <- curr_tuples | conflict(nt, t, keys));
+    exp_ok = not (t <- curr_tuples : conflict(nt, t, keys));
     auto ok = a <- msg(nt);
     if ok != exp_ok:
       Print("ERROR ERROR ERROR\n");
@@ -372,7 +372,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
       return false;
     ;
     // Print("OK\n");
-    curr_tuples = _union_([curr_tuples, [nt]]) if ok;
+    curr_tuples = _union_([curr_tuples; [nt]]) if ok;
   ;
 
   return true;
@@ -382,7 +382,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 [Atom -> [[+Nat]]] bin_rels_keys_by_msg = (
     insert_a: [],
     insert_b: [[0]],
-    insert_c: [[0], [1]],
+    insert_c: [[0]; [1]],
     insert_d: [[1]]
   );
 
@@ -390,7 +390,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 Bool RunAllBinTableKeyCheckTests()
 {
   ok = nil;
-  for m, ks <- _isort_([(m, ks) | m : ks <- bin_rels_keys_by_msg]):
+  for m, ks <- _isort_([(m, ks) : m, ks <- bin_rels_keys_by_msg]):
     ok = RunBinTableKeyCheckTests(m, ks);
     if not ok:
       Print("ERROR ERROR ERROR!\n");
@@ -417,7 +417,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 
   for n <- ns; s <- ss:
     nt = (n, s);
-    exp_tuples = _union_([[t | t <- curr_tuples, not conflict(nt, t, keys)], [nt]]);
+    exp_tuples = _union_([[t : t <- curr_tuples; not conflict(nt, t, keys)]; [nt]]);
     auto ok = a <- msg(nt);
     if not ok:
       Print("ERROR (1)\n");
@@ -426,10 +426,10 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
       return false;
     ;
     new_tuples = match (msg)
-      update_a  = [(n1, s1) | n1 : s1 <- a.bin_rel_a],
-      update_b  = [(n1, s1) | n1 : s1 <- a.bin_rel_b(?, ?)],
-      update_c  = [(n1, s1) | n1 : s1 <- a.bin_rel_c],
-      update_d  = [(n1, s1) | n1 : s1 <- a.bin_rel_d(?, ?)];
+      update_a  = [(n1, s1) : n1, s1 <- a.bin_rel_a],
+      update_b  = [(n1, s1) : n1, s1 <- a.bin_rel_b(?, ?)],
+      update_c  = [(n1, s1) : n1, s1 <- a.bin_rel_c],
+      update_d  = [(n1, s1) : n1, s1 <- a.bin_rel_d(?, ?)];
 
     if new_tuples != exp_tuples:
       Print("ERROR (2)\n");
@@ -450,7 +450,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 [Atom -> [[+Nat]]] bin_rels_update_keys_by_msg = (
     update_a: [],
     update_b: [[0]],
-    update_c: [[0], [1]],
+    update_c: [[0]; [1]],
     update_d: [[1]]
   );
 
@@ -458,7 +458,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 Bool RunAllBinTableUpdateTests()
 {
   ok = nil;
-  for m, ks <- _isort_([(m, ks) | m : ks <- bin_rels_update_keys_by_msg]):
+  for m, ks <- _isort_([(m, ks) : m, ks <- bin_rels_update_keys_by_msg]):
     ok = RunBinTableUpdateTests(m, ks);
     if not ok:
       Print("\nERROR: Binary table update tests\n");
