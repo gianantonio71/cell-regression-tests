@@ -1,0 +1,525 @@
+type Money  = euro_cents(Nat), dollar_cents(Nat);
+type Time   = epoc_time(Nat);
+
+type CountryId  = country_id(Nat);
+type AirportId  = airport_id(Nat);
+type RouteId    = route_id(Nat);
+type FlightId   = flight_id(Nat);
+
+type CountryCode  = string(Nat, Nat);
+
+
+Money euro_cents(Nat n)   = :euro_cents(n);
+Money dollar_cents(Nat n) = :dollar_cents(n);
+Time  epoc_time(Nat n)    = :epoc_time(n);
+
+CountryId country_id(Nat n) = :country_id(n);
+AirportId airport_id(Nat n) = :airport_id(n);
+RouteId   route_id(Nat n)   = :route_id(n);
+FlightId  flight_id(Nat n)  = :flight_id(n);
+
+
+schema Flights
+{
+  country(CountryId):
+    code  : CountryCode,
+    name  : String;
+
+  airport(AirportId):
+    name      : String,
+    location  : CountryId;
+
+  flight_route(RouteId, AirportId, AirportId) [key: 0, key: 1:2];
+
+  departing(AirportId, RouteId) [key: 1];
+
+  flight(FlightId):
+    route     : RouteId,
+    departure : Time,
+    arrival   : Time,
+    price     : Money;
+}
+
+
+schema Travels
+{
+  budget    : Money      = euro_cents(0);
+  favorites : CountryId* = ();
+  visited   : CountryId* = ();
+
+  flights   : Flights;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+type FlightsData = (
+    countries : (CountryId, CountryCode, String)*,
+    airports  : (AirportId, String, CountryId)*,
+    routes    : (RouteId, AirportId, AirportId)*,
+    flights   : (FlightId, RouteId, Time, Time, Money)*
+  );
+
+type TravelsData = (
+    budget    : Money,
+    favorites : CountryId*,
+    visited   : CountryId*,
+    flights   : FlightsData
+  );
+
+////////////////////////////////////////////////////////////////////////////////
+
+type PopulateFlights = populate_flights(data: FlightsData);
+
+
+Flights <- PopulateFlights
+{
+  delete country(?), code(?, ?), name(?, ?);
+  for id, code, name <- it.data.countries:
+    insert country(id), code(id, code), name(id, name);
+  ;
+
+  delete airport(?), name(?, ?), location(?, ?);
+  for id, name, country <- it.data.airports:
+    insert airport(id), name(id, name), location(id, country);
+  ;
+
+  delete flight_route(?, ?, ?);
+  for id, from, to <- it.data.routes:
+    insert flight_route(id, from, to);
+    insert departing(from, id);
+  ;
+
+  delete flight(?), route(?, ?), departure(?, ?), arrival(?, ?), price(?, ?);
+  for id, route, departure, arrival, price <- it.data.flights:
+    insert flight(id), route(id, route), departure(id, departure), arrival(id, arrival), price(id, price);
+  ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+type PopulateTravels = populate_travels(data: TravelsData);
+
+
+Travels <- PopulateTravels
+{
+  update budget = it.data.budget;
+  update favorites = it.data.favorites;
+  update visited = it.data.visited;
+  flights <- populate_flights(data: it.data.flights);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+(CountryId, CountryCode, String)+ countries = (
+    (country_id(0), "it", "Italy"),
+    (country_id(1), "uk", "Great Britain"),
+    (country_id(2), "es", "Spain")
+  );
+
+
+(AirportId, String, CountryId)+ airports = (
+    (airport_id(0), "Venice",         country_id(0)),
+    (airport_id(1), "Milan",          country_id(0)),
+    (airport_id(2), "Treviso",        country_id(0)),
+    (airport_id(3), "London",         country_id(1)),
+    (airport_id(4), "Leeds",          country_id(1)),
+    (airport_id(5), "Tenerife",       country_id(2)),
+    (airport_id(6), "Tenerife South", country_id(2)),
+    (airport_id(7), "Gran Canaria",   country_id(2))
+  );
+
+
+(RouteId, AirportId, AirportId)+ routes = (
+    (route_id(0),   airport_id(0),  airport_id(3)),
+    (route_id(1),   airport_id(0),  airport_id(5)),
+    (route_id(2),   airport_id(1),  airport_id(3)),
+    (route_id(3),   airport_id(1),  airport_id(7)),
+    (route_id(4),   airport_id(2),  airport_id(3)),
+    (route_id(5),   airport_id(2),  airport_id(4)),
+    (route_id(6),   airport_id(2),  airport_id(5)),
+    (route_id(7),   airport_id(3),  airport_id(0)),
+    (route_id(8),   airport_id(3),  airport_id(1)),
+    (route_id(9),   airport_id(3),  airport_id(2)),
+    (route_id(10),  airport_id(3),  airport_id(5)),
+    (route_id(11),  airport_id(3),  airport_id(6)),
+    (route_id(12),  airport_id(3),  airport_id(7)),
+    (route_id(13),  airport_id(4),  airport_id(5)),
+    (route_id(14),  airport_id(4),  airport_id(7)),
+    (route_id(15),  airport_id(5),  airport_id(0)),
+    (route_id(16),  airport_id(5),  airport_id(2)),
+    (route_id(17),  airport_id(5),  airport_id(3)),
+    (route_id(18),  airport_id(5),  airport_id(4)),
+    (route_id(19),  airport_id(7),  airport_id(1)),
+    (route_id(20),  airport_id(7),  airport_id(3))
+  );
+
+
+(FlightId, RouteId, Time, Time, Money)+ flights = randomly_generated_flights((r : r, f, t <- routes), 40);
+
+
+FlightsData flights_data = (
+    countries:  countries,
+    airports:   airports,
+    routes:     routes,
+    flights:    flights
+  );
+
+
+TravelsData travels_data = (
+    budget:     euro_cents(120000),
+    favorites:  (country_id(2)),
+    visited:    (country_id(i) : i <= 2),
+    flights:    flights_data
+  );
+
+////////////////////////////////////////////////////////////////////////////////
+
+(CountryId, CountryCode, String)+ countries_2 = (
+    (country_id(0), "it", "Italy"),
+    (country_id(2), "fr", "France"),
+    (country_id(4), "ie", "Ireland"),
+    (country_id(5), "de", "Germany"),
+    (country_id(6), "es", "Spain")
+  );
+
+
+(AirportId, String, CountryId)+ airports_2 = (
+    (airport_id(0), "Venice",     country_id(0)),
+    (airport_id(1), "Milan",      country_id(0)),
+    (airport_id(2), "Treviso",    country_id(0)),
+
+    (airport_id(3), "Paris",      country_id(2)),
+    (airport_id(4), "Lione",      country_id(2)),
+
+    (airport_id(5), "Dublin",     country_id(4)),
+    (airport_id(6), "Cork",       country_id(4)),
+
+    (airport_id(7), "Frankfurt",  country_id(5)),
+
+    (airport_id(8), "Barcelona",  country_id(6)),
+    (airport_id(9), "Madrid",     country_id(6))
+  );
+
+
+(RouteId, AirportId, AirportId)+ routes_2 = randomly_generated_routes((a : a, n, c <- airports_2), 5);
+
+
+(FlightId, RouteId, Time, Time, Money)+ flights_2 = randomly_generated_flights((r : r, f, t <- routes_2), 50);
+
+
+FlightsData flights_data_2 = (
+    countries:  countries_2,
+    airports:   airports_2,
+    routes:     routes_2,
+    flights:    flights_2
+  );
+
+
+TravelsData travels_data_2 = (
+    budget:     euro_cents(180000),
+    favorites:  (country_id(i) : i <- (2, 6)),
+    visited:    (id : id, code, name <- countries_2),
+    flights:    flights_data_2
+  );
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+(RouteId, AirportId, AirportId)+ randomly_generated_routes(AirportId+ airports, NzNat count)
+{
+  assert _len_(airports) :: <2..*>;
+
+  ac = _len_(airports);
+  fail if ac == 0;
+
+  rs = ();
+  for i < count:
+    from = airports(_rand_nat_(ac));
+    to = airports(_rand_nat_(ac));
+    while to == from:
+      to = airports(_rand_nat_(ac));
+    ;
+    rs = (rs | (route_id(i), from, to));
+  ;
+
+  fail if rs == ();
+  return rs;
+}
+
+
+(FlightId, RouteId, Time, Time, Money)+ randomly_generated_flights(RouteId+ rs, NzNat count)
+{
+  min_epoc_time = 1000000;
+  fs = ();
+  rc = _len_(rs);
+  fail if rc == 0;
+  for i < count:
+    r = rs(_rand_nat_(rc));
+    dt = nat(min_epoc_time + _rand_nat_(1000));
+    at = nat(dt + _rand_nat_(20));
+    p = nat(99 + 100 * _rand_nat_(40));
+    data = (flight_id(i), r,  epoc_time(dt), epoc_time(at), euro_cents(p));
+    fs = (fs | data);
+  ;
+  fail if fs == ();
+  return fs;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+type FlightsState = ( country:      [CountryId],
+                      airport:      [AirportId],
+                      flight:       [FlightId],
+
+                      code:         [CountryId              -> CountryCode],
+                      name:         [<CountryId, AirportId> -> String],
+                      location:     [AirportId              -> CountryId],
+                      route:        [FlightId               -> RouteId],
+                      departure:    [FlightId               -> Time],
+                      arrival:      [FlightId               -> Time],
+                      price:        [FlightId               -> Money],
+
+                      flight_route: [RouteId, AirportId, AirportId],
+
+                      departing:    [AirportId, RouteId]
+                    );
+
+FlightsState flights_state(FlightsData data) = (
+    country:      [t(0) : t <- set(data.countries)],
+    airport:      [t(0) : t <- set(data.airports)],
+    flight:       [t(0) : t <- set(data.flights)],
+    code:         [t(0) -> t(1) : t <- set(data.countries)],
+    name:         [t(0) -> t(2) : t <- set(data.countries)] &
+                  [t(0) -> t(1) : t <- set(data.airports)],
+    location:     [t(0) -> t(2) : t <- set(data.airports)],
+    route:        [t(0) -> t(1) : t <- set(data.flights)],
+    departure:    [t(0) -> t(2) : t <- set(data.flights)],
+    arrival:      [t(0) -> t(3) : t <- set(data.flights)],
+    price:        [t(0) -> t(4) : t <- set(data.flights)],
+    flight_route: [t(0), t(1), t(2) : t <- set(data.routes)],
+    departing:    [t(1), t(0) : t <- set(data.routes)]
+  );
+
+////////////////////////////////////////////////////////////////////////////////
+
+type TravelsState = (
+    budget    : Money,
+    favorites : CountryId*,
+    visited   : CountryId*,
+    flights   : FlightsState
+  );
+
+
+TravelsState travels_state(TravelsData data) = (
+    budget:     data.budget,
+    favorites:  data.favorites,
+    visited:    data.visited,
+    flights:    flights_state(data.flights)
+  );
+
+////////////////////////////////////////////////////////////////////////////////
+
+Bool RunFlightsTests()
+{
+  auto fsdb : Flights;
+
+  ok = nil; //## FIX THE BUG WHEN REMOVING THIS...
+
+  d0 = (countries: (), airports: (), routes: (), flights: ());
+  d1 = flights_data;
+  d2 = flights_data_2;
+
+  s0 = flights_state(d0);
+  s1 = flights_state(d1);
+  s2 = flights_state(d2);
+
+  auto read s <- fsdb;
+  if s != s0:
+    Print("ERROR! (A)");
+    return false;
+  ;
+
+  auto ok = fsdb <- populate_flights(data: d1);
+  if not ok:
+    Print("ERROR! (B)");
+    return false;
+  ;
+
+  auto read s <- fsdb;
+  if s != s1:
+    Print("ERROR! (C)");
+    return false;
+  ;
+
+  auto restore ok = fsdb <- s2;
+  if not ok:
+    Print("ERROR! (D)");
+    return false;
+  ;
+
+  auto read s <- fsdb;
+  if s != s2:
+    Print("ERROR! (E)");
+    return false;
+  ;
+
+  auto restore ok = fsdb <- s1;
+  if not ok:
+    Print("ERROR! (F)");
+    return false;
+  ;
+
+  auto read s <- fsdb;
+  if s != s1:
+    Print("ERROR! (G)");
+    return false;
+  ;
+
+  auto ok = fsdb <- populate_flights(data: d2);
+  if ok:
+    Print("ERROR! (H)");
+    return false;
+  ;
+
+  auto read s <- fsdb;
+  if s != s1:
+    Print("ERROR! (I)");
+    return false;
+  ;
+
+  auto restore ok = fsdb <- s0;
+  if not ok:
+    Print("ERROR! (L)");
+    return false;
+  ;
+
+  auto read s <- fsdb;
+  if s != s0:
+    Print("ERROR! (M)");
+    return false;
+  ;
+
+  auto ok = fsdb <- populate_flights(data: d2);
+  if not ok:
+    Print("ERROR! (N)");
+    return false;
+  ;
+
+  auto read s <- fsdb;
+  if s != s2:
+    Print("ERROR! (O)");
+    return false;
+  ;
+
+  return true;
+}
+
+
+Bool RunTravelsTests()
+{
+  auto tdb : Travels;
+
+  ok = nil; //## FIX THE BUG WHEN REMOVING THIS...
+
+  d0 = (
+    budget:    euro_cents(0),
+    favorites: (),
+    visited:   (),
+    flights:   (countries: (), airports: (), routes: (), flights: ())
+  );
+  d1 = travels_data;
+  d2 = travels_data_2;
+
+  s0 = travels_state(d0);
+  s1 = travels_state(d1);
+  s2 = travels_state(d2);
+
+  auto read s <- tdb;
+  if s != s0:
+    Print("ERROR! (Travels: 0)\n");
+    return false;
+  ;
+
+  auto ok = tdb <- populate_travels(data: d1);
+  if not ok:
+    Print("ERROR! (Travels: 1)\n");
+    return false;
+  ;
+
+  auto read s <- tdb;
+  if s != s1:
+    Print("ERROR! (Travels: 2)\n");
+    return false;
+  ;
+
+  auto restore ok = tdb <- s2;
+  if not ok:
+    Print("ERROR! (Travels: 4)\n");
+    return false;
+  ;
+
+  auto read s <- tdb;
+  if s != s2:
+    Print("ERROR! (Travels: 5)\n");
+    return false;
+  ;
+
+  auto restore ok = tdb <- s1;
+  if not ok:
+    Print("ERROR! (Travels: 6)\n");
+    return false;
+  ;
+
+  auto read s <- tdb;
+  if s != s1:
+    Print("ERROR! (Travels: 7)\n");
+    return false;
+  ;
+
+  auto ok = tdb <- populate_travels(data: d2);
+  if ok:
+    Print("ERROR! (Travels: 8)\n");
+    return false;
+  ;
+
+  auto read s <- tdb;
+  if s != s1:
+    Print("ERROR! (Travels: 9)\n");
+    return false;
+  ;
+
+  auto restore ok = tdb <- s0;
+  if not ok:
+    Print("ERROR! (Travels: 10)\n");
+    return false;
+  ;
+
+  auto read s <- tdb;
+  if s != s0:
+    Print("ERROR! (Travels: 11)\n");
+    return false;
+  ;
+
+  auto ok = tdb <- populate_travels(data: d2);
+  if not ok:
+    Print("ERROR! (Travels: 12)\n");
+    return false;
+  ;
+
+  auto read s <- tdb;
+  if s != s2:
+    Print("ERROR! (Travels: 13)\n");
+    return false;
+  ;
+
+  return true;
+}
+
+
+Bool RunAllPersistence0Tests()
+{
+  ok = RunFlightsTests();
+  return false if not ok;
+  ok = RunTravelsTests();
+  return ok;
+}

@@ -201,5 +201,10 @@ Main(String* args)
   return if not ok;
   Print("OK\n");
 
+  Print("  Persistence 0                            ");
+  ok = RunAllPersistence0Tests();
+  return if not ok;
+  Print("OK\n");
+
   Print("\nAll tests successful\n");
 }

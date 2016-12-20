@@ -51,4 +51,6 @@ reactive/tern-table-0.ar
 
 reactive/rel-objs.ar
 
+reactive/persistence-0.ar
+
 reactive/main.ar
