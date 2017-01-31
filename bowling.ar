@@ -1,11 +1,13 @@
 Nat* frames_offsets(Nat* throws)
 {
+  i : Nat;
+
   len = length(throws);
   offsets = ();
   i = 0;
   while i < len and length(offsets) < 10:
     offsets = (offsets | i);
-    i = i + if throws(i) == 10 then 1 else 2;
+    i = nat(i + if throws(i) == 10 then 1 else 2);
   ;
   return offsets;
 }
