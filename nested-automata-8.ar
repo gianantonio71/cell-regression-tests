@@ -1,7 +1,7 @@
 type SomeCounterMgs = reset, incr_counter(Nat);
 
 
-cell some_counter
+reactive some_counter
 {
   input:
     an_input : Ta;
@@ -22,7 +22,7 @@ cell some_counter
 }
 
 
-cell test_1
+reactive test_1
 {
   input:
     my_input  : Ta;
@@ -45,7 +45,7 @@ cell test_1
 }
 
 
-cell test_2
+reactive test_2
 {
   input:
     increment : Nat?;

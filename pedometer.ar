@@ -22,7 +22,7 @@ Float point_to_point_distance(PointF p1, PointF p2)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-cell pedometer_0
+reactive pedometer_0
 {
   input:
     has_moved     : Bool;
@@ -51,7 +51,7 @@ cell pedometer_0
 
 ////////////////////////////////////////////////////////////////////////////////
 
-cell pedometer
+reactive pedometer
 {
   input:
     position : PointF;

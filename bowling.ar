@@ -25,7 +25,7 @@ Nat frame_score(Nat* throws, Nat offset)
 // [Nat] frames_scores([Nat] throws) = [frame_score(throws, o) : o <- frames_offsets(throws)];
 
 
-cell bowling
+reactive bowling
 {
   input:
     throw : Nat?;

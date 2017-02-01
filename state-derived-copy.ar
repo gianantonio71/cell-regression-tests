@@ -1,4 +1,4 @@
-cell state_derived_copy
+reactive state_derived_copy
 {
   input:
     i1 : Ta;

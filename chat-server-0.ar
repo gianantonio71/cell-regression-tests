@@ -36,7 +36,7 @@ using ChatServer0CoreState
     update user_rooms  = remove_key(user_rooms, user);
 
     unaffected_rooms = remove_keys(room_users, rooms);
-    affected_rooms = [r -> users_left : r <- rooms; users_left = room_users[r] - [user]; users_left != []];
+    affected_rooms = [r -> users_left : r <- rooms, users_left = room_users[r] - [user], users_left != []];
     update room_users = unaffected_rooms & affected_rooms;
   }
 

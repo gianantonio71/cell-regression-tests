@@ -53,7 +53,7 @@ using ChatServer1CoreState
                                                                 else :ok;
 
 
-  ActionCheck action_check(ChatServerCoreAction action):
+  ActionCheck action_check(ChatServerCoreAction action) =
     login()   = login_check(action.user, action.name),
     logout()  = logout_check(action.user),
     join()    = join_room_check(action.user),
@@ -90,7 +90,7 @@ using ChatServer1CoreState
     update user_rooms  = remove_key(user_rooms, user);
 
     unaffected_rooms = remove_keys(room_users, rooms);
-    affected_rooms = [r -> users_left : r <- rooms; users_left = room_users[r] - [user]; users_left != []];
+    affected_rooms = [r -> users_left : r <- rooms, users_left = room_users[r] - [user], users_left != []];
     update room_users = unaffected_rooms & affected_rooms;
   }
 
@@ -132,7 +132,7 @@ using ChatServer1CoreState
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-cell safe_chat_server_1_core_state
+reactive safe_chat_server_1_core_state
 {
   input:
     action : ChatServerCoreAction?;
@@ -328,7 +328,7 @@ using ChatServer1
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-cell chat_server_1_wrapper
+reactive chat_server_1_wrapper
 {
   input:
     message : ChatServerMsg?;

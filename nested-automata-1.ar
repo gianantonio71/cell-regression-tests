@@ -1,4 +1,4 @@
-cell filtered_history
+reactive filtered_history
 {
   input:
     input : Ta?;
@@ -16,7 +16,7 @@ cell filtered_history
 }
 
 
-cell nested_automata_1
+reactive nested_automata_1
 {
   input:
     i : Ta?;

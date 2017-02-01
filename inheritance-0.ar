@@ -1,4 +1,4 @@
-cell base
+reactive base
 {
   input:
     in_a : Ta;
@@ -14,21 +14,21 @@ cell base
 }
 
 
-cell derived : base
+reactive derived : base
 {
   rules:
     out_a = if in_a == :a1 then :a8 else in_a;
 }
 
 
-cell twice_derived : derived
+reactive twice_derived : derived
 {
   rules:
     out_b = if in_b == :b1 then :b8 else in_b;
 }
 
 
-cell input_overriding : base
+reactive input_overriding : base
 {
   input:
    new_in_a : Ta;

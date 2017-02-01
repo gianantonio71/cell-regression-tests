@@ -1,4 +1,4 @@
-cell fps50_a
+reactive fps50_a
 {
   input:
     enabled : Bool;
@@ -17,7 +17,7 @@ cell fps50_a
 }
 
 
-cell fps50_b
+reactive fps50_b
 {
   input:
     enabled : Bool;
@@ -36,7 +36,7 @@ cell fps50_b
 }
 
 
-cell nested_automata_3
+reactive nested_automata_3
 {
   input:
     unused_input : Ta;

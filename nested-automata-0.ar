@@ -1,4 +1,4 @@
-cell full_history
+reactive full_history
 {
   input:
     input : Ta;
@@ -14,7 +14,7 @@ cell full_history
 }
 
 
-cell full_history_client
+reactive full_history_client
 {
   input:
     i : Ta;

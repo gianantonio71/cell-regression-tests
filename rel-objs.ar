@@ -2,11 +2,11 @@ type Point  = point(x: Int, y: Int);
 
 Point point(Int x, Int y) = point(x: x, y: y);
 
-[String] rel_objs_strings   = ["alpha"; "beta"; "delta"; "gamma"];
-[Int]    rel_objs_integers  = [1; 3; 5; 7; 11];
-[Point]  rel_objs_points    = [point(1, 0); point(0, 1); point(-1, 0); point(0, -1)];
+[String] rel_objs_strings   = ["alpha", "beta", "delta", "gamma"];
+[Int]    rel_objs_integers  = [1, 3, 5, 7, 11];
+[Point]  rel_objs_points    = [point(1, 0), point(0, 1), point(-1, 0), point(0, -1)];
 
-[(String, Int, Point)] rel_objs_triples = [(s, n, p) : s <- rel_objs_strings; n <- rel_objs_integers; p <- rel_objs_points];
+[(String, Int, Point)] rel_objs_triples = [(s, n, p) : s <- rel_objs_strings, n <- rel_objs_integers, p <- rel_objs_points];
 
 
 Bool RunTernRelObjsTests()
@@ -18,8 +18,8 @@ Bool RunTernRelObjsTests()
   all_rels = ();
 
   for i < 20:
-    a_few_triples = [(t(0), t(1), t(2), j) : t <- rel_objs_triples; j <- [0; 1]; one_in(3)];
-    a_rel = [s, n, p : t <- a_few_triples; (s?, n?, p?, _) <~ t];
+    a_few_triples = [(t(0), t(1), t(2), j) : t <- rel_objs_triples, j <- [0, 1], one_in(3)];
+    a_rel = [s, n, p : t <- a_few_triples, (s?, n?, p?, _) ?= t];
 
     all_rels = (all_rels | a_rel);
 
@@ -49,8 +49,8 @@ Bool RunTernRelObjsTests()
       return false;
     ;
 
-    just_the_triples = [(s, n, p) : t <- a_few_triples; (s?, n?, p?, _) <~ t];
-    errors = [t : t <- rel_objs_triples; just_the_triples(t) != a_rel(t(0), t(1), t(2))];
+    just_the_triples = [(s, n, p) : t <- a_few_triples, (s?, n?, p?, _) ?= t];
+    errors = [t : t <- rel_objs_triples, just_the_triples(t) != a_rel(t(0), t(1), t(2))];
     if errors != []:
       Print("Error!\n");
       print just_the_triples;
@@ -61,7 +61,7 @@ Bool RunTernRelObjsTests()
 
     for an_s <- ss:
       prj = [n, p : n, p <- a_rel(an_s, ?, ?)];
-      ref_prj = [n, p : t <- a_few_triples; (s?, n?, p?, _) <~ t; s == an_s];
+      ref_prj = [n, p : t <- a_few_triples, (s?, n?, p?, _) ?= t, s == an_s];
       if prj != ref_prj:
         Print("Error (1)!\n");
         print a_few_triples;
@@ -75,7 +75,7 @@ Bool RunTernRelObjsTests()
 
     for an_n <- ns:
       prj = [s, p : s, p <- a_rel(?, an_n, ?)];
-      ref_prj = [s, p : t <- a_few_triples; (s?, n?, p?, _) <~ t; n == an_n];
+      ref_prj = [s, p : t <- a_few_triples, (s?, n?, p?, _) ?= t, n == an_n];
       if prj != ref_prj:
         Print("Error (2)!\n");
         print a_few_triples;
@@ -89,7 +89,7 @@ Bool RunTernRelObjsTests()
 
     for a_p <- ps:
       prj = [s, n : s, n <- a_rel(?, ?, a_p)];
-      ref_prj = [s, n : t <- a_few_triples; (s?, n?, p?, _) <~ t; p == a_p];
+      ref_prj = [s, n : t <- a_few_triples, (s?, n?, p?, _) ?= t, p == a_p];
       if prj != ref_prj:
         Print("Error (3)!\n");
         print a_few_triples;
@@ -104,7 +104,7 @@ Bool RunTernRelObjsTests()
     for an_s <- ss:
       for an_n <- ns:
         prj = [p : p <- a_rel(an_s, an_n, ?)];
-        ref_prj = [p : t <- a_few_triples; (s?, n?, p?, _) <~ t; s == an_s; n == an_n];
+        ref_prj = [p : t <- a_few_triples, (s?, n?, p?, _) ?= t, s == an_s, n == an_n];
         if prj != ref_prj:
           Print("Error (1/2)!\n");
           print a_few_triples;
@@ -120,7 +120,7 @@ Bool RunTernRelObjsTests()
     for an_s <- ss:
       for a_p <- ps:
         prj = [n : n <- a_rel(an_s, ?, a_p)];
-        ref_prj = [n : t <- a_few_triples; (s?, n?, p?, _) <~ t; s == an_s; p == a_p];
+        ref_prj = [n : t <- a_few_triples, (s?, n?, p?, _) ?= t, s == an_s, p == a_p];
         if prj != ref_prj:
           Print("Error (1/3)!\n");
           print a_few_triples;
@@ -136,7 +136,7 @@ Bool RunTernRelObjsTests()
     for an_n <- ns:
       for a_p <- ps:
         prj = [s : s <- a_rel(?, an_n, a_p)];
-        ref_prj = [s : t <- a_few_triples; (s?, n?, p?, _) <~ t; n == an_n; p == a_p];
+        ref_prj = [s : t <- a_few_triples, (s?, n?, p?, _) ?= t, n == an_n, p == a_p];
         if prj != ref_prj:
           Print("Error (2/3)!\n");
           print a_few_triples;
@@ -164,8 +164,8 @@ Bool RunBinRelObjsTests1()
   all_rels = ();
 
   for i < 20:
-    a_few_pairs = [(t(0), t(2), j) : t <- rel_objs_triples; j <- [0; 1]; one_in(2)];
-    a_rel = [s, p : t <- a_few_pairs; (s?, p?, _) <~ t];
+    a_few_pairs = [(t(0), t(2), j) : t <- rel_objs_triples, j <- [0, 1], one_in(2)];
+    a_rel = [s, p : t <- a_few_pairs, (s?, p?, _) ?= t];
 
     all_rels = (all_rels | a_rel);
 
@@ -184,8 +184,8 @@ Bool RunBinRelObjsTests1()
       return false;
     ;
 
-    just_the_pairs = [(s, p) : t <- a_few_pairs; (s?, p?, _) <~ t];
-    errors = [t : t <- rel_objs_triples; just_the_pairs((t(0), t(2))) != a_rel(t(0), t(2))];
+    just_the_pairs = [(s, p) : t <- a_few_pairs, (s?, p?, _) ?= t];
+    errors = [t : t <- rel_objs_triples, just_the_pairs((t(0), t(2))) != a_rel(t(0), t(2))];
     if errors != []:
       Print("Error!\n");
       print just_the_pairs;
@@ -196,7 +196,7 @@ Bool RunBinRelObjsTests1()
 
     for an_s <- ss:
       prj = [p : p <- a_rel(an_s, ?)];
-      ref_prj = [p : t <- a_few_pairs; (s?, p?, _) <~ t; s == an_s];
+      ref_prj = [p : t <- a_few_pairs, (s?, p?, _) ?= t, s == an_s];
       if prj != ref_prj:
         Print("Error (1)!\n");
         print a_few_pairs;
@@ -210,7 +210,7 @@ Bool RunBinRelObjsTests1()
 
     for a_p <- ps:
       prj = [s : s <- a_rel(?, a_p)];
-      ref_prj = [s : t <- a_few_pairs; (s?, p?, _) <~ t; p == a_p];
+      ref_prj = [s : t <- a_few_pairs, (s?, p?, _) ?= t, p == a_p];
       if prj != ref_prj:
         Print("Error (2)!\n");
         print a_few_pairs;

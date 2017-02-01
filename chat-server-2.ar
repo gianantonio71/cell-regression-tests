@@ -37,7 +37,7 @@ using ChatServer2CoreState
     else
       :ok;
 
-  ActionCheck action_check(ChatServerCoreAction action):
+  ActionCheck action_check(ChatServerCoreAction action) =
     login()   = login_check(action.user, action.name),
     logout()  = logout_check(action.user),
     join()    = join_room_check(action.user),
@@ -100,7 +100,7 @@ schema ChatServer2
 
 using ChatServer2
 {
-  ActionCheck action_check(ChatServerCoreAction action):
+  ActionCheck action_check(ChatServerCoreAction action) =
     login()   = core_state.login_check(action.user, action.name),
     logout()  = core_state.logout_check(action.user),
     join()    = core_state.join_room_check(action.user),
@@ -292,7 +292,7 @@ using ChatServer2
 
 ////////////////////////////////////////////////////////////////////////////////
 
-cell chat_server_2_wrapper
+reactive chat_server_2_wrapper
 {
   input:
     message : ChatServerMsg?;

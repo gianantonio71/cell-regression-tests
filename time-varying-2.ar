@@ -1,4 +1,4 @@
-cell time_varying_2
+reactive time_varying_2
 {
   input:
     i : Ta;

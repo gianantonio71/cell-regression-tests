@@ -1,4 +1,4 @@
-cell since
+reactive since
 {
   input:
     an_input : Any?;
@@ -16,7 +16,7 @@ cell since
 }
 
 
-cell since_test
+reactive since_test
 {
   input:
     an_input : Ta?;
@@ -44,7 +44,7 @@ Bool RunSinceTest0()
   ;
 
   for 100:
-    auto ta.an_input = _rand_elem_([:a0; :a1; :a2; :a3; :a4; :a5; :a6; :a7; :a8; :a9]);
+    auto ta.an_input = _rand_elem_([:a0, :a1, :a2, :a3, :a4, :a5, :a6, :a7, :a8, :a9]);
     auto apply ta;
     time_since_change = 0;
     for 10:

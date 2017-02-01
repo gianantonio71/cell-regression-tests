@@ -1,4 +1,4 @@
-cell y_comb
+reactive y_comb
 {
   input:
     ia : Ta;

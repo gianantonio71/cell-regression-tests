@@ -1,4 +1,4 @@
-cell complex_init
+reactive complex_init
 {
   input:
     i : Ta;

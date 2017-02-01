@@ -1,4 +1,4 @@
-cell filter
+reactive filter
 {
   input:  i : Ta;
   output: o : Ta;

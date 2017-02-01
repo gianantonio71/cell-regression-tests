@@ -1,12 +1,12 @@
 type NestedCmd5 = reset, set_counter(Nat);
 
 
-Nat update_counter(NestedCmd5 cmd, Nat counter):
+Nat update_counter(NestedCmd5 cmd, Nat counter) =
   reset           = 0,
   set_counter(n?) = n;
 
 
-cell nested_automata_5_some_counter
+reactive nested_automata_5_some_counter
 {
   input:
     an_input : Ta;
@@ -32,20 +32,20 @@ cell nested_automata_5_some_counter
 type Cmd5 = reset_1, reset_2, set_counters(Nat, Nat), set_incremented_counters(Nat, Nat);
 
 
-Nat update_counter(Cmd5 cmd, Nat counter):
+Nat update_counter(Cmd5 cmd, Nat counter) =
   reset_1 | reset_2               = 0,
   set_counters(c?, _)             = c,
   set_incremented_counters(c?, _) = nat(c + 1);
 
 
-NestedCmd5 nested_counter_command(Cmd5 cmd):
+NestedCmd5 nested_counter_command(Cmd5 cmd) =
   reset_1                           = :reset,
   reset_2                           = :set_counter(0),
   set_counters(_, n?)               = :set_counter(n),
   set_incremented_counters(_, n?)   = :set_counter(nat(n+1));
 
 
-cell nested_automata_5
+reactive nested_automata_5
 {
   input:
     my_input : Ta;

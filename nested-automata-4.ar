@@ -1,4 +1,4 @@
-cell cont_to_disc
+reactive cont_to_disc
 {
   input:
     an_input : Ta;
@@ -10,7 +10,7 @@ cell cont_to_disc
     an_output := nil if an_input == :a0 or an_input == :a3;
 }
 
-cell cont_to_disc_client
+reactive cont_to_disc_client
 {
   input:
     my_input : Ta;

@@ -17,13 +17,13 @@ PolyMsg accumulate(Int n) = if   n ==  1  then increment
                                           else :accumulate(n);
 
 
-Int variation(PolyMsg msg):
+Int variation(PolyMsg msg) =
   increment       = 1,
   decrement       = -1,
   accumulate(n?)  = n;
 
 
-PolyMsg sequential_combine(PolyMsg msg1, PolyMsg msg2):
+PolyMsg sequential_combine(PolyMsg msg1, PolyMsg msg2) =
   _,            reset()   = msg2,
   reset(x?),    _         = :reset(x + variation(msg2)),
   _,            _         = accumulate(variation(msg1) + variation(msg2));
@@ -91,7 +91,7 @@ using PolymorphicMethodsInnerCounter
 }
 
 
-cell polymorphic_methods_some_counter
+reactive polymorphic_methods_some_counter
 {
   input:
     an_input : Ta;
@@ -117,7 +117,7 @@ cell polymorphic_methods_some_counter
 }
 
 
-cell polymorphic_methods_1
+reactive polymorphic_methods_1
 {
   input:
     my_input : Ta;
@@ -146,7 +146,7 @@ cell polymorphic_methods_1
 }
 
 
-cell polymorphic_methods_2
+reactive polymorphic_methods_2
 {
   input:
     my_input : Ta;

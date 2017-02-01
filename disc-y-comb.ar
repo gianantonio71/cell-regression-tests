@@ -4,7 +4,7 @@ type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
 type Tab = Ta, Tb;
 
 
-cell disc_y_comb
+reactive disc_y_comb
 {
   input:
     ia : Ta?;

@@ -339,256 +339,256 @@ using TernTableColsPerms
   (Nat, String, Point) rel_k_dump_2 = [(n, s, p) : n, s, p <- tern_rel_k];
 
   (Nat, String, Point) rel_dumps = [
-      rel_a_dump;
-      rel_b_dump;
-      rel_c_dump;
-      rel_d_dump;
-      rel_e_dump;
-      rel_f_dump;
-      rel_g_dump;
-      rel_h_dump;
-      rel_i_dump;
-      rel_j_dump;
-      rel_k_dump;
-      rel_a_dump_2;
-      rel_b_dump_2;
-      rel_c_dump_2;
-      rel_d_dump_2;
-      rel_e_dump_2;
-      rel_f_dump_2;
-      rel_g_dump_2;
-      rel_h_dump_2;
-      rel_i_dump_2;
-      rel_j_dump_2;
+      rel_a_dump,
+      rel_b_dump,
+      rel_c_dump,
+      rel_d_dump,
+      rel_e_dump,
+      rel_f_dump,
+      rel_g_dump,
+      rel_h_dump,
+      rel_i_dump,
+      rel_j_dump,
+      rel_k_dump,
+      rel_a_dump_2,
+      rel_b_dump_2,
+      rel_c_dump_2,
+      rel_d_dump_2,
+      rel_e_dump_2,
+      rel_f_dump_2,
+      rel_g_dump_2,
+      rel_h_dump_2,
+      rel_i_dump_2,
+      rel_j_dump_2,
       rel_k_dump_2
     ];
 
   Bool is_ok = _len_(_isort_(rel_dumps)) == 1;
 
   [Bool] in(Nat n, String s, Point p) = [
-      tern_rel_a(n, s, p);
-      tern_rel_b(n, s, p);
-      tern_rel_c(n, s, p);
-      tern_rel_d(n, s, p);
-      tern_rel_e(n, s, p);
-      tern_rel_f(n, s, p);
-      tern_rel_g(n, s, p);
-      tern_rel_h(n, s, p);
-      tern_rel_i(n, s, p);
-      tern_rel_j(n, s, p);
+      tern_rel_a(n, s, p),
+      tern_rel_b(n, s, p),
+      tern_rel_c(n, s, p),
+      tern_rel_d(n, s, p),
+      tern_rel_e(n, s, p),
+      tern_rel_f(n, s, p),
+      tern_rel_g(n, s, p),
+      tern_rel_h(n, s, p),
+      tern_rel_i(n, s, p),
+      tern_rel_j(n, s, p),
       tern_rel_k(n, s, p)
     ];
 
   [Bool] in(Nat n) = [
-      tern_rel_a(n, ?, ?);
-      tern_rel_b(n, ?, ?);
-      tern_rel_c(n, ?, ?);
-      tern_rel_d(n, ?, ?);
-      tern_rel_e(n, ?, ?);
-      tern_rel_f(n, ?, ?);
-      tern_rel_g(n, ?, ?);
-      tern_rel_h(n, ?, ?);
-      tern_rel_i(n, ?, ?);
-      tern_rel_j(n, ?, ?);
+      tern_rel_a(n, ?, ?),
+      tern_rel_b(n, ?, ?),
+      tern_rel_c(n, ?, ?),
+      tern_rel_d(n, ?, ?),
+      tern_rel_e(n, ?, ?),
+      tern_rel_f(n, ?, ?),
+      tern_rel_g(n, ?, ?),
+      tern_rel_h(n, ?, ?),
+      tern_rel_i(n, ?, ?),
+      tern_rel_j(n, ?, ?),
       tern_rel_k(n, ?, ?)
     ];
 
   [Bool] in(String s) = [
-      tern_rel_a(?, s, ?);
-      tern_rel_b(?, s, ?);
-      tern_rel_c(?, s, ?);
-      tern_rel_d(?, s, ?);
-      tern_rel_e(?, s, ?);
-      tern_rel_f(?, s, ?);
-      tern_rel_g(?, s, ?);
-      tern_rel_h(?, s, ?);
-      tern_rel_i(?, s, ?);
-      tern_rel_j(?, s, ?);
+      tern_rel_a(?, s, ?),
+      tern_rel_b(?, s, ?),
+      tern_rel_c(?, s, ?),
+      tern_rel_d(?, s, ?),
+      tern_rel_e(?, s, ?),
+      tern_rel_f(?, s, ?),
+      tern_rel_g(?, s, ?),
+      tern_rel_h(?, s, ?),
+      tern_rel_i(?, s, ?),
+      tern_rel_j(?, s, ?),
       tern_rel_k(?, s, ?)
     ];
 
   [Bool] in(Point p) = [
-      tern_rel_a(?, ?, p);
-      tern_rel_b(?, ?, p);
-      tern_rel_c(?, ?, p);
-      tern_rel_d(?, ?, p);
-      tern_rel_e(?, ?, p);
-      tern_rel_f(?, ?, p);
-      tern_rel_g(?, ?, p);
-      tern_rel_h(?, ?, p);
-      tern_rel_i(?, ?, p);
-      tern_rel_j(?, ?, p);
+      tern_rel_a(?, ?, p),
+      tern_rel_b(?, ?, p),
+      tern_rel_c(?, ?, p),
+      tern_rel_d(?, ?, p),
+      tern_rel_e(?, ?, p),
+      tern_rel_f(?, ?, p),
+      tern_rel_g(?, ?, p),
+      tern_rel_h(?, ?, p),
+      tern_rel_i(?, ?, p),
+      tern_rel_j(?, ?, p),
       tern_rel_k(?, ?, p)
     ];
 
   [Bool] in(Nat n, String s) = [
-      tern_rel_a(n, s, ?);
-      tern_rel_b(n, s, ?);
-      tern_rel_c(n, s, ?);
-      tern_rel_d(n, s, ?);
-      tern_rel_e(n, s, ?);
-      tern_rel_f(n, s, ?);
-      tern_rel_g(n, s, ?);
-      tern_rel_h(n, s, ?);
-      tern_rel_i(n, s, ?);
-      tern_rel_j(n, s, ?);
+      tern_rel_a(n, s, ?),
+      tern_rel_b(n, s, ?),
+      tern_rel_c(n, s, ?),
+      tern_rel_d(n, s, ?),
+      tern_rel_e(n, s, ?),
+      tern_rel_f(n, s, ?),
+      tern_rel_g(n, s, ?),
+      tern_rel_h(n, s, ?),
+      tern_rel_i(n, s, ?),
+      tern_rel_j(n, s, ?),
       tern_rel_k(n, s, ?)
     ];
 
   [Bool] in(Nat n, Point p) = [
-      tern_rel_a(n, ?, p);
-      tern_rel_b(n, ?, p);
-      tern_rel_c(n, ?, p);
-      tern_rel_d(n, ?, p);
-      tern_rel_e(n, ?, p);
-      tern_rel_f(n, ?, p);
-      tern_rel_g(n, ?, p);
-      tern_rel_h(n, ?, p);
-      tern_rel_i(n, ?, p);
-      tern_rel_j(n, ?, p);
+      tern_rel_a(n, ?, p),
+      tern_rel_b(n, ?, p),
+      tern_rel_c(n, ?, p),
+      tern_rel_d(n, ?, p),
+      tern_rel_e(n, ?, p),
+      tern_rel_f(n, ?, p),
+      tern_rel_g(n, ?, p),
+      tern_rel_h(n, ?, p),
+      tern_rel_i(n, ?, p),
+      tern_rel_j(n, ?, p),
       tern_rel_k(n, ?, p)
     ];
 
   [Bool] in(String s, Point p) = [
-      tern_rel_a(?, s, p);
-      tern_rel_b(?, s, p);
-      tern_rel_c(?, s, p);
-      tern_rel_d(?, s, p);
-      tern_rel_e(?, s, p);
-      tern_rel_f(?, s, p);
-      tern_rel_g(?, s, p);
-      tern_rel_h(?, s, p);
-      tern_rel_i(?, s, p);
-      tern_rel_j(?, s, p);
+      tern_rel_a(?, s, p),
+      tern_rel_b(?, s, p),
+      tern_rel_c(?, s, p),
+      tern_rel_d(?, s, p),
+      tern_rel_e(?, s, p),
+      tern_rel_f(?, s, p),
+      tern_rel_g(?, s, p),
+      tern_rel_h(?, s, p),
+      tern_rel_i(?, s, p),
+      tern_rel_j(?, s, p),
       tern_rel_k(?, s, p)
     ];
 
 
   [Point] lookup(Nat n, String s) = [
-      tern_rel_a(n, s);
-      tern_rel_b(n, s);
-      tern_rel_c(n, s);
-      tern_rel_d(n, s);
-      tern_rel_e(n, s);
-      tern_rel_f(n, s);
-      tern_rel_g(n, s);
-      tern_rel_h(n, s);
-      tern_rel_i(n, s);
-      tern_rel_j(n, s);
+      tern_rel_a(n, s),
+      tern_rel_b(n, s),
+      tern_rel_c(n, s),
+      tern_rel_d(n, s),
+      tern_rel_e(n, s),
+      tern_rel_f(n, s),
+      tern_rel_g(n, s),
+      tern_rel_h(n, s),
+      tern_rel_i(n, s),
+      tern_rel_j(n, s),
       tern_rel_k(n, s)
     ];
 
   [String] lookup(Nat n, Point p) = [
-      tern_rel_a(n, *, p);
-      tern_rel_b(n, *, p);
-      tern_rel_c(n, *, p);
-      tern_rel_d(n, *, p);
-      tern_rel_e(n, *, p);
-      tern_rel_f(n, *, p);
-      tern_rel_g(n, *, p);
-      tern_rel_h(n, *, p);
-      tern_rel_i(n, *, p);
-      tern_rel_j(n, *, p);
+      tern_rel_a(n, *, p),
+      tern_rel_b(n, *, p),
+      tern_rel_c(n, *, p),
+      tern_rel_d(n, *, p),
+      tern_rel_e(n, *, p),
+      tern_rel_f(n, *, p),
+      tern_rel_g(n, *, p),
+      tern_rel_h(n, *, p),
+      tern_rel_i(n, *, p),
+      tern_rel_j(n, *, p),
       tern_rel_k(n, *, p)
     ];
 
   [Nat] lookup(String s, Point p) = [
-      tern_rel_a(*, s, p);
-      tern_rel_b(*, s, p);
-      tern_rel_c(*, s, p);
-      tern_rel_d(*, s, p);
-      tern_rel_e(*, s, p);
-      tern_rel_f(*, s, p);
-      tern_rel_g(*, s, p);
-      tern_rel_h(*, s, p);
-      tern_rel_i(*, s, p);
-      tern_rel_j(*, s, p);
+      tern_rel_a(*, s, p),
+      tern_rel_b(*, s, p),
+      tern_rel_c(*, s, p),
+      tern_rel_d(*, s, p),
+      tern_rel_e(*, s, p),
+      tern_rel_f(*, s, p),
+      tern_rel_g(*, s, p),
+      tern_rel_h(*, s, p),
+      tern_rel_i(*, s, p),
+      tern_rel_j(*, s, p),
       tern_rel_k(*, s, p)
     ];
 
   [+[Point]] projection(Nat n, String s) = [
-      [p : p <- tern_rel_a(n, s, ?)];
-      [p : p <- tern_rel_b(n, s, ?)];
-      [p : p <- tern_rel_c(n, s, ?)];
-      [p : p <- tern_rel_d(n, s, ?)];
-      [p : p <- tern_rel_e(n, s, ?)];
-      [p : p <- tern_rel_f(n, s, ?)];
-      [p : p <- tern_rel_g(n, s, ?)];
-      [p : p <- tern_rel_h(n, s, ?)];
-      [p : p <- tern_rel_i(n, s, ?)];
-      [p : p <- tern_rel_j(n, s, ?)];
+      [p : p <- tern_rel_a(n, s, ?)],
+      [p : p <- tern_rel_b(n, s, ?)],
+      [p : p <- tern_rel_c(n, s, ?)],
+      [p : p <- tern_rel_d(n, s, ?)],
+      [p : p <- tern_rel_e(n, s, ?)],
+      [p : p <- tern_rel_f(n, s, ?)],
+      [p : p <- tern_rel_g(n, s, ?)],
+      [p : p <- tern_rel_h(n, s, ?)],
+      [p : p <- tern_rel_i(n, s, ?)],
+      [p : p <- tern_rel_j(n, s, ?)],
       [p : p <- tern_rel_k(n, s, ?)]
     ];
 
   [+[String]] projection(Nat n, Point p) = [
-      [s : s <- tern_rel_a(n, ?, p)];
-      [s : s <- tern_rel_b(n, ?, p)];
-      [s : s <- tern_rel_c(n, ?, p)];
-      [s : s <- tern_rel_d(n, ?, p)];
-      [s : s <- tern_rel_e(n, ?, p)];
-      [s : s <- tern_rel_f(n, ?, p)];
-      [s : s <- tern_rel_g(n, ?, p)];
-      [s : s <- tern_rel_h(n, ?, p)];
-      [s : s <- tern_rel_i(n, ?, p)];
-      [s : s <- tern_rel_j(n, ?, p)];
+      [s : s <- tern_rel_a(n, ?, p)],
+      [s : s <- tern_rel_b(n, ?, p)],
+      [s : s <- tern_rel_c(n, ?, p)],
+      [s : s <- tern_rel_d(n, ?, p)],
+      [s : s <- tern_rel_e(n, ?, p)],
+      [s : s <- tern_rel_f(n, ?, p)],
+      [s : s <- tern_rel_g(n, ?, p)],
+      [s : s <- tern_rel_h(n, ?, p)],
+      [s : s <- tern_rel_i(n, ?, p)],
+      [s : s <- tern_rel_j(n, ?, p)],
       [s : s <- tern_rel_k(n, ?, p)]
     ];
 
   [+[Nat]] projection(String s, Point p) = [
-      [n : n <- tern_rel_a(?, s, p)];
-      [n : n <- tern_rel_b(?, s, p)];
-      [n : n <- tern_rel_c(?, s, p)];
-      [n : n <- tern_rel_d(?, s, p)];
-      [n : n <- tern_rel_e(?, s, p)];
-      [n : n <- tern_rel_f(?, s, p)];
-      [n : n <- tern_rel_g(?, s, p)];
-      [n : n <- tern_rel_h(?, s, p)];
-      [n : n <- tern_rel_i(?, s, p)];
-      [n : n <- tern_rel_j(?, s, p)];
+      [n : n <- tern_rel_a(?, s, p)],
+      [n : n <- tern_rel_b(?, s, p)],
+      [n : n <- tern_rel_c(?, s, p)],
+      [n : n <- tern_rel_d(?, s, p)],
+      [n : n <- tern_rel_e(?, s, p)],
+      [n : n <- tern_rel_f(?, s, p)],
+      [n : n <- tern_rel_g(?, s, p)],
+      [n : n <- tern_rel_h(?, s, p)],
+      [n : n <- tern_rel_i(?, s, p)],
+      [n : n <- tern_rel_j(?, s, p)],
       [n : n <- tern_rel_k(?, s, p)]
     ];
 
 
 
   [+[(String, Point)]] projection(Nat n) = [
-      [(s, p) : s, p <- tern_rel_a(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_b(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_c(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_d(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_e(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_f(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_g(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_h(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_i(n, ?, ?)];
-      [(s, p) : s, p <- tern_rel_j(n, ?, ?)];
+      [(s, p) : s, p <- tern_rel_a(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_b(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_c(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_d(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_e(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_f(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_g(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_h(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_i(n, ?, ?)],
+      [(s, p) : s, p <- tern_rel_j(n, ?, ?)],
       [(s, p) : s, p <- tern_rel_k(n, ?, ?)]
     ];
 
   [+[(Nat, Point)]] projection(String s) = [
-      [(n, p) : n, p <- tern_rel_a(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_b(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_c(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_d(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_e(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_f(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_g(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_h(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_i(?, s, ?)];
-      [(n, p) : n, p <- tern_rel_j(?, s, ?)];
+      [(n, p) : n, p <- tern_rel_a(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_b(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_c(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_d(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_e(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_f(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_g(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_h(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_i(?, s, ?)],
+      [(n, p) : n, p <- tern_rel_j(?, s, ?)],
       [(n, p) : n, p <- tern_rel_k(?, s, ?)]
     ];
 
   [+[(Nat, String)]] projection(Point p) = [
-      [(n, s) : n, s <- tern_rel_a(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_b(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_c(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_d(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_e(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_f(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_g(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_h(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_i(?, ?, p)];
-      [(n, s) : n, s <- tern_rel_j(?, ?, p)];
+      [(n, s) : n, s <- tern_rel_a(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_b(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_c(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_d(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_e(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_f(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_g(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_h(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_i(?, ?, p)],
+      [(n, s) : n, s <- tern_rel_j(?, ?, p)],
       [(n, s) : n, s <- tern_rel_k(?, ?, p)]
     ];
 }
@@ -759,7 +759,7 @@ Bool RunAllTernTableColsPermsTests()
     return false;
   ;
 
-  deleted = [8; 3; 12; 15; 10; 2; 7];
+  deleted = [8, 3, 12, 15, 10, 2, 7];
 
   for n, s, p <- test_data:
     rs = _isort_(a.in(n, s, p));
@@ -828,7 +828,7 @@ Bool RunTernTableKeyCheckTests(Atom msg, [[+Nat]] keys)
       return false;
     ;
     // Print("OK\n");
-    curr_tuples = _union_([curr_tuples; [nt]]) if ok;
+    curr_tuples = _union_([curr_tuples, [nt]]) if ok;
   ;
 
   return true;
@@ -838,16 +838,16 @@ Bool RunTernTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
 [Atom -> [[+Nat]]] tern_rels_keys_by_msg = (
     insert_a: [],
-    insert_b: [[0; 1]],
-    insert_c: [[0; 1]; [2]],
-    insert_d: [[0; 1]; [1; 2]],
-    insert_e: [[0; 1]; [1; 2]; [2; 0]],
-    insert_f: [[1; 2]],
-    insert_g: [[2; 0]],
-    insert_h: [[1; 2]; [0]],
-    insert_i: [[2; 0]; [1]],
-    insert_j: [[0; 1]; [0; 2]],
-    insert_k: [[0; 2]; [1; 2]]
+    insert_b: [[0, 1]],
+    insert_c: [[0, 1], [2]],
+    insert_d: [[0, 1], [1, 2]],
+    insert_e: [[0, 1], [1, 2], [2, 0]],
+    insert_f: [[1, 2]],
+    insert_g: [[2, 0]],
+    insert_h: [[1, 2], [0]],
+    insert_i: [[2, 0], [1]],
+    insert_j: [[0, 1], [0, 2]],
+    insert_k: [[0, 2], [1, 2]]
   );
 
 
@@ -888,7 +888,7 @@ Bool RunTernTableUpdateTests(Atom msg, [[+Nat]] keys)
 
   for an_n <- ns; an_s <- ss; a_p <- ps:
     nt = (an_n, an_s, a_p);
-    exp_tuples = _union_([[t : t <- curr_tuples; not conflict(nt, t, keys)]; [nt]]);
+    exp_tuples = _union_([[t : t <- curr_tuples, not conflict(nt, t, keys)], [nt]]);
     auto ok = a <- msg(nt);
     if not ok:
       Print("ERROR (1)\n");
@@ -927,16 +927,16 @@ Bool RunTernTableUpdateTests(Atom msg, [[+Nat]] keys)
 
 [Atom -> [[+Nat]]] tern_rels_update_keys_by_msg = (
     update_a: [],
-    update_b: [[0; 1]],
-    update_c: [[0; 1]; [2]],
-    update_d: [[0; 1]; [1; 2]],
-    update_e: [[0; 1]; [1; 2]; [2; 0]],
-    update_f: [[1; 2]],
-    update_g: [[2; 0]],
-    update_h: [[1; 2]; [0]],
-    update_i: [[2; 0]; [1]],
-    update_j: [[0; 1]; [0; 2]],
-    update_k: [[0; 2]; [1; 2]]
+    update_b: [[0, 1]],
+    update_c: [[0, 1], [2]],
+    update_d: [[0, 1], [1, 2]],
+    update_e: [[0, 1], [1, 2], [2, 0]],
+    update_f: [[1, 2]],
+    update_g: [[2, 0]],
+    update_h: [[1, 2], [0]],
+    update_i: [[2, 0], [1]],
+    update_j: [[0, 1], [0, 2]],
+    update_k: [[0, 2], [1, 2]]
   );
 
 

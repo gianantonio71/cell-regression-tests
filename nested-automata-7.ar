@@ -1,7 +1,7 @@
 type NestedAuto7Mgs = reset, incr_counter(Nat);
 
 
-cell nested_automata_7_some_counter
+reactive nested_automata_7_some_counter
 {
   input:
     an_input : Ta;
@@ -21,7 +21,7 @@ cell nested_automata_7_some_counter
 }
 
 
-cell nested_automata_7
+reactive nested_automata_7
 {
   input:
     my_input  : Ta;

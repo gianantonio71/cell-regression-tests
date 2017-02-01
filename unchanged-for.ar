@@ -1,4 +1,4 @@
-cell unchanged_for
+reactive unchanged_for
 {
   input:
     i : Ta;

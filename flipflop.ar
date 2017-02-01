@@ -1,4 +1,4 @@
-cell Bool flipflop(on, off)
+reactive Bool flipflop(on, off)
 {
   input:
     on  : Bool;
@@ -20,7 +20,7 @@ cell Bool flipflop(on, off)
 }
 
 
-cell Bool flipflop_client
+reactive Bool flipflop_client
 {
   input:
     action : <on, off, same>?;
@@ -48,7 +48,7 @@ cell Bool flipflop_client
 }
 
 
-cell Bool flipflop_client_positional
+reactive Bool flipflop_client_positional
 {
   input:
     action : <on, off, same>?;

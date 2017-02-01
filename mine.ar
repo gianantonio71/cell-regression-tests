@@ -1,4 +1,4 @@
-cell mine
+reactive mine
 {
   input:
     low_sensor_underwater  : Bool;

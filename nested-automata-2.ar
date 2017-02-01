@@ -1,4 +1,4 @@
-cell filtered_history_2
+reactive filtered_history_2
 {
   input:
     to_skip : Ta;
@@ -17,7 +17,7 @@ cell filtered_history_2
 }
 
 
-cell nested_automata_2
+reactive nested_automata_2
 {
   input:
     i : Ta?;

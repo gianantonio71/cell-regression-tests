@@ -1,4 +1,4 @@
-cell after_test_0
+reactive after_test_0
 {
   input:
     i : Ta;
@@ -56,7 +56,7 @@ Bool RunAfter0Test1()
   time_since_change = 0;
   elapsed_time = 0;
   for 100:
-    new_input_value = _rand_elem_([:a0; :a1; :a2; :a3; :a4; :a5; :a6; :a7; :a8; :a9]);
+    new_input_value = _rand_elem_([:a0, :a1, :a2, :a3, :a4, :a5, :a6, :a7, :a8, :a9]);
     auto ta.i = new_input_value;
     new_watched_value = if new_input_value :: <a0, a2, a4, a6, a8> then :even else :odd;
     time_since_change = 0 if curr_watched_value != new_watched_value;
