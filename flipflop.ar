@@ -88,8 +88,10 @@ Bool RunBasicFlipFlopTest((<on, off, same, nil>, Bool) test_data)
   auto fc  : flipflop_client;
   auto fcp : flipflop_client_positional;
 
-  auto apply fc;
-  auto apply fcp;
+  auto apply fc done;
+  assert done;
+  auto apply fcp done;
+  assert done;
   if fc != false or fcp != false:
     Print("ERROR: INITIAL UPDATE FAILED SOMEHOW!\n");
     print fc;
@@ -100,8 +102,10 @@ Bool RunBasicFlipFlopTest((<on, off, same, nil>, Bool) test_data)
   for a, er <- test_data:
     auto fc.action = a;
     auto fcp.action = a;
-    auto apply fc;
-    auto apply fcp;
+    auto apply fc done;
+    assert done;
+    auto apply fcp done;
+    assert done;
     if fc != er or fcp != er:
       Print("ERROR! ERROR! ERROR!\n");
       print fc;

@@ -78,7 +78,8 @@ Bool RunBasicMineTest()
     auto mine.co_level = cl;
     auto mine.airflow_level = al;
 
-    auto apply mine;
+    auto apply mine done;
+    assert done;
 
     errors = ();
     if mine.pump_must_be_on != po:
@@ -125,7 +126,8 @@ Bool RunNullMineTest()
     auto ref_mine.co_level = cl;
     auto ref_mine.airflow_level = al;
 
-    auto apply ref_mine;
+    auto apply ref_mine done;
+    assert done;
 
     if lsu_def:
       auto mine.low_sensor_underwater = lsu;
@@ -143,7 +145,8 @@ Bool RunNullMineTest()
       auto mine.airflow_level = al;
     ;
 
-    auto apply mine;
+    auto apply mine done;
+    assert done;
 
     // full_state = (
     //   needs_draining:          mine.needs_draining           if mine.needs_draining??,

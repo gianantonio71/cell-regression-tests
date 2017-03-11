@@ -320,29 +320,34 @@ Bool RunAllChatServer2Tests()
 {
   auto cs : chat_server_2_wrapper;
 
-  auto apply cs;
+  auto apply cs done;
+  assert done;
 
   sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));
   conn_ids = merge(([u -> i] : u @ i <- sorted_users));
 
   for i < size(conn_ids):
     auto cs.message = connect(i);
-    auto apply cs;
+    auto apply cs done;
+    assert done;
   ;
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
     for ch <- raw_str(s):
       auto cs.message = received(cid, ch);
-      auto apply cs;
+      auto apply cs done;
+      assert done;
     ;
     auto cs.message = received(cid, ascii_newline);
-    auto apply cs;
+    auto apply cs done;
+    assert done;
   ;
 
   for i < size(conn_ids):
     auto cs.message = disconnect(i);
-    auto apply cs;
+    auto apply cs done;
+    assert done;
   ;
 
   if cs.data_to_send != chat_server_exp_res_1:
@@ -354,7 +359,8 @@ Bool RunAllChatServer2Tests()
 
   for i < cs.msg_counter:
     auto cs.message = sent(i);
-    auto apply cs;
+    auto apply cs done;
+    assert done;
     if size(cs.data_to_send) != cs.msg_counter - i - 1:
       Print("ERROR (2)\n");
       print i;

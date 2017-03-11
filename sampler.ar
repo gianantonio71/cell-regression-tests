@@ -56,7 +56,8 @@ Bool RunBasicSamplerTest(SamplerTestSample* test_data)
       auto s.take_sample = ts;
     ;
 
-    auto apply s;
+    auto apply s done;
+    assert done;
 
     els = just(ecs) if ecs != nil;
 

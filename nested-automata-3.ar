@@ -58,7 +58,8 @@ Bool RunNestedAutomata3Test(Bool rand_times)
 {
   auto ta : nested_automata_3;
 
-  auto apply ta after 0;
+  auto apply ta done;
+  assert done;
 
   ct = 0;
 
@@ -66,7 +67,10 @@ Bool RunNestedAutomata3Test(Bool rand_times)
     dt = if rand_times then _rand_nat_(45) else 1;
     ct = _add_(ct, dt);
 
-    auto apply ta after _mult_(dt, 1000000);
+    auto elapsed ta _mult_(dt, 1000000);
+    loop
+      auto apply ta done;
+    while not done;
 
     ec = _div_(ct, 20);
 

@@ -69,7 +69,8 @@ Bool RunAllNestedAutomata7Tests()
     if incr != nil:
       auto ta.increment = match (incr) just(n?) = n;
     ;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");

@@ -76,7 +76,8 @@ Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected
 
   for t <- throws:
     auto b.throw = t;
-    auto apply b;
+    auto apply b done;
+    assert done;
 
     if not b.throw_copy? or b.throw_copy != t:
       print "ERROR: throw_copy";

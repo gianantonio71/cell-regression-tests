@@ -55,7 +55,8 @@ Bool RunAllNestedAutomata1Tests()
 {
   auto ta : nested_automata_1;
 
-  auto apply ta;
+  auto apply ta done;
+  assert done;
 
   eh = ();
   ehs = 0;
@@ -64,7 +65,8 @@ Bool RunAllNestedAutomata1Tests()
     eh = (eh | i);
     ehs = _add_(ehs, 1);
     auto ta.i = i;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
     if ta.h != eh or ta.hs != ehs:
       Print("ERROR!\n");
       print ta.h;

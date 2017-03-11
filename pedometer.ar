@@ -57,16 +57,16 @@ reactive pedometer
     position : PointF;
 
   output:
-    track    : PointF*;
+    track    : PointF+;
     distance : Float;
 
   state:
-    track    : PointF* = (position);
-    distance : Float  = 0.0;
+    track    : PointF+ = (position);
+    distance : Float   = 0.0;
 
   rules:
     track = (track | position) : position;
-    distance = distance + point_to_point_distance(position, #position) : position;
+    distance = distance + point_to_point_distance(position, @position) : position;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,8 @@ Bool RunBasicPedometerTest()
     pos = point(x, y);
 
     auto p.position = pos;
-    auto apply p;
+    auto apply p done;
+    assert done;
 
     if p.distance != exp_ds(i):
       Print("Pedometer - Distance error!");
@@ -120,10 +121,12 @@ Bool RunBasicPedometerTest()
     auto p0.position = point(x, y);
     auto p0.has_moved = true;
     auto p0.unused_input = :g((0, 1, 2));
-    auto apply p0;
+    auto apply p0 done;
+    assert done;
 
     auto p0.has_moved = false;
-    auto apply p0;
+    auto apply p0 done;
+    assert done;
 
     if p0.distance != exp_ds(i):
       Print("Pedometer (Old) - Distance error!");

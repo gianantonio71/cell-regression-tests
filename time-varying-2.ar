@@ -108,7 +108,10 @@ Bool RunTimeVaryingTest2((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool,
       auto a.i = match (mi) just(i?) = i;
     ;
 
-    auto apply a after dt;
+    auto elapsed a dt;
+    loop
+      auto apply a done;
+    while not done;
 
     if  a.o1 != eo1 or a.c1 != ec1 or
          a.o2 != eo2 or a.c2 != ec2 or

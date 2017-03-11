@@ -45,7 +45,8 @@ Bool RunAllFullHistoryTests()
     eh = (eh | i);
     ehs = _add_(ehs, 1);
     auto fhc.i = i;
-    auto apply fhc;
+    auto apply fhc done;
+    assert done;
     if fhc.h != eh or fhc.hs != ehs:
       Print("ERROR!\n");
       print fhc.h;

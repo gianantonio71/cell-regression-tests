@@ -24,7 +24,8 @@ Bool RunBasicFilterTest()
 
   for i, eo <- filter_test_data:
     auto f.i = i;
-    auto apply f;
+    auto apply f done;
+    assert done;
 
     if f.o != eo:
       Print("Filter test error. \nExpected output: " & printed(eo) & "\nActual output:");
@@ -49,10 +50,12 @@ Bool RunNullFilterTest()
     if i_def:
       auto f.i = i;
     ;
-    auto apply f;
+    auto apply f done;
+    assert done;
 
     auto rf.i = i;
-    auto apply rf;
+    auto apply rf done;
+    assert done;
 
     if f.o?? and f.o != rf.o:
       Print("Filter null test error. Reference output: " & printed(rf.o) & ", actual one: " & printed(f.o));

@@ -15,15 +15,15 @@ reactive methods
     v2 : Ta = :l(d2);
 
   rules:
-    v1 = if   a? and a == :reapply                        then :g(#d1)
-         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l1}(#d1)
-         elif i == :a3 and i != #i                        then :p(d1)
+    v1 = if   a? and a == :reapply                        then :g(@d1)
+         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l1}(@d1)
+         elif i == :a3 and i != @i                        then :p(d1)
                                                           else v1
          : i, a;
 
-    v2 = if   a? and a == :reapply                        then :l(#d2)
-         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l2}(#d2)
-         elif i == :a4 and i != #i                        then :q(d2)
+    v2 = if   a? and a == :reapply                        then :l(@d2)
+         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l2}(@d2)
+         elif i == :a4 and i != @i                        then :q(d2)
                                                           else v2
          : i, a;
 
@@ -112,7 +112,8 @@ Bool RunBasicMethodTests(Any* test_data)
     // print (t.v1, t.v2, t.d1, t.d2);
 
     auto t.i = i;
-    auto apply t;
+    auto apply t done;
+    assert done;
     // print (t.v1, t.v2, t.d1, t.d2);
 
     if a == 1:
@@ -121,7 +122,8 @@ Bool RunBasicMethodTests(Any* test_data)
       auto t.a = reapply(l1: :s, l2: :t);
     ;
 
-    auto apply t;
+    auto apply t done;
+    assert done;
     // print (t.v1, t.v2, t.d1, t.d2);
 
     if not {t.v1 == ev1 and t.v2 == ev2 and t.d1 == ed1 and t.d2 == ed2}:

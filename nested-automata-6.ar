@@ -65,7 +65,8 @@ Bool RunAllNestedAutomata6Tests()
 
   for input, enc, ec <- nested_automata_6_test_data:
     auto ta.my_input = input;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");

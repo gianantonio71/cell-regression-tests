@@ -11,7 +11,7 @@ reactive y_comb
     o : Tab = ia;
 
   rules:
-    o = if ia != #ia then ia else ib : ia, ib;
+    o = if ia != @ia then ia else ib : ia, ib;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,8 @@ Bool RunBasicYCombTest()
   for ia, ib, eo <- y_comb_data:
     auto yc.ia = ia;
     auto yc.ib = ib;
-    auto apply yc;
+    auto apply yc done;
+    assert done;
 
     if not yc.o?? or yc.o != eo:
       PrintError(eo, yc.o);
@@ -80,7 +81,8 @@ Bool RunNullYCombTest()
 
     auto yc.ia = ia;
     auto yc.ib = ib;
-    auto apply yc;
+    auto apply yc done;
+    assert done;
 
     if ia_def:
       auto ryc.ia = ia;
@@ -88,7 +90,8 @@ Bool RunNullYCombTest()
     if ib_def:
       auto ryc.ib = ib;
     ;
-    auto apply ryc;
+    auto apply ryc done;
+    assert done;
 
     if not yc.o?? or yc.o != eo:
       // PrintError(eo, yc.o);

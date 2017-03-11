@@ -34,7 +34,8 @@ Bool RunAllComplexInitTests()
 
   for i, ev1, ev2, ed1, ed2 <- complex_init_test_data:
     auto ci.i = i;
-    auto apply ci;
+    auto apply ci done;
+    assert done;
     if ci.v1 != ev1 or ci.v2 != ev2 or ci.d1 != ed1 or ci.d2 != ed2:
       Print("Error in complex initialization tests\n");
       print (ev1, ev2, ed1, ed2);

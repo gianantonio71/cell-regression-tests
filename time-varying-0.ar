@@ -66,7 +66,10 @@ Bool RunTimeVaryingTest0((Maybe[Ta], Nat, Bool, <hello, bye>, Bool, Nat)* test_d
       auto tm.i = match (mi) just(i?) = i;
     ;
 
-    auto apply tm after dt;
+    auto elapsed tm dt;
+    loop
+      auto apply tm done;
+    while not done;
 
     if tm.o != eo or tm.d != ed or tm.o2 != eo2 or tm.c != ec:
       Print("Error\n");

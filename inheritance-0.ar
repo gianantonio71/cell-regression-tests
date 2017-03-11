@@ -64,10 +64,14 @@ Bool RunAllBasicInheritanceTests()
     auto i.new_in_a = in_a;
     auto i.new_in_b = in_b;
 
-    auto apply b;
-    auto apply d;
-    auto apply t;
-    auto apply i;
+    auto apply b done;
+    assert done;
+    auto apply d done;
+    assert done;
+    auto apply t done;
+    assert done;
+    auto apply i done;
+    assert done;
 
     if b.out_a != eba or b.out_b != ebb:
       Print("ERROR: base\n");

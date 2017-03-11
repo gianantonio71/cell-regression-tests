@@ -43,7 +43,8 @@ Bool RunBasicDiscYCombTests()
       auto yc.ib = ib;
     ;
 
-    auto apply yc;
+    auto apply yc done;
+    assert done;
 
     ok = if yc.o? then yc.o == eo else eo == nil;
 

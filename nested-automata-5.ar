@@ -21,7 +21,7 @@ reactive nested_automata_5_some_counter
   rules:
     a_counter = if command?
                   then update_counter(command, a_counter)
-                elif an_input != #an_input and (an_input == :a0 or an_input == :a3)
+                elif an_input != @an_input and (an_input == :a0 or an_input == :a3)
                   then a_counter + 1
                 else
                   a_counter
@@ -65,7 +65,7 @@ reactive nested_automata_5
 
     my_counter  = if command?
                     then update_counter(command, my_counter)
-                  elif my_input != #my_input and (my_input == :a1 or my_input == :a4)
+                  elif my_input != @my_input and (my_input == :a1 or my_input == :a4)
                     then my_counter + 1
                   else
                     my_counter
@@ -95,7 +95,8 @@ Bool RunAllNestedAutomata5Tests()
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
     auto ta.my_input = input;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR\n");
@@ -109,7 +110,8 @@ Bool RunAllNestedAutomata5Tests()
   ;
 
   auto ta.command = :reset_1;
-  auto apply ta;
+  auto apply ta done;
+  assert done;
   benc = 0;
   bec = 0;
 
@@ -124,7 +126,8 @@ Bool RunAllNestedAutomata5Tests()
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
     auto ta.my_input = input;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (2/B)\n");
@@ -139,7 +142,8 @@ Bool RunAllNestedAutomata5Tests()
   ;
 
   auto ta.command = :reset_2;
-  auto apply ta;
+  auto apply ta done;
+  assert done;
   benc = 0;
   bec = 0;
 
@@ -154,7 +158,8 @@ Bool RunAllNestedAutomata5Tests()
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
     auto ta.my_input = input;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (3/B)\n");
@@ -171,7 +176,8 @@ Bool RunAllNestedAutomata5Tests()
   bec = 13;
   benc = 8;
   auto ta.command = :set_counters(bec, benc);
-  auto apply ta;
+  auto apply ta done;
+  assert done;
 
   if ta.my_counter != bec or ta.nested_counter != benc:
     Print("ERROR (4/A)\n");
@@ -184,7 +190,8 @@ Bool RunAllNestedAutomata5Tests()
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
     auto ta.my_input = input;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (4/B)\n");
@@ -201,7 +208,8 @@ Bool RunAllNestedAutomata5Tests()
   bec = 21;
   benc = 37;
   auto ta.command = :set_incremented_counters(bec, benc);
-  auto apply ta;
+  auto apply ta done;
+  assert done;
   bec = _add_(bec, 1);
   benc = _add_(benc, 1);
 
@@ -216,7 +224,8 @@ Bool RunAllNestedAutomata5Tests()
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
     auto ta.my_input = input;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != _add_(bec, dec) or ta.nested_counter != _add_(benc, denc):
       Print("ERROR (5/B)\n");

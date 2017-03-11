@@ -31,7 +31,8 @@ Bool RunAllStateDerivedCopyTests()
   for i1, i2 <- state_derived_copy_test_data:
     auto c.i1 = i1;
     auto c.i2 = i2;
-    auto apply c;
+    auto apply c done;
+    assert done;
     if c.o != (:a0, :b0):
       Print("Error\n");
       print c.o;

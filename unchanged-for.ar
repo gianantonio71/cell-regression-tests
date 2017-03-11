@@ -37,7 +37,10 @@ Bool RunUnchangedForTest((Ta, Nat, Bool, Bool, Bool, Bool)* test_data)
   for i, dt, eb, eu1, eu2, eu @ j <- test_data:
     auto a.i = i;
 
-    auto apply a after dt;
+    auto elapsed a dt;
+    loop
+      auto apply a done;
+    while not done;
 
     if a.b != eb or a.u1 != eu1 or a.u2 != eu2 or a.u != eu:
       Print("Error\n");

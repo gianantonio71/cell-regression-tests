@@ -31,7 +31,11 @@ Bool RunAfter0Test0((Ta, Nat, Bool)* test_data)
   for i, dt, eu1 @ j <- test_data:
     auto ta.i = i;
 
-    auto apply ta after dt;
+    auto elapsed ta dt;
+    loop
+      auto apply ta done;
+    while not done;
+
 
     if ta.u1 != eu1:
       Print("Error\n");
@@ -61,7 +65,10 @@ Bool RunAfter0Test1()
     new_watched_value = if new_input_value :: <a0, a2, a4, a6, a8> then :even else :odd;
     time_since_change = 0 if curr_watched_value != new_watched_value;
     for 100:
-      auto apply ta after elapsed_time;
+      auto elapsed ta elapsed_time;
+      loop
+        auto apply ta done;
+      while not done;
       exp_u2 = _lt_(_mod_(time_since_change, 20), 5);
 
       if ta.u2 != exp_u2:

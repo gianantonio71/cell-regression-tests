@@ -113,7 +113,8 @@ Bool RunNestedAutomata8Test1()
     if incr != nil:
       auto ta.increment = match (incr) just(n?) = n;
     ;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR (1)\n");
@@ -141,7 +142,8 @@ Bool RunNestedAutomata8Test2()
     if incr != nil:
       auto ta.increment = match (incr) just(n?) = n;
     ;
-    auto apply ta;
+    auto apply ta done;
+    assert done;
 
     if ta.my_counter != ec or ta.nested_counter != enc:
       Print("ERROR (2)\n");
