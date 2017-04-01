@@ -1,0 +1,185 @@
+schema TrAutoA {
+  a_bool_var    : Bool    = false;
+  a_symb_var    : Atom    = nil;
+  an_int_var    : Int     = 0;
+  a_float_var   : Float   = 0.0;
+  a_string_var  : String  = "";
+
+  a_time_span_var : TimeSpan  = :msecs(0);
+
+  a_rect_var        : Rect      = (bottom_left: point(x: 0, y: 0), width: 0.0, height: 0.0, color: :white);
+  a_date_rec_var    : DateRec   = (day: 0, month: 0, year: 0);
+  a_date_var        : Date      = :date(0, 0, 0);
+  a_point_var       : Point     = point(x: 0, y: 0);
+  an_any_point_var  : AnyPoint  = point(x: 0, y: 0);
+
+  a_tuple_var : (Float, String, Int*) = (0.0, "", ());
+
+  a_bool_seq_var      : Bool*     = ();
+  an_int_seq_var      : Int*      = ();
+  a_float_seq_var     : Float*    = ();
+  a_point_seq_var     : Point*    = ();
+  a_time_span_seq_var : TimeSpan* = ();
+
+  an_int_to_symb_map_var  : [Int -> Atom] = [:];
+
+  a_bool_unary_rel(Bool);
+  a_symb_unary_rel(Atom);
+  an_int_unary_rel(Int);
+  a_float_unary_rel(Float);
+  a_string_unary_rel(String);
+  a_bool_seq_unary_rel(Bool*);
+  a_symb_seq_unary_rel(Atom*);
+  an_int_seq_unary_rel(Int*);
+  a_float_seq_unary_rel(Float*);
+  a_string_seq_unary_rel(String*);
+  an_any_point_unary_rel(AnyPoint);
+
+  a_symb_float_binary_rel(Atom, Float) [key: 0];
+  a_bool_int_binary_rel(Bool, Int);
+  a_string_bool_seq_binary_rel(String, Bool*);
+  an_int_seq_time_span_binary_rel(Int*, TimeSpan) [key: 1];
+
+  a_symb_int_bool_seq_ternary_rel(Atom, Int, Bool*);
+  an_int_string_float_seq_ternary_rel(Int, String, Float*);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+using TrAutoA {
+  Float     lookup_by_symb(Atom symb)           = only([f : f <- a_symb_float_binary_rel(symb, ?)]);
+  Atom      lookup_by_float(Float float)        = only([s : s <- a_symb_float_binary_rel(?, float)]);
+  Bool      lookup_by_int(Int int)              = only([b : b <- a_bool_int_binary_rel(?, int)]);
+  Bool*     lookup_by_string(String str)        = only([bs : bs <- a_string_bool_seq_binary_rel(str, ?)]);
+  String    lookup_by_bools(Bool* bools)        = only([s : s <- a_string_bool_seq_binary_rel(?, bools)]);
+  TimeSpan  lookup_by_ints(Int* ints)           = only([ts : ts <- an_int_seq_time_span_binary_rel(ints, ?)]);
+  Int*      lookup_by_timespan(TimeSpan tspan)  = only([ns : ns <- an_int_seq_time_span_binary_rel(?, tspan)]);
+
+  Float lookup(Atom symb)   = lookup_by_symb(symb);
+  Atom  lookup(Float float) = lookup_by_float(float);
+  Bool  lookup(Int int)     = lookup_by_int(int);
+
+  Bool*     alt_lookup(String str)      = lookup_by_string(str);
+  TimeSpan  alt_lookup(Int* ints)       = lookup_by_ints(ints);
+  Int*      alt_lookup(TimeSpan tspan)  = lookup_by_timespan(tspan);
+
+  [(Atom, Float)] symbs_and_floats = [(s, f) : s, f <- a_symb_float_binary_rel];
+
+  Bool has_string_bool_seq_pair(String s, Bool* bs) = a_string_bool_seq_binary_rel(s, bs);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TrAutoA <- <my_msg> {
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+type SetTrAutoAState = set_tr_auto_a_state(
+  a_bool_var    : Bool,
+  a_symb_var    : Atom,
+  an_int_var    : Int,
+  a_float_var   : Float,
+  a_string_var  : String,
+
+  a_time_span_var : TimeSpan,
+
+  a_rect_var        : Rect,
+  a_date_rec_var    : DateRec,
+  a_date_var        : Date,
+  a_point_var       : Point,
+  an_any_point_var  : AnyPoint,
+
+  a_tuple_var : (Float, String, Int*),
+
+  a_bool_seq_var      : Bool*,
+  an_int_seq_var      : Int*,
+  a_float_seq_var     : Float*,
+  a_point_seq_var     : Point*,
+  a_time_span_seq_var : TimeSpan*,
+
+  an_int_to_symb_map_var  : [Int -> Atom],
+
+  a_bool_unary_rel        : [Bool],
+  a_symb_unary_rel        : [Atom],
+  an_int_unary_rel        : [Int],
+  a_float_unary_rel       : [Float],
+  a_string_unary_rel      : [String],
+  a_bool_seq_unary_rel    : [Bool*],
+  a_symb_seq_unary_rel    : [Atom*],
+  an_int_seq_unary_rel    : [Int*],
+  a_float_seq_unary_rel   : [Float*],
+  a_string_seq_unary_rel  : [String*],
+  an_any_point_unary_rel  : [AnyPoint],
+
+  a_symb_float_binary_rel         : [Atom, Float],
+  a_bool_int_binary_rel           : [Bool, Int],
+  a_string_bool_seq_binary_rel    : [String, Bool*],
+  an_int_seq_time_span_binary_rel : [Int*, TimeSpan], 
+
+  a_symb_int_bool_seq_ternary_rel     : [Atom, Int, Bool*],
+  an_int_string_float_seq_ternary_rel : [Int, String, Float*]
+);
+
+
+TrAutoA <- SetTrAutoAState {
+  update a_bool_var             = it.a_bool_var;
+  update a_symb_var             = it.a_symb_var;
+  update an_int_var             = it.an_int_var;
+  update a_float_var            = it.a_float_var;
+  update a_string_var           = it.a_string_var;
+  update a_time_span_var        = it.a_time_span_var;
+  update a_rect_var             = it.a_rect_var;
+  update a_date_rec_var         = it.a_date_rec_var;
+  update a_date_var             = it.a_date_var;
+  update a_point_var            = it.a_point_var;
+  update an_any_point_var       = it.an_any_point_var;
+  update a_tuple_var            = it.a_tuple_var;
+  update a_bool_seq_var         = it.a_bool_seq_var;
+  update an_int_seq_var         = it.an_int_seq_var;
+  update a_float_seq_var        = it.a_float_seq_var;
+  update a_point_seq_var        = it.a_point_seq_var;
+  update a_time_span_seq_var    = it.a_time_span_seq_var;
+  update an_int_to_symb_map_var = it.an_int_to_symb_map_var;
+
+  delete a_bool_unary_rel(?);
+  delete a_symb_unary_rel(?);
+  delete an_int_unary_rel(?);
+  delete a_float_unary_rel(?);
+  delete a_string_unary_rel(?);
+  delete a_bool_seq_unary_rel(?);
+  delete a_symb_seq_unary_rel(?);
+  delete an_int_seq_unary_rel(?);
+  delete a_float_seq_unary_rel(?);
+  delete a_string_seq_unary_rel(?);
+  delete an_any_point_unary_rel(?);
+
+  delete a_symb_float_binary_rel(?, ?);
+  delete a_bool_int_binary_rel(?, ?);
+  delete a_string_bool_seq_binary_rel(?, ?);
+  delete an_int_seq_time_span_binary_rel(?, ?);
+
+  delete a_symb_int_bool_seq_ternary_rel(?, ?, ?);
+  delete an_int_string_float_seq_ternary_rel(?, ?, ?);
+
+  for x <- rand_sort([a : a <- it.a_bool_unary_rel]):        insert a_bool_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_symb_unary_rel]):        insert a_symb_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.an_int_unary_rel]):        insert an_int_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_float_unary_rel]):       insert a_float_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_string_unary_rel]):      insert a_string_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_bool_seq_unary_rel]):    insert a_bool_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_symb_seq_unary_rel]):    insert a_symb_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.an_int_seq_unary_rel]):    insert an_int_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_float_seq_unary_rel]):   insert a_float_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.a_string_seq_unary_rel]):  insert a_string_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- it.an_any_point_unary_rel]):  insert an_any_point_unary_rel(x);;
+
+  for x, y <- rand_sort([(a, b) : a, b <- it.a_symb_float_binary_rel]):          insert a_symb_float_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- it.a_bool_int_binary_rel]):            insert a_bool_int_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- it.a_string_bool_seq_binary_rel]):     insert a_string_bool_seq_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- it.an_int_seq_time_span_binary_rel]):  insert an_int_seq_time_span_binary_rel(x, y);;
+
+  for x, y, z <- rand_sort([(a, b, c) : a, b, c <- it.a_symb_int_bool_seq_ternary_rel]):       insert a_symb_int_bool_seq_ternary_rel(x, y, z);;
+  for x, y, z <- rand_sort([(a, b, c) : a, b, c <- it.an_int_string_float_seq_ternary_rel]):   insert an_int_string_float_seq_ternary_rel(x, y, z);;
+}

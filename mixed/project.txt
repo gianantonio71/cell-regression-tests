@@ -1,0 +1,2 @@
+reg-tests/mixed/common.ar
+reg-tests/mixed/tr-auto-A.ar

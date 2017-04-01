@@ -1,0 +1,76 @@
+schema MinTrAuto {
+  an_any_point_set_var : [AnyPoint] = [
+    point(x: 24, y: 32),
+    polar(ro: 2.58, theta: 1.5708),
+    polar(ro: 0.42, theta: 0.0)
+  ];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+T only([T] set) {
+  seq = _isort_(set);
+  fail if _len_(seq) != 1;
+  return seq(0);
+}
+
+T* rand_sort([T] set) = _isort_(set);
+
+////////////////////////////////////////////////////////////////////////////////
+
+type Point    = point(x: Int, y: Int);
+type Polar    = polar(ro: Float, theta: Float);
+type AnyPoint = Point, Polar;
+
+type TimeSpan = msecs(Nat);
+
+type Color  = white, black, red, green, blue, yellow, bronze;
+type Rect   = (bottom_left: Point, width: Float, height: Float, color: Color);
+
+type DateRec  = (day: Nat, month: Nat, year: Nat);
+type Date     = date(Nat, Nat, Nat);
+
+////////////////////////////////////////////////////////////////////////////////
+
+type Atom           = <+>;
+type Int            = <*..*>;
+type Float          = <^>;
+
+type Bool           = true, false;
+type Nat            = <0..*>;
+
+type Bit            = <0..1>;
+type Byte           = <0..255>;
+type String         = string(Nat*);
+
+
+// type Seq            = Any*;
+
+// type Set            = [Any];
+// type BinRel         = [Any,Any];
+// type TernRel        = [Any,Any,Any];
+
+// type TagObj         = <+>(Any);
+
+// type Any            = Atom, Int, Float, Seq, Set, BinRel, TernRel, TagObj;
+
+
+// type True           = true;
+// type False          = false;
+
+// type NzNat          = <1..*>;
+// type NegInt         = <*..-1>;
+
+// type Map            = [Any -> Any];
+
+// type NeSet          = [+Any];
+// type NeSeq          = Any+;
+// type Record         = [Atom -> Any];
+// type Nil            = nil;
+// type Just[T]        = just(T);
+// type Maybe[T]       = nil, just(T);
+
+// type Result[TS, TF] = success(TS), failure(TF);
+
+// type List[T]        = nil, list(head: T, tail: List[T]);
+// type Stack[T]       = nil, stack(top: T, rest: Stack[T]);

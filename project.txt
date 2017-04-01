@@ -1,56 +1,56 @@
 ../amber-compiler/stdlib/prelude.ar
 ../amber-compiler/stdlib/printing.ar
 
-reactive/mine.ar
-reactive/pedometer.ar
-reactive/y-comb.ar
-reactive/filter.ar
-reactive/state-derived-copy.ar
+reg-tests/mine.ar
+reg-tests/pedometer.ar
+reg-tests/y-comb.ar
+reg-tests/filter.ar
+reg-tests/state-derived-copy.ar
 
-reactive/bowling.ar
-reactive/disc-y-comb.ar
-reactive/sampler.ar
+reg-tests/bowling.ar
+reg-tests/disc-y-comb.ar
+reg-tests/sampler.ar
 
-reactive/complex-init.ar
+reg-tests/complex-init.ar
 
-reactive/methods.ar
+reg-tests/methods.ar
 
-reactive/time-varying-0.ar
-reactive/time-varying-1.ar
-reactive/time-varying-2.ar
+reg-tests/time-varying-0.ar
+reg-tests/time-varying-1.ar
+reg-tests/time-varying-2.ar
 
-reactive/unchanged-for.ar
+reg-tests/unchanged-for.ar
 
-reactive/nested-automata-0.ar
-reactive/nested-automata-1.ar
-reactive/nested-automata-2.ar
-reactive/nested-automata-3.ar
-reactive/nested-automata-4.ar
-reactive/nested-automata-5.ar
-reactive/nested-automata-6.ar
-reactive/nested-automata-7.ar
-reactive/nested-automata-8.ar
+reg-tests/nested-automata-0.ar
+reg-tests/nested-automata-1.ar
+reg-tests/nested-automata-2.ar
+reg-tests/nested-automata-3.ar
+reg-tests/nested-automata-4.ar
+reg-tests/nested-automata-5.ar
+reg-tests/nested-automata-6.ar
+reg-tests/nested-automata-7.ar
+reg-tests/nested-automata-8.ar
 
-reactive/polymorphic-methods.ar
+reg-tests/polymorphic-methods.ar
 
-reactive/chat-server.ar
-reactive/chat-server-0.ar
-reactive/chat-server-1.ar
-reactive/chat-server-2.ar
+reg-tests/chat-server.ar
+reg-tests/chat-server-0.ar
+reg-tests/chat-server-1.ar
+reg-tests/chat-server-2.ar
 
-reactive/after-rules-0.ar
+reg-tests/after-rules-0.ar
 
-reactive/since.ar
+reg-tests/since.ar
 
-reactive/flipflop.ar
+reg-tests/flipflop.ar
 
-reactive/inheritance-0.ar
+reg-tests/inheritance-0.ar
 
-reactive/bin-table-0.ar
-reactive/tern-table-0.ar
+reg-tests/bin-table-0.ar
+reg-tests/tern-table-0.ar
 
-reactive/rel-objs.ar
+reg-tests/rel-objs.ar
 
-reactive/persistence-0.ar
+reg-tests/persistence-0.ar
 
-reactive/main.ar
+reg-tests/main.ar
