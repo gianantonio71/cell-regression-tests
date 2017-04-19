@@ -828,7 +828,7 @@ Bool RunTernTableKeyCheckTests(Atom msg, [[+Nat]] keys)
       return false;
     ;
     // Print("OK\n");
-    curr_tuples = _union_([curr_tuples, [nt]]) if ok;
+    curr_tuples = [t : t <- curr_tuples | t <- [nt]] if ok;
   ;
 
   return true;
@@ -888,7 +888,8 @@ Bool RunTernTableUpdateTests(Atom msg, [[+Nat]] keys)
 
   for an_n <- ns; an_s <- ss; a_p <- ps:
     nt = (an_n, an_s, a_p);
-    exp_tuples = _union_([[t : t <- curr_tuples, not conflict(nt, t, keys)], [nt]]);
+    exp_tuples = [t : t <- curr_tuples, not conflict(nt, t, keys)];
+    exp_tuples = [t : t <- exp_tuples | t <- [nt]];
     auto ok = a <- msg(nt);
     if not ok:
       Print("ERROR (1)\n");

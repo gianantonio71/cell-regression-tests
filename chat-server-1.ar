@@ -10,21 +10,20 @@ schema ChatServer1CoreState
 
 using ChatServer1CoreState
 {
-  Bool is_logged_in(UserId user) = _has_key_(user_names, user);
+  Bool is_logged_in(UserId user) = user_names(user, ?);
 
-  Bool user_exists(UserId user) = _has_key_(user_ids, user);
+  Bool user_exists(UserId user) = user_ids(user, ?);
 
-  Bool user_has_joined_room(UserId user, RoomId room)
-  {
-    rooms_joined = _lookup_(user_rooms, user);
-    return _in_(room, rooms_joined);
+  Bool user_has_joined_room(UserId user, RoomId room) {
+    rooms_joined = user_rooms(user);
+    return rooms_joined(room);
   }
 
 
   LoginCheck login_check(UserId user, String name) =
-    if   is_logged_in(user)    then :already_logged_in
-    elif _has_key_(user_ids, name)  then :name_already_in_use
-                                    else :ok;
+    if   is_logged_in(user)   then :already_logged_in
+    elif user_ids(name, ?)    then :name_already_in_use
+                              else :ok;
 
 
   LoginCheck logout_check(UserId user) =
