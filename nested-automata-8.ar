@@ -69,38 +69,38 @@ reactive test_2
 
 
 (Ta, Maybe[Nat], Nat, Nat)* test_1_data = (
-  (:a0,       nil,    0,    0),
-  (:a1,       nil,    1,    0),
-  (:a2,       nil,    1,    0),
-  (:a3,       nil,    1,    1),
-  (:a4, :just(10),    2,   11),
-  (:a5,       nil,    2,   12),
-  (:a6,       nil,    2,   12),
-  (:a0,:just(100),    2,   13),
-  (:a1,       nil,    3,   13),
-  (:a2,       nil,    3,   13),
-  (:a3,       nil,    3,   14),
-  (:a4,       nil,    4,   14),
-  (:a5,       nil,    4,   15),
-  (:a0,       nil,    4,   15)
+  (:a0,   nothing,    0,    0),
+  (:a1,   nothing,    1,    0),
+  (:a2,   nothing,    1,    0),
+  (:a3,   nothing,    1,    1),
+  (:a4,   :just(10),  2,   11),
+  (:a5,   nothing,    2,   12),
+  (:a6,   nothing,    2,   12),
+  (:a0,   :just(100), 2,   13),
+  (:a1,   nothing,    3,   13),
+  (:a2,   nothing,    3,   13),
+  (:a3,   nothing,    3,   14),
+  (:a4,   nothing,    4,   14),
+  (:a5,   nothing,    4,   15),
+  (:a0,   nothing,    4,   15)
 );
 
 
 (Ta, Maybe[Nat], Nat, Nat)* test_2_data = (
-  (:a0,       nil,    0,    0),
-  (:a1,       nil,    1,    0),
-  (:a2,       nil,    1,    0),
-  (:a3,       nil,    1,    1),
-  (:a4, :just(10),    2,    1),
-  (:a5, :just(20),    2,   22),
-  (:a6,       nil,    2,   22),
-  (:a0,:just(100),    2,   23),
-  (:a1,       nil,    3,   23),
-  (:a2,:just(200),    3,  223),
-  (:a3,       nil,    3,  224),
-  (:a4,       nil,    4,  224),
-  (:a5,       nil,    4,  225),
-  (:a0,       nil,    4,  225)
+  (:a0,   nothing,      0,    0),
+  (:a1,   nothing,      1,    0),
+  (:a2,   nothing,      1,    0),
+  (:a3,   nothing,      1,    1),
+  (:a4,   :just(10),    2,    1),
+  (:a5,   :just(20),    2,   22),
+  (:a6,   nothing,      2,   22),
+  (:a0,   :just(100),   2,   23),
+  (:a1,   nothing,      3,   23),
+  (:a2,   :just(200),   3,  223),
+  (:a3,   nothing,      3,  224),
+  (:a4,   nothing,      4,  224),
+  (:a5,   nothing,      4,  225),
+  (:a0,   nothing,      4,  225)
 );
 
 
@@ -110,7 +110,7 @@ Bool RunNestedAutomata8Test1()
 
   for input, incr, ec, enc <- test_1_data:
     auto ta.my_input = input;
-    if incr != nil:
+    if incr != nothing:
       auto ta.increment = match (incr) just(n?) = n;
     ;
     auto apply ta done;
@@ -139,7 +139,7 @@ Bool RunNestedAutomata8Test2()
 
   for input, incr, ec, enc <- test_2_data:
     auto ta.my_input = input;
-    if incr != nil:
+    if incr != nothing:
       auto ta.increment = match (incr) just(n?) = n;
     ;
     auto apply ta done;

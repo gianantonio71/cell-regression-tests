@@ -1,6 +1,6 @@
 schema TrAutoA {
   a_bool_var    : Bool    = false;
-  a_symb_var    : Atom    = nil;
+  a_symb_var    : Atom    = :none;
   an_int_var    : Int     = 0;
   a_float_var   : Float   = 0.0;
   a_string_var  : String  = "";

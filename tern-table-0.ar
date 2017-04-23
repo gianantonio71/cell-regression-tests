@@ -621,7 +621,7 @@ Bool RunAllTernTableColsPermsTests()
   test_data = tern_table_cols_perms_test_data;
 
   // Inserting
-  ok = nil;
+  ok = :none;
   for t <- test_data:
     auto ok = a <- t;
     if not ok:
@@ -813,7 +813,7 @@ Bool RunTernTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
   curr_tuples = [];
 
-  ok = nil;
+  ok = :none;
 
   for n <- ns; s <- ss; p <- ps:
     nt = (n, s, p);
@@ -853,7 +853,7 @@ Bool RunTernTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
 Bool RunAllTernTableKeyCheckTests()
 {
-  ok = nil;
+  ok = :none;
   for m, ks <- _isort_([(m, ks) : m, ks <- tern_rels_keys_by_msg]):
     ok = RunTernTableKeyCheckTests(m, ks);
     if not ok:
@@ -884,7 +884,7 @@ Bool RunTernTableUpdateTests(Atom msg, [[+Nat]] keys)
 
   curr_tuples = [];
 
-  ok = nil;
+  ok = :none;
 
   for an_n <- ns; an_s <- ss; a_p <- ps:
     nt = (an_n, an_s, a_p);
@@ -943,7 +943,7 @@ Bool RunTernTableUpdateTests(Atom msg, [[+Nat]] keys)
 
 Bool RunAllTernTableUpdateTests()
 {
-  ok = nil;
+  ok = :none;
   for m, ks <- _isort_([(m, ks) : m, ks <- tern_rels_update_keys_by_msg]):
     ok = RunTernTableUpdateTests(m, ks);
     if not ok:

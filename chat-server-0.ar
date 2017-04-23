@@ -114,7 +114,7 @@ using ChatServer0
     if new_data == ascii_newline:
       update pending_inputs = update(pending_inputs, channel, ());
       maybe_msg = try_parse_msg(pending_inputs[channel], channel);
-      if maybe_msg != nil:
+      if maybe_msg != nothing:
         do(value(maybe_msg));
       else
         update data_to_send = data_to_send & [msg_counter -> (channel, "ERROR syntax error")];

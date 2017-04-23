@@ -135,9 +135,9 @@ reactive polymorphic_methods_1
       a2  = just(decrement),
       a4  = just(increment),
       a6  = just(reset),
-      _   = nil;
+      _   = nothing;
 
-    msg := value(maybe_msg) if maybe_msg != nil;
+    msg := value(maybe_msg) if maybe_msg != nothing;
     na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
 
     my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;

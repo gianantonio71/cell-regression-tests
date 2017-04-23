@@ -34,30 +34,30 @@ reactive time_varying_2
 
 (Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool, Nat)* time_varying_2_test_data_0 = (
   (:just(:a0),    0,    false,    0,    false,    0,    false,    0,    false,    0),
-  (nil,          10,    false,    0,    false,    0,    false,    0,    false,    0),
+  (nothing,      10,    false,    0,    false,    0,    false,    0,    false,    0),
 
   (:just(:a1),    0,    true,     1,    false,    0,    false,    0,    false,    0),
-  (nil,           1,    true,     1,    false,    0,    false,    0,    false,    0),
-  (nil,           1,    false,    1,    false,    0,    false,    0,    false,    0),
-  (nil,           1,    false,    1,    false,    0,    false,    0,    false,    0),
-  (nil,           1,    false,    1,    false,    0,    false,    0,    false,    0),
-  (nil,           1,    true,     2,    false,    0,    false,    0,    false,    0),
-  (nil,           1,    true,     2,    false,    0,    false,    0,    false,    0),
+  (nothing,       1,    true,     1,    false,    0,    false,    0,    false,    0),
+  (nothing,       1,    false,    1,    false,    0,    false,    0,    false,    0),
+  (nothing,       1,    false,    1,    false,    0,    false,    0,    false,    0),
+  (nothing,       1,    false,    1,    false,    0,    false,    0,    false,    0),
+  (nothing,       1,    true,     2,    false,    0,    false,    0,    false,    0),
+  (nothing,       1,    true,     2,    false,    0,    false,    0,    false,    0),
 
   (:just(:a2),    1,    false,    2,    true,     1,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     1,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     1,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    false,    1,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    false,    1,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    false,    1,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    true,     2,    false,    0,    false,    0),
-  (nil,           1,    false,    2,    false,    2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     1,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     1,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    false,    1,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    false,    1,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    false,    1,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    true,     2,    false,    0,    false,    0),
+  (nothing,       1,    false,    2,    false,    2,    false,    0,    false,    0),
 
   (:just(:a3),    1,    false,    2,    false,    2,    true,     1,    false,    0),
   (:just(:a3),    1,    false,    2,    false,    2,    false,    1,    false,    0),
@@ -75,18 +75,18 @@ reactive time_varying_2
   (:just(:a3),    1,    false,    2,    false,    2,    false,    3,    false,    0),
 
   (:just(:a4),    1,    false,    2,    false,    2,    false,    3,    true,     1),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    true,     1),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    true,     1),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    false,    1),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    true,     2),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    true,     2),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    true,     2),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    false,    2),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    false,    2),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    false,    2),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    true,     3),
-  (nil,           7,    false,    2,    false,    2,    false,    3,    true,     3),
-  (nil,           1,    false,    2,    false,    2,    false,    3,    false,    3)
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    true,     1),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    true,     1),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    false,    1),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    true,     2),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    true,     2),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    true,     2),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    false,    2),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    false,    2),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    false,    2),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    true,     3),
+  (nothing,       7,    false,    2,    false,    2,    false,    3,    true,     3),
+  (nothing,       1,    false,    2,    false,    2,    false,    3,    false,    3)
 );
 
 
@@ -104,7 +104,7 @@ Bool RunTimeVaryingTest2((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool,
   auto a : time_varying_2;
 
   for mi, dt, eo1, ec1, eo2, ec2, eo3, ec3, eo4, ec4 @ j <- test_data:
-    if mi != nil:
+    if mi != nothing:
       auto a.i = match (mi) just(i?) = i;
     ;
 

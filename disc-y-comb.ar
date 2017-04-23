@@ -18,16 +18,16 @@ reactive disc_y_comb
 }
 
 
-(<Ta, nil>, <Tb, nil>, <Tab, nil>)* disc_y_comb_test_data = (
-  (:a0, :b0, :a0),
-  (:a1, nil, :a1),
-  (nil, :b2, :b2),
-  (nil, nil, nil),
-  (nil, :b4, :b4),
-  (nil, nil, nil),
-  (:a6, nil, :a6),
-  (nil, nil, nil),
-  (:a8, :b8, :a8)
+(<Ta, none>, <Tb, none>, <Tab, none>)* disc_y_comb_test_data = (
+  (:a0,     :b0,    :a0),
+  (:a1,     :none,  :a1),
+  (:none,   :b2,    :b2),
+  (:none,   :none,  :none),
+  (:none,   :b4,    :b4),
+  (:none,   :none,  :none),
+  (:a6,     :none,  :a6),
+  (:none,   :none,  :none),
+  (:a8,     :b8,    :a8)
 );
 
 
@@ -36,17 +36,17 @@ Bool RunBasicDiscYCombTests()
   auto yc : disc_y_comb;
 
   for ia, ib, eo <- disc_y_comb_test_data:
-    if ia != nil:
+    if ia != :none:
       auto yc.ia = ia;
     ;
-    if ib != nil:
+    if ib != :none:
       auto yc.ib = ib;
     ;
 
     auto apply yc done;
     assert done;
 
-    ok = if yc.o? then yc.o == eo else eo == nil;
+    ok = if yc.o? then yc.o == eo else eo == :none;
 
     if not ok:
       Print("Error!\n");

@@ -59,7 +59,7 @@ String* split_chat_msg(Byte* msg_text)
       j = j + 1;
     ;
 
-    new_field = subseq(msg_text, i, j, nil);
+    new_field = subseq(msg_text, i, j, :blank);
     fields = (fields | string(new_field)) if new_field != ();
 
     i = i + j;
@@ -84,24 +84,24 @@ Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
     return just(login(user: channel, name: fields(1))) if fields(0) == "LOGIN";
 
     if fields(0) == "JOIN" and is_room_name(fields(1)):
-      return just(join(user: channel, room: substr(fields(1), 1, nil, 0)));
+      return just(join(user: channel, room: substr(fields(1), 1, :blank, 0)));
     ;
 
     if fields(0) == "PART" and is_room_name(fields(1)):
-      return just(leave(user: channel, room: substr(fields(1), 1, nil, 0)));
+      return just(leave(user: channel, room: substr(fields(1), 1, :blank, 0)));
     ;
 
   elif count == 3:
     if fields(0) == "MSG":
       if is_room_name(fields(1)):
-        return just(send_msg_to_room(sender: channel, target: substr(fields(1), 1, nil, 0), msg_text: fields[2]));
+        return just(send_msg_to_room(sender: channel, target: substr(fields(1), 1, :blank, 0), msg_text: fields[2]));
       else
         return just(send_msg_to_user(sender: channel, receiver: fields(1), msg_text: fields[2]));
       ;
     ;
   ;
 
-  return nil;
+  return nothing;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

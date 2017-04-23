@@ -42,35 +42,3 @@ type Nat            = <0..*>;
 type Bit            = <0..1>;
 type Byte           = <0..255>;
 type String         = string(Nat*);
-
-
-// type Seq            = Any*;
-
-// type Set            = [Any];
-// type BinRel         = [Any,Any];
-// type TernRel        = [Any,Any,Any];
-
-// type TagObj         = <+>(Any);
-
-// type Any            = Atom, Int, Float, Seq, Set, BinRel, TernRel, TagObj;
-
-
-// type True           = true;
-// type False          = false;
-
-// type NzNat          = <1..*>;
-// type NegInt         = <*..-1>;
-
-// type Map            = [Any -> Any];
-
-// type NeSet          = [+Any];
-// type NeSeq          = Any+;
-// type Record         = [Atom -> Any];
-// type Nil            = nil;
-// type Just[T]        = just(T);
-// type Maybe[T]       = nil, just(T);
-
-// type Result[TS, TF] = success(TS), failure(TF);
-
-// type List[T]        = nil, list(head: T, tail: List[T]);
-// type Stack[T]       = nil, stack(top: T, rest: Stack[T]);

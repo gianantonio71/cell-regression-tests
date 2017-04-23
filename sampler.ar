@@ -16,7 +16,7 @@ reactive sampler
     curr_sample : Tab?;
 
   state:
-    last_sample : Maybe[Tab] = nil;
+    last_sample : Maybe[Tab] = nothing;
 
   rules:
     curr_sample := if take_sample == :a then ia else ib;
@@ -24,18 +24,18 @@ reactive sampler
 }
 
 
-type SamplerTestSample = (<Ta, nil>, <Tb, nil>, <a, b, nil>, <Tab, nil>);
+type SamplerTestSample = (<Ta, nothing>, <Tb, nothing>, <a, b, nothing>, <Tab, nothing>);
 
 
 SamplerTestSample* sampler_test_data = (
   (:a0, :b0, :b, :b0),
-  (nil, nil, nil, nil),
-  (nil, nil, :a, :a0),
-  (:a1, nil, :a, :a1),
-  (nil, :b1, :b, :b1),
+  (nothing, nothing, nothing, nothing),
+  (nothing, nothing, :a, :a0),
+  (:a1, nothing, :a, :a1),
+  (nothing, :b1, :b, :b1),
   (:a2, :b2, :b, :b2),
-  (nil, nil, :a, :a2),
-  (nil, nil, nil, nil)
+  (nothing, nothing, :a, :a2),
+  (nothing, nothing, nothing, nothing)
 );
 
 
@@ -43,25 +43,25 @@ Bool RunBasicSamplerTest(SamplerTestSample* test_data)
 {
   auto s : sampler;
 
-  els = nil;
+  els = nothing;
 
   for ia, ib, ts, ecs <- test_data:
-    if ia != nil:
+    if ia != nothing:
       auto s.ia = ia;
     ;
-    if ib != nil:
+    if ib != nothing:
       auto s.ib = ib;
     ;
-    if ts != nil:
+    if ts != nothing:
       auto s.take_sample = ts;
     ;
 
     auto apply s done;
     assert done;
 
-    els = just(ecs) if ecs != nil;
+    els = just(ecs) if ecs != nothing;
 
-    cs_ok = if ecs != nil then s.curr_sample? and s.curr_sample == ecs else not s.curr_sample?;
+    cs_ok = if ecs != nothing then s.curr_sample? and s.curr_sample == ecs else not s.curr_sample?;
     ls_ok = s.last_sample == els;
 
     if not cs_ok or not ls_ok:

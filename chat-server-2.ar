@@ -157,7 +157,7 @@ using ChatServer2
     if new_data == ascii_newline:
       update pending_inputs(channel, ());
       maybe_msg = try_parse_msg(pend_data, channel);
-      if maybe_msg != nil:
+      if maybe_msg != nothing:
         do(value(maybe_msg));
       else
         insert data_to_send(msg_counter, (channel, "ERROR syntax error"));

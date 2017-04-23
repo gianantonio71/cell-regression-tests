@@ -71,19 +71,19 @@ reactive Bool flipflop_client_positional
 }
 
 
-(<on, off, same, nil>, Bool)* flipflop_test_data_1 = (
-  (nil,     false),
+(<on, off, same, none>, Bool)* flipflop_test_data_1 = (
+  (:none,   false),
   (:same,   false),
   (:off,    false),
   (:on,     true),
-  (nil,     true),
+  (:none,   true),
   (:on,     true),
   (:same,   true),
   (:off,    false)
 );
 
 
-Bool RunBasicFlipFlopTest((<on, off, same, nil>, Bool) test_data)
+Bool RunBasicFlipFlopTest((<on, off, same, none>, Bool) test_data)
 {
   auto fc  : flipflop_client;
   auto fcp : flipflop_client_positional;

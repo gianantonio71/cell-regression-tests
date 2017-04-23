@@ -208,7 +208,7 @@ Bool RunAllBinTableColsPermsTests()
   test_data = bin_table_cols_perms_test_data;
 
   // Inserting
-  ok = nil;
+  ok = :none;
   for t <- test_data:
     auto ok = a <- t;
     if not ok:
@@ -357,7 +357,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
   curr_tuples = [];
 
-  ok = nil;
+  ok = :none;
 
   for n <- ns; s <- ss:
     nt = (n, s);
@@ -389,7 +389,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
 Bool RunAllBinTableKeyCheckTests()
 {
-  ok = nil;
+  ok = :none;
   for m, ks <- _isort_([(m, ks) : m, ks <- bin_rels_keys_by_msg]):
     ok = RunBinTableKeyCheckTests(m, ks);
     if not ok:
@@ -413,7 +413,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 
   curr_tuples = [];
 
-  ok = nil;
+  ok = :none;
 
   for n <- ns; s <- ss:
     nt = (n, s);
@@ -458,7 +458,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 
 Bool RunAllBinTableUpdateTests()
 {
-  ok = nil;
+  ok = :none;
   for m, ks <- _isort_([(m, ks) : m, ks <- bin_rels_update_keys_by_msg]):
     ok = RunBinTableUpdateTests(m, ks);
     if not ok:

@@ -5,14 +5,14 @@ reactive fps50_a
 
   output:
     counter : Nat;
-    next    : Nil?;
+    next    : <none>?;
 
   state:
     counter : Nat = 0;
 
   rules:
     first_frame_half = enabled for not 10ms every 20ms;
-    next := nil if first_frame_half;
+    next := :none if first_frame_half;
     counter = _add_(counter, 1) : next;
 }
 
@@ -24,14 +24,14 @@ reactive fps50_b
 
   output:
     counter : Nat;
-    next : Nil?;
+    next : <none>?;
 
   state:
     counter : Nat = 0;
 
   rules:
     parity = enabled for 20ms every 40ms;
-    next := nil : parity;
+    next := :none : parity;
     counter = _add_(counter, 1) : next;
 }
 

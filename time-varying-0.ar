@@ -23,37 +23,37 @@ reactive time_varying_0
 
 (Maybe[Ta], Nat, Bool, <hello, bye>, Bool, Nat)* time_varying_0_test_data_0 = (
   (:just(:a0),    0,    false,      :bye,     false,    0),
-  (nil,           1,    false,      :bye,     false,    0),
-  (nil,           1,    false,      :bye,     false,    0),
-  (nil,           1,    false,      :bye,     false,    0),
-  (nil,          10,    false,      :bye,     false,    0),
+  (nothing,       1,    false,      :bye,     false,    0),
+  (nothing,       1,    false,      :bye,     false,    0),
+  (nothing,       1,    false,      :bye,     false,    0),
+  (nothing,      10,    false,      :bye,     false,    0),
   (:just(:a1),    1,    false,      :bye,     false,    0),
-  (nil,           1,    false,      :bye,     false,    0),
-  (nil,           1,    true,       :hello,   false,    0),
-  (nil,          10,    true,       :hello,   false,    0),
+  (nothing,       1,    false,      :bye,     false,    0),
+  (nothing,       1,    true,       :hello,   false,    0),
+  (nothing,      10,    true,       :hello,   false,    0),
   (:just(:a2),    0,    false,      :bye,     false,    0),
-  (nil,          10,    false,      :bye,     false,    0),
+  (nothing,      10,    false,      :bye,     false,    0),
   (:just(:a3),   20,    false,      :bye,     false,    0),
-  (nil,           1,    false,      :bye,     false,    0),
-  (nil,           1,    false,      :bye,     true,     1),
-  (nil,           1,    false,      :bye,     true,     1),
-  (nil,           1,    false,      :bye,     true,     1),
-  (nil,           1,    false,      :bye,     false,    1),
-  (nil,           1,    false,      :bye,     false,    1),
-  (nil,           1,    false,      :bye,     false,    1),
-  (nil,           1,    false,      :bye,     false,    1),
-  (nil,           1,    false,      :bye,     false,    1),
-  (nil,           1,    false,      :bye,     true,     2),
-  (nil,           1,    false,      :bye,     true,     2),
-  (nil,           1,    false,      :bye,     false,    2),
+  (nothing,       1,    false,      :bye,     false,    0),
+  (nothing,       1,    false,      :bye,     true,     1),
+  (nothing,       1,    false,      :bye,     true,     1),
+  (nothing,       1,    false,      :bye,     true,     1),
+  (nothing,       1,    false,      :bye,     false,    1),
+  (nothing,       1,    false,      :bye,     false,    1),
+  (nothing,       1,    false,      :bye,     false,    1),
+  (nothing,       1,    false,      :bye,     false,    1),
+  (nothing,       1,    false,      :bye,     false,    1),
+  (nothing,       1,    false,      :bye,     true,     2),
+  (nothing,       1,    false,      :bye,     true,     2),
+  (nothing,       1,    false,      :bye,     false,    2),
   (:just(:a4),  100,    false,      :bye,     false,    2)
 );
 
 
 (Maybe[Ta], Nat, Bool, <hello, bye>, Bool, Nat)* time_varying_0_test_data_1 = (
   (:just(:a3),    0,    false,      :bye,     false,    0),
-  (nil,          12,    false,      :bye,     false,    2),
-  (nil,         100,    false,      :bye,     false,    2)
+  (nothing,      12,    false,      :bye,     false,    2),
+  (nothing,     100,    false,      :bye,     false,    2)
 );
 
 
@@ -62,7 +62,7 @@ Bool RunTimeVaryingTest0((Maybe[Ta], Nat, Bool, <hello, bye>, Bool, Nat)* test_d
   auto tm : time_varying_0;
 
   for mi, dt, eo, ed, eo2, ec @ j <- test_data:
-    if mi != nil:
+    if mi != nothing:
       auto tm.i = match (mi) just(i?) = i;
     ;
 

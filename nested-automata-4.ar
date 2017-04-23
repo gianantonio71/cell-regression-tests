@@ -4,10 +4,10 @@ reactive cont_to_disc
     an_input : Ta;
 
   output:
-    an_output : Nil?;
+    an_output : <none>?;
 
   rules:
-    an_output := nil if an_input == :a0 or an_input == :a3;
+    an_output := :none if an_input == :a0 or an_input == :a3;
 }
 
 reactive cont_to_disc_client
@@ -17,7 +17,7 @@ reactive cont_to_disc_client
 
   output:
     counter : Nat;
-    my_output : Nil?;
+    my_output : <none>?;
 
   state:
     counter : Nat = 0;

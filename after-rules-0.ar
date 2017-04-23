@@ -56,7 +56,7 @@ Bool RunAfter0Test1()
 {
   auto ta : after_test_0;
 
-  curr_watched_value = nil;
+  curr_watched_value = :none;
   time_since_change = 0;
   elapsed_time = 0;
   for 100:

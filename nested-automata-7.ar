@@ -43,20 +43,20 @@ reactive nested_automata_7
 
 
 (Ta, Maybe[Nat], Nat, Nat)* nested_automata_7_test_data = (
-  (:a0,       nil,    0,    0),
-  (:a1,       nil,    1,    0),
-  (:a2,       nil,    1,    0),
-  (:a3,       nil,    1,    1),
-  (:a4, :just(10),    2,   11),
-  (:a5,       nil,    2,   12),
-  (:a6,       nil,    2,   12),
-  (:a0,:just(100),    2,  113),
-  (:a1,       nil,    3,  113),
-  (:a2,       nil,    3,  113),
-  (:a3,       nil,    3,  114),
-  (:a4,       nil,    4,  114),
-  (:a5,       nil,    4,  115),
-  (:a0,       nil,    4,  115)
+  (:a0,   nothing,    0,    0),
+  (:a1,   nothing,    1,    0),
+  (:a2,   nothing,    1,    0),
+  (:a3,   nothing,    1,    1),
+  (:a4,   :just(10),  2,   11),
+  (:a5,   nothing,    2,   12),
+  (:a6,   nothing,    2,   12),
+  (:a0,   :just(100), 2,  113),
+  (:a1,   nothing,    3,  113),
+  (:a2,   nothing,    3,  113),
+  (:a3,   nothing,    3,  114),
+  (:a4,   nothing,    4,  114),
+  (:a5,   nothing,    4,  115),
+  (:a0,   nothing,    4,  115)
 );
 
 
@@ -66,7 +66,7 @@ Bool RunAllNestedAutomata7Tests()
 
   for input, incr, ec, enc<- nested_automata_7_test_data:
     auto ta.my_input = input;
-    if incr != nil:
+    if incr != nothing:
       auto ta.increment = match (incr) just(n?) = n;
     ;
     auto apply ta done;
