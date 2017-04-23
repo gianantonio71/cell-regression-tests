@@ -15,7 +15,7 @@ using ChatServer1CoreState
   Bool user_exists(UserId user) = user_ids(user, ?);
 
   Bool user_has_joined_room(UserId user, RoomId room) {
-    rooms_joined = user_rooms(user);
+    rooms_joined = user_rooms[user];
     return rooms_joined(room);
   }
 
