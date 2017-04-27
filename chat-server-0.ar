@@ -1,9 +1,9 @@
 schema ChatServer0CoreState
 {
-  user_names : [UserId -> String]    = [:];
-  user_ids   : [String -> UserId]    = [:];
-  user_rooms : [UserId -> RoomId]    = [:];
-  room_users : [RoomId -> [+UserId]] = [:];
+  user_names : [UserId -> String]    = [];
+  user_ids   : [String -> UserId]    = [];
+  user_rooms : [UserId -> RoomId]    = [];
+  room_users : [RoomId -> [+UserId]] = [];
 }
 
 
@@ -74,8 +74,8 @@ using ChatServer0CoreState
 
 schema ChatServer0
 {
-  pending_inputs : [Nat -> Byte*]         = [:];
-  data_to_send   : [Nat -> (Nat, String)] = [:];
+  pending_inputs : [Nat -> Byte*]         = [];
+  data_to_send   : [Nat -> (Nat, String)] = [];
   msg_counter    : Nat                    = 0;
 
   core_state : ChatServer0CoreState;
@@ -100,7 +100,7 @@ using ChatServer0
   {
     channel = msg.channel;
     update pending_inputs = remove_key(pending_inputs, channel);
-    is_logged_in = has_key(core_state.user_names, channel);
+    is_logged_in = core_state.user_names(channel);
     core_state <- logout(user: channel) if is_logged_in;
   }
 
@@ -139,8 +139,8 @@ using ChatServer0
     user = msg.user;
     name = msg.name;
 
-    already_logged_in = has_key(core_state.user_names, user);
-    name_already_taken = has_key(core_state.user_ids, name);
+    already_logged_in = core_state.user_names(user);
+    name_already_taken = core_state.user_ids(name);
 
     core_state <- msg if not {already_logged_in or name_already_taken};
 
@@ -155,7 +155,7 @@ using ChatServer0
 
   do(Logout msg)
   {
-    core_state <- msg if has_key(core_state.user_names, msg.user);
+    core_state <- msg if core_state.user_names(msg.user);
   }
 
 
@@ -163,7 +163,7 @@ using ChatServer0
   {
     user = msg.user;
 
-    is_logged_in = has_key(core_state.user_names, user);
+    is_logged_in = core_state.user_names(user);
 
     core_state <- msg if is_logged_in;
 
@@ -179,7 +179,7 @@ using ChatServer0
     user = msg.user;
     room = msg.room;
 
-    is_logged_in = has_key(core_state.user_names, user);
+    is_logged_in = core_state.user_names(user);
     has_joined_room = is_logged_in and core_state.user_rooms[user](room);
 
     core_state <- msg if has_joined_room;
@@ -199,8 +199,8 @@ using ChatServer0
     receiver = msg.receiver;
     msg_text = msg.msg_text;
 
-    is_logged_in = has_key(core_state.user_names, sender);
-    target_exists = has_key(core_state.user_ids, receiver);
+    is_logged_in = core_state.user_names(sender);
+    target_exists = core_state.user_ids(receiver);
 
     resp_msg = if   not is_logged_in  then "ERROR not logged in"
                elif not target_exists then "ERROR unknown user"
@@ -226,7 +226,7 @@ using ChatServer0
     target = msg.target;
     msg_text = msg.msg_text;
 
-    is_logged_in = has_key(core_state.user_names, sender);
+    is_logged_in = core_state.user_names(sender);
     has_joined_room = is_logged_in and core_state.user_rooms[sender](target);
 
     resp_msg = if   not is_logged_in      then "ERROR not logged in"
@@ -264,7 +264,7 @@ Bool RunAllChatServer0Tests()
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- raw_str(s):
+    for ch <- chars(s):
       auto ok = cs <- received(cid, ch);
     ;
     auto ok = cs <- received(cid, ascii_newline);
@@ -295,6 +295,6 @@ Bool RunAllChatServer0Tests()
     ;
   ;
 
-  assert cs.data_to_send == [:];
+  assert cs.data_to_send == [];
   return true;
 }

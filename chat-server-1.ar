@@ -1,9 +1,9 @@
 schema ChatServer1CoreState
 {
-  user_names : [UserId -> String]     = [:];
-  user_ids   : [String -> UserId]     = [:];
-  user_rooms : [UserId -> RoomId]     = [:];
-  room_users : [RoomId -> [+UserId]]  = [:];
+  user_names : [UserId -> String]     = [];
+  user_ids   : [String -> UserId]     = [];
+  user_rooms : [UserId -> RoomId]     = [];
+  room_users : [RoomId -> [+UserId]]  = [];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,9 +150,9 @@ reactive safe_chat_server_1_core_state
 
 schema ChatServer1
 {
-  pending_inputs : [Nat -> Byte*]         = [:];
+  pending_inputs : [Nat -> Byte*]         = [];
   msg_counter    : Nat                    = 0;
-  data_to_send   : [Nat -> (Nat, String)] = [:];
+  data_to_send   : [Nat -> (Nat, String)] = [];
 
   core_state : ChatServer1CoreState;
 }
@@ -176,7 +176,7 @@ using ChatServer1
   {
     channel = msg.channel;
     update pending_inputs = remove_key(pending_inputs, channel);
-    is_logged_in = has_key(core_state.user_names, channel);
+    is_logged_in = core_state.user_names(channel);
     core_state <- logout(user: channel) if is_logged_in;
   }
 
@@ -231,7 +231,7 @@ using ChatServer1
 
   do(Logout msg)
   {
-    core_state <- msg if has_key(core_state.user_names, msg.user);
+    core_state <- msg if core_state.user_names(msg.user);
   }
 
 
@@ -382,7 +382,7 @@ Bool RunAllChatServer1Tests()
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- raw_str(s):
+    for ch <- chars(s):
       auto cs.message = received(cid, ch);
       auto apply cs done;
       assert done;
@@ -421,6 +421,6 @@ Bool RunAllChatServer1Tests()
     ;
   ;
 
-  assert cs.data_to_send == [:];
+  assert cs.data_to_send == [];
   return true;
 }

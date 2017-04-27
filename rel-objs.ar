@@ -29,7 +29,7 @@ Bool RunTernRelObjsTests()
       Print("Error (run-time type checking 1)\n");
       return false;
     ;
-    if a_rel != [::] and not a_rel :: [+String, Int, Point]:
+    if a_rel != [] and not a_rel :: [+String, Int, Point]:
       Print("Error (run-time type checking 2)\n");
       return false;
     ;
@@ -38,7 +38,7 @@ Bool RunTernRelObjsTests()
                 a_rel :: [Int, Point, String] or
                 a_rel :: [Point, String, Int] or
                 a_rel :: [Point, Int, String];
-    if a_rel != [::] and cannot_be:
+    if a_rel != [] and cannot_be:
       Print("Error (RTTC 3)\n");
       print a_rel;
       print a_rel :: [Int, String, Point];
@@ -175,11 +175,11 @@ Bool RunBinRelObjsTests1()
       Print("Error (RTTC 1)\n");
       return false;
     ;
-    if a_rel != [:] and not a_rel :: [+String, Point]:
+    if a_rel != [] and not a_rel :: [+String, Point]:
       Print("Error (RTTC 2)\n");
       return false;
     ;
-    if a_rel != [:] and a_rel :: [Point, String]:
+    if a_rel != [] and a_rel :: [Point, String]:
       Print("Error (RTTC 3)\n");
       return false;
     ;

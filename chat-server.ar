@@ -69,7 +69,7 @@ String* split_chat_msg(Byte* msg_text)
 }
 
 
-Bool is_room_name(String str) = length(str) > 1 and str[0] == ascii_hash;
+Bool is_room_name(String str) = length(str) > 1 and char(str, 0) == ascii_hash;
 
 
 Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
@@ -94,9 +94,9 @@ Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
   elif count == 3:
     if fields(0) == "MSG":
       if is_room_name(fields(1)):
-        return just(send_msg_to_room(sender: channel, target: substr(fields(1), 1, :blank, 0), msg_text: fields[2]));
+        return just(send_msg_to_room(sender: channel, target: substr(fields(1), 1, :blank, 0), msg_text: fields(2)));
       else
-        return just(send_msg_to_user(sender: channel, receiver: fields(1), msg_text: fields[2]));
+        return just(send_msg_to_user(sender: channel, receiver: fields(1), msg_text: fields(2)));
       ;
     ;
   ;

@@ -21,7 +21,7 @@ schema TrAutoA {
   a_point_seq_var     : Point*    = ();
   a_time_span_seq_var : TimeSpan* = ();
 
-  an_int_to_symb_map_var  : [Int -> Atom] = [:];
+  an_int_to_symb_map_var  : [Int -> Atom] = [];
 
   a_bool_unary_rel(Bool);
   a_symb_unary_rel(Atom);

@@ -334,7 +334,7 @@ Bool RunAllChatServer2Tests()
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- raw_str(s):
+    for ch <- chars(s):
       auto cs.message = received(cid, ch);
       auto apply cs done;
       assert done;
@@ -369,6 +369,6 @@ Bool RunAllChatServer2Tests()
     ;
   ;
 
-  assert cs.data_to_send == [:];
+  assert cs.data_to_send == [];
   return true;
 }
