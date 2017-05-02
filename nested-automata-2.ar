@@ -33,7 +33,7 @@ reactive nested_automata_2
     ha2 = filtered_history_2(to_skip = :a3, input = ha1.input_filtered);
     h = ha2.history;
     fi := ha2.input_filtered;
-    hs = _len_(h);
+    hs = |h|;
     fib := (fi);
 }
 

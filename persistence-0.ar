@@ -227,9 +227,9 @@ TravelsData travels_data_2 = (
 
 (RouteId, AirportId, AirportId)+ randomly_generated_routes(AirportId+ airports, NzNat count)
 {
-  assert _len_(airports) :: <2..*>;
+  assert |airports| :: <2..*>;
 
-  ac = _len_(airports);
+  ac = |airports|;
   fail if ac == 0;
 
   rs = ();
@@ -251,7 +251,7 @@ TravelsData travels_data_2 = (
 {
   min_epoc_time = 1000000;
   fs = ();
-  rc = _len_(rs);
+  rc = |rs|;
   fail if rc == 0;
   for i < count:
     r = rs(_rand_nat_(rc));

@@ -43,7 +43,7 @@ Sent        sent(Nat n)             = sent(msg_id: n);
 
 String* split_chat_msg(Byte* msg_text)
 {
-  len = length(msg_text);
+  len = |msg_text|;
 
   fields = ();
 
@@ -55,7 +55,7 @@ String* split_chat_msg(Byte* msg_text)
     ;
 
     j = 0;
-    while i + j < len and {length(fields) == 2 or msg_text(i+j) != ascii_space}:
+    while i + j < len and {|fields| == 2 or msg_text(i+j) != ascii_space}:
       j = j + 1;
     ;
 
@@ -75,7 +75,7 @@ Bool is_room_name(String str) = length(str) > 1 and char(str, 0) == ascii_hash;
 Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
 {
   fields = split_chat_msg(data);
-  count = length(fields);
+  count = |fields|;
 
   if count == 1:
     return just(logout(user: channel)) if fields(0) == "LOGOUT";

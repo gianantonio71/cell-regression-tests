@@ -45,7 +45,7 @@ reactive pedometer_0
 
     position_copy = position if has_moved;
     track = (track | position) if has_moved;
-    distance = distance + point_to_point_distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and length(track) > 1;
+    distance = distance + point_to_point_distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and |track| > 1;
     unused_rule = reverse(track);
 }
 
@@ -85,7 +85,7 @@ Float* expected_distances
 {
   ps = (point(x, y) : x, y <- route);
   ds = (0.0);
-  for i = 1..length(route):
+  for i = 1..|route|:
     ds = (ds | ds(i-1) + point_to_point_distance(ps(i-1), ps(i)));
   ;
   return ds;

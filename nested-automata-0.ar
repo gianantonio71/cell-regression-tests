@@ -27,7 +27,7 @@ reactive full_history_client
     ha = full_history(input = i);
     h = ha.history;
 
-    hs = _len_(h);
+    hs = |h|;
 }
 
 

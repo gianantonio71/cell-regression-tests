@@ -10,7 +10,7 @@ schema MinTrAuto {
 
 T only([T] set) {
   seq = _isort_(set);
-  fail if _len_(seq) != 1;
+  fail if |seq| != 1;
   return seq(0);
 }
 

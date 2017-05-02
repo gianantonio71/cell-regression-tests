@@ -316,7 +316,7 @@ using ChatServer1
       fwd_msg = "GOTROOMMSG " & core_state.user_names[sender] & " #" & target & " " & msg_text;
       receivers = rand_sort(lookup(core_state.room_users, target, []));
       new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] : r @ i <- receivers));
-      msgs_sent = msgs_sent + length(receivers);
+      msgs_sent = msgs_sent + |receivers|;
     ;
 
     update data_to_send = data_to_send & new_data_to_send;
@@ -373,7 +373,7 @@ Bool RunAllChatServer1Tests()
   sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));
   conn_ids = merge(([u -> i] : u @ i <- sorted_users));
 
-  for i < size(conn_ids):
+  for i < |conn_ids|:
     auto cs.message = connect(i);
     auto apply cs done;
     assert done;
@@ -394,7 +394,7 @@ Bool RunAllChatServer1Tests()
     // print cs;
   ;
 
-  for i < size(conn_ids):
+  for i < |conn_ids|:
     auto cs.message = disconnect(i);
     auto apply cs done;
     assert done;
@@ -413,7 +413,7 @@ Bool RunAllChatServer1Tests()
     auto apply cs done;
     assert done;
     // print cs;
-    if size(cs.data_to_send) != cs.msg_counter - i - 1:
+    if |cs.data_to_send| != cs.msg_counter - i - 1:
       Print("ERROR (2)\n");
       print i;
       print cs.data_to_send;

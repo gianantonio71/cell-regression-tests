@@ -2,10 +2,10 @@ Nat* frames_offsets(Nat* throws)
 {
   i : Nat;
 
-  len = length(throws);
+  len = |throws|;
   offsets = ();
   i = 0;
-  while i < len and length(offsets) < 10:
+  while i < len and |offsets| < 10:
     offsets = (offsets | i);
     i = nat(i + if throws(i) == 10 then 1 else 2);
   ;
@@ -88,7 +88,7 @@ Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected
   ;
 
 
-  actual_partial_scores = subseq(b.cumulative_scores, 0, length(expected_partial_scores));
+  actual_partial_scores = subseq(b.cumulative_scores, 0, |expected_partial_scores|);
 
   ts_ok = b.throws == throws;
   pss_ok = actual_partial_scores == expected_partial_scores;

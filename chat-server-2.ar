@@ -283,7 +283,7 @@ using ChatServer2
       for r @ i <- rand_sort(receivers):
         insert data_to_send(counter + i, (r, fwd_msg));
       ;
-      counter = counter + size(receivers);
+      counter = counter + |receivers|;
     ;
 
     update msg_counter = counter;
@@ -326,7 +326,7 @@ Bool RunAllChatServer2Tests()
   sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));
   conn_ids = merge(([u -> i] : u @ i <- sorted_users));
 
-  for i < size(conn_ids):
+  for i < |conn_ids|:
     auto cs.message = connect(i);
     auto apply cs done;
     assert done;
@@ -344,7 +344,7 @@ Bool RunAllChatServer2Tests()
     assert done;
   ;
 
-  for i < size(conn_ids):
+  for i < |conn_ids|:
     auto cs.message = disconnect(i);
     auto apply cs done;
     assert done;
@@ -361,7 +361,7 @@ Bool RunAllChatServer2Tests()
     auto cs.message = sent(i);
     auto apply cs done;
     assert done;
-    if size(cs.data_to_send) != cs.msg_counter - i - 1:
+    if |cs.data_to_send| != cs.msg_counter - i - 1:
       Print("ERROR (2)\n");
       print i;
       print cs.data_to_send;
