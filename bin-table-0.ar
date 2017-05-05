@@ -77,19 +77,19 @@ BinTableColsPerms <- (Nat, String)
 
 BinTableColsPerms <- Nat
 {
-  delete bin_rel_a(it, ?);
-  delete bin_rel_b(it, ?);
-  delete bin_rel_c(it, ?);
-  delete bin_rel_d(it, ?);
+  delete bin_rel_a(it, *);
+  delete bin_rel_b(it, *);
+  delete bin_rel_c(it, *);
+  delete bin_rel_d(it, *);
 }
 
 
 BinTableColsPerms <- String
 {
-  delete bin_rel_a(?, it);
-  delete bin_rel_b(?, it);
-  delete bin_rel_c(?, it);
-  delete bin_rel_d(?, it);
+  delete bin_rel_a(*, it);
+  delete bin_rel_b(*, it);
+  delete bin_rel_c(*, it);
+  delete bin_rel_d(*, it);
 }
 
 
@@ -106,10 +106,10 @@ BinTableColsPerms <- <del_01(Nat, String)>
 
 using BinTableColsPerms
 {
-  (Nat, String) rel_a_dump = [(n, s) : n, s <- bin_rel_a(?, ?)];
-  (Nat, String) rel_b_dump = [(n, s) : n, s <- bin_rel_b(?, ?)];
-  (Nat, String) rel_c_dump = [(n, s) : n, s <- bin_rel_c(?, ?)];
-  (Nat, String) rel_d_dump = [(n, s) : n, s <- bin_rel_d(?, ?)];
+  (Nat, String) rel_a_dump = [(n, s) : n, s <- bin_rel_a];
+  (Nat, String) rel_b_dump = [(n, s) : n, s <- bin_rel_b];
+  (Nat, String) rel_c_dump = [(n, s) : n, s <- bin_rel_c];
+  (Nat, String) rel_d_dump = [(n, s) : n, s <- bin_rel_d];
 
   (Nat, String) rel_a_dump_2 = [(n, s) : n, s <- bin_rel_a];
   (Nat, String) rel_b_dump_2 = [(n, s) : n, s <- bin_rel_b];
@@ -137,17 +137,17 @@ using BinTableColsPerms
     ];
 
   [Bool] in(Nat n) = [
-      bin_rel_a(n, ?),
-      bin_rel_b(n, ?),
-      bin_rel_c(n, ?),
-      bin_rel_d(n, ?)
+      bin_rel_a(n, *),
+      bin_rel_b(n, *),
+      bin_rel_c(n, *),
+      bin_rel_d(n, *)
     ];
 
   [Bool] in(String s) = [
-      bin_rel_a(?, s),
-      bin_rel_b(?, s),
-      bin_rel_c(?, s),
-      bin_rel_d(?, s)
+      bin_rel_a(*, s),
+      bin_rel_b(*, s),
+      bin_rel_c(*, s),
+      bin_rel_d(*, s)
     ];
 
 
@@ -159,10 +159,10 @@ using BinTableColsPerms
     ];
 
   [Nat] lookup(String s) = [
-      bin_rel_a(*, s),
-      bin_rel_b(*, s),
-      bin_rel_c(*, s),
-      bin_rel_d(*, s)
+      bin_rel_a(!!, s),
+      bin_rel_b(!!, s),
+      bin_rel_c(!!, s),
+      bin_rel_d(!!, s)
     ];
 
   [+[Nat]] projection(String s) = [
@@ -428,9 +428,9 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
     ;
     new_tuples = match (msg)
       update_a  = [(n1, s1) : n1, s1 <- a.bin_rel_a],
-      update_b  = [(n1, s1) : n1, s1 <- a.bin_rel_b(?, ?)],
+      update_b  = [(n1, s1) : n1, s1 <- a.bin_rel_b],
       update_c  = [(n1, s1) : n1, s1 <- a.bin_rel_c],
-      update_d  = [(n1, s1) : n1, s1 <- a.bin_rel_d(?, ?)];
+      update_d  = [(n1, s1) : n1, s1 <- a.bin_rel_d];
 
     if new_tuples != exp_tuples:
       Print("ERROR (2)\n");

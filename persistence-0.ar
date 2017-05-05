@@ -73,23 +73,23 @@ type PopulateFlights = populate_flights(data: FlightsData);
 
 Flights <- PopulateFlights
 {
-  delete country(?), code(?, ?), name(?, ?);
+  delete country(*), code(*, *), name(*, *);
   for id, code, name <- it.data.countries:
     insert country(id), code(id, code), name(id, name);
   ;
 
-  delete airport(?), name(?, ?), location(?, ?);
+  delete airport(*), name(*, *), location(*, *);
   for id, name, country <- it.data.airports:
     insert airport(id), name(id, name), location(id, country);
   ;
 
-  delete flight_route(?, ?, ?);
+  delete flight_route(*, *, *);
   for id, from, to <- it.data.routes:
     insert flight_route(id, from, to);
     insert departing(from, id);
   ;
 
-  delete flight(?), route(?, ?), departure(?, ?), arrival(?, ?), price(?, ?);
+  delete flight(*), route(*, *), departure(*, *), arrival(*, *), price(*, *);
   for id, route, departure, arrival, price <- it.data.flights:
     insert flight(id), route(id, route), departure(id, departure), arrival(id, arrival), price(id, price);
   ;

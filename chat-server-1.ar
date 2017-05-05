@@ -10,9 +10,9 @@ schema ChatServer1CoreState
 
 using ChatServer1CoreState
 {
-  Bool is_logged_in(UserId user) = user_names(user, ?);
+  Bool is_logged_in(UserId user) = user_names(user, *);
 
-  Bool user_exists(UserId user) = user_ids(user, ?);
+  Bool user_exists(UserId user) = user_ids(user, *);
 
   Bool user_has_joined_room(UserId user, RoomId room) {
     rooms_joined = user_rooms[user];
@@ -22,7 +22,7 @@ using ChatServer1CoreState
 
   LoginCheck login_check(UserId user, String name) =
     if   is_logged_in(user)   then :already_logged_in
-    elif user_ids(name, ?)    then :name_already_in_use
+    elif user_ids(name, *)    then :name_already_in_use
                               else :ok;
 
 
@@ -176,7 +176,7 @@ using ChatServer1
   {
     channel = msg.channel;
     update pending_inputs = remove_key(pending_inputs, channel);
-    is_logged_in = core_state.user_names(channel);
+    is_logged_in = core_state.user_names(channel, *);
     core_state <- logout(user: channel) if is_logged_in;
   }
 
@@ -231,7 +231,7 @@ using ChatServer1
 
   do(Logout msg)
   {
-    core_state <- msg if core_state.user_names(msg.user);
+    core_state <- msg if core_state.user_names(msg.user, *);
   }
 
 

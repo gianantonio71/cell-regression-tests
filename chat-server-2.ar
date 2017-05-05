@@ -8,9 +8,9 @@ schema ChatServer2CoreState
 
 using ChatServer2CoreState
 {
-  Bool logged_in(UserId user_id)    = username(user_id, ?);
+  Bool logged_in(UserId user_id)    = username(user_id, *);
 
-  Bool already_in_use(String name)  = username(?, name);
+  Bool already_in_use(String name)  = username(*, name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ using ChatServer2CoreState
   do(Logout msg)
   {
     user_id = msg.user;
-    delete username(user_id, ?), joined(user_id, ?);
+    delete username(user_id, *), joined(user_id, *);
   }
 
   do(JoinRoom msg)
@@ -172,7 +172,7 @@ using ChatServer2
 
   do(Sent msg)
   {
-    delete data_to_send(msg.msg_id, ?);
+    delete data_to_send(msg.msg_id, *);
   }
 }
 
@@ -257,7 +257,7 @@ using ChatServer2
 
     if check_res == :ok:
       fwd_msg = "GOTUSERMSG " & core_state.username(msg.sender) & " " & msg.msg_text;
-      insert data_to_send(counter, (core_state.username(*, msg.receiver), fwd_msg));
+      insert data_to_send(counter, (core_state.username(!!, msg.receiver), fwd_msg));
       counter = counter + 1;
     ;
 
@@ -308,7 +308,7 @@ reactive chat_server_2_wrapper
   rules:
     core_server <- message;
 
-    data_to_send = [id -> data : id, data <- core_server.data_to_send(?, ?)];
+    data_to_send = [id -> data : id, data <- core_server.data_to_send];
 
     //## DEBUGGING CODE
     msg_counter = core_server.msg_counter;
