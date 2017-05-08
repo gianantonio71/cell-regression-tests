@@ -310,7 +310,7 @@ reactive chat_server_2_wrapper
 
     data_to_send = [id -> data : id, data <- core_server.data_to_send];
 
-    //## DEBUGGING CODE
+    ## DEBUGGING CODE
     msg_counter = core_server.msg_counter;
 }
 

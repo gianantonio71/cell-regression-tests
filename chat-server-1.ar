@@ -350,7 +350,7 @@ reactive chat_server_1_wrapper
 
     data_to_send = core_server.data_to_send;
 
-    //## DEBUGGING CODE
+    ## DEBUGGING CODE
     pending_inputs = core_server.pending_inputs;
     msg_counter = core_server.msg_counter;
 

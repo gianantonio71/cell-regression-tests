@@ -323,7 +323,7 @@ Bool RunFlightsTests()
 {
   auto fsdb : Flights;
 
-  ok = :none; //## FIX THE BUG WHEN REMOVING THIS...
+  ok = :none; ## FIX THE BUG WHEN REMOVING THIS...
 
   d0 = (countries: (), airports: (), routes: (), flights: ());
   d1 = flights_data;
@@ -419,7 +419,7 @@ Bool RunTravelsTests()
 {
   auto tdb : Travels;
 
-  ok = :none; //## FIX THE BUG WHEN REMOVING THIS...
+  ok = :none; ## FIX THE BUG WHEN REMOVING THIS...
 
   d0 = (
     budget:    euro_cents(0),
