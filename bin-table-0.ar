@@ -106,17 +106,17 @@ BinTableColsPerms <- <del_01(Nat, String)>
 
 using BinTableColsPerms
 {
-  (Nat, String) rel_a_dump = [(n, s) : n, s <- bin_rel_a];
-  (Nat, String) rel_b_dump = [(n, s) : n, s <- bin_rel_b];
-  (Nat, String) rel_c_dump = [(n, s) : n, s <- bin_rel_c];
-  (Nat, String) rel_d_dump = [(n, s) : n, s <- bin_rel_d];
+  [(Nat, String)] rel_a_dump = [(n, s) : n, s <- bin_rel_a];
+  [(Nat, String)] rel_b_dump = [(n, s) : n, s <- bin_rel_b];
+  [(Nat, String)] rel_c_dump = [(n, s) : n, s <- bin_rel_c];
+  [(Nat, String)] rel_d_dump = [(n, s) : n, s <- bin_rel_d];
 
-  (Nat, String) rel_a_dump_2 = [(n, s) : n, s <- bin_rel_a];
-  (Nat, String) rel_b_dump_2 = [(n, s) : n, s <- bin_rel_b];
-  (Nat, String) rel_c_dump_2 = [(n, s) : n, s <- bin_rel_c];
-  (Nat, String) rel_d_dump_2 = [(n, s) : n, s <- bin_rel_d];
+  [(Nat, String)] rel_a_dump_2 = [(n, s) : n, s <- bin_rel_a];
+  [(Nat, String)] rel_b_dump_2 = [(n, s) : n, s <- bin_rel_b];
+  [(Nat, String)] rel_c_dump_2 = [(n, s) : n, s <- bin_rel_c];
+  [(Nat, String)] rel_d_dump_2 = [(n, s) : n, s <- bin_rel_d];
 
-  (Nat, String) rel_dumps = [
+  [[(Nat, String)]] rel_dumps = [
       rel_a_dump,
       rel_b_dump,
       rel_c_dump,
@@ -127,7 +127,7 @@ using BinTableColsPerms
       rel_d_dump_2
     ];
 
-  Bool is_ok = |_isort_(rel_dumps)| == 1;
+  Bool is_ok = |rand_sort(rel_dumps)| == 1;
 
   [Bool] in(Nat n, String s) = [
       bin_rel_a(n, s),

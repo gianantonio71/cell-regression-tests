@@ -314,31 +314,31 @@ TernTableColsPerms <- <del_012(Nat, String, Point)>
 
 using TernTableColsPerms
 {
-  (Nat, String, Point) rel_a_dump = [(n, s, p) : n, s, p <- tern_rel_a];
-  (Nat, String, Point) rel_b_dump = [(n, s, p) : n, s, p <- tern_rel_b];
-  (Nat, String, Point) rel_c_dump = [(n, s, p) : n, s, p <- tern_rel_c];
-  (Nat, String, Point) rel_d_dump = [(n, s, p) : n, s, p <- tern_rel_d];
-  (Nat, String, Point) rel_e_dump = [(n, s, p) : n, s, p <- tern_rel_e];
-  (Nat, String, Point) rel_f_dump = [(n, s, p) : n, s, p <- tern_rel_f];
-  (Nat, String, Point) rel_g_dump = [(n, s, p) : n, s, p <- tern_rel_g];
-  (Nat, String, Point) rel_h_dump = [(n, s, p) : n, s, p <- tern_rel_h];
-  (Nat, String, Point) rel_i_dump = [(n, s, p) : n, s, p <- tern_rel_i];
-  (Nat, String, Point) rel_j_dump = [(n, s, p) : n, s, p <- tern_rel_j];
-  (Nat, String, Point) rel_k_dump = [(n, s, p) : n, s, p <- tern_rel_k];
+  [(Nat, String, Point)] rel_a_dump = [(n, s, p) : n, s, p <- tern_rel_a];
+  [(Nat, String, Point)] rel_b_dump = [(n, s, p) : n, s, p <- tern_rel_b];
+  [(Nat, String, Point)] rel_c_dump = [(n, s, p) : n, s, p <- tern_rel_c];
+  [(Nat, String, Point)] rel_d_dump = [(n, s, p) : n, s, p <- tern_rel_d];
+  [(Nat, String, Point)] rel_e_dump = [(n, s, p) : n, s, p <- tern_rel_e];
+  [(Nat, String, Point)] rel_f_dump = [(n, s, p) : n, s, p <- tern_rel_f];
+  [(Nat, String, Point)] rel_g_dump = [(n, s, p) : n, s, p <- tern_rel_g];
+  [(Nat, String, Point)] rel_h_dump = [(n, s, p) : n, s, p <- tern_rel_h];
+  [(Nat, String, Point)] rel_i_dump = [(n, s, p) : n, s, p <- tern_rel_i];
+  [(Nat, String, Point)] rel_j_dump = [(n, s, p) : n, s, p <- tern_rel_j];
+  [(Nat, String, Point)] rel_k_dump = [(n, s, p) : n, s, p <- tern_rel_k];
 
-  (Nat, String, Point) rel_a_dump_2 = [(n, s, p) : n, s, p <- tern_rel_a];
-  (Nat, String, Point) rel_b_dump_2 = [(n, s, p) : n, s, p <- tern_rel_b];
-  (Nat, String, Point) rel_c_dump_2 = [(n, s, p) : n, s, p <- tern_rel_c];
-  (Nat, String, Point) rel_d_dump_2 = [(n, s, p) : n, s, p <- tern_rel_d];
-  (Nat, String, Point) rel_e_dump_2 = [(n, s, p) : n, s, p <- tern_rel_e];
-  (Nat, String, Point) rel_f_dump_2 = [(n, s, p) : n, s, p <- tern_rel_f];
-  (Nat, String, Point) rel_g_dump_2 = [(n, s, p) : n, s, p <- tern_rel_g];
-  (Nat, String, Point) rel_h_dump_2 = [(n, s, p) : n, s, p <- tern_rel_h];
-  (Nat, String, Point) rel_i_dump_2 = [(n, s, p) : n, s, p <- tern_rel_i];
-  (Nat, String, Point) rel_j_dump_2 = [(n, s, p) : n, s, p <- tern_rel_j];
-  (Nat, String, Point) rel_k_dump_2 = [(n, s, p) : n, s, p <- tern_rel_k];
+  [(Nat, String, Point)] rel_a_dump_2 = [(n, s, p) : n, s, p <- tern_rel_a];
+  [(Nat, String, Point)] rel_b_dump_2 = [(n, s, p) : n, s, p <- tern_rel_b];
+  [(Nat, String, Point)] rel_c_dump_2 = [(n, s, p) : n, s, p <- tern_rel_c];
+  [(Nat, String, Point)] rel_d_dump_2 = [(n, s, p) : n, s, p <- tern_rel_d];
+  [(Nat, String, Point)] rel_e_dump_2 = [(n, s, p) : n, s, p <- tern_rel_e];
+  [(Nat, String, Point)] rel_f_dump_2 = [(n, s, p) : n, s, p <- tern_rel_f];
+  [(Nat, String, Point)] rel_g_dump_2 = [(n, s, p) : n, s, p <- tern_rel_g];
+  [(Nat, String, Point)] rel_h_dump_2 = [(n, s, p) : n, s, p <- tern_rel_h];
+  [(Nat, String, Point)] rel_i_dump_2 = [(n, s, p) : n, s, p <- tern_rel_i];
+  [(Nat, String, Point)] rel_j_dump_2 = [(n, s, p) : n, s, p <- tern_rel_j];
+  [(Nat, String, Point)] rel_k_dump_2 = [(n, s, p) : n, s, p <- tern_rel_k];
 
-  (Nat, String, Point) rel_dumps = [
+  [[(Nat, String, Point)]] rel_dumps = [
       rel_a_dump,
       rel_b_dump,
       rel_c_dump,
@@ -363,7 +363,7 @@ using TernTableColsPerms
       rel_k_dump_2
     ];
 
-  Bool is_ok = |_isort_(rel_dumps)| == 1;
+  Bool is_ok = |rand_sort(rel_dumps)| == 1;
 
   [Bool] in(Nat n, String s, Point p) = [
       tern_rel_a(n, s, p),

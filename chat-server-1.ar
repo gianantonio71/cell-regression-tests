@@ -2,7 +2,7 @@ schema ChatServer1CoreState
 {
   user_names : [UserId -> String]     = [];
   user_ids   : [String -> UserId]     = [];
-  user_rooms : [UserId -> RoomId]     = [];
+  user_rooms : [UserId -> [RoomId]]   = [];
   room_users : [RoomId -> [+UserId]]  = [];
 }
 
@@ -12,7 +12,7 @@ using ChatServer1CoreState
 {
   Bool is_logged_in(UserId user) = user_names(user, *);
 
-  Bool user_exists(UserId user) = user_ids(user, *);
+  Bool user_exists(String user) = user_ids(user, *);
 
   Bool user_has_joined_room(UserId user, RoomId room) {
     rooms_joined = user_rooms[user];
@@ -26,7 +26,7 @@ using ChatServer1CoreState
                               else :ok;
 
 
-  LoginCheck logout_check(UserId user) =
+  LogoutCheck logout_check(UserId user) =
     if is_logged_in(user) then :ok else :not_logged_in;
 
 
@@ -35,9 +35,9 @@ using ChatServer1CoreState
 
 
   LeaveRoomCheck leave_room_check(UserId user, RoomId room) =
-    if   not is_logged_in(user)                then :not_logged_in
-    elif not user_has_joined_room(user, room)  then :not_in_room
-                                                    else :ok;
+    if   not is_logged_in(user)               then :not_logged_in
+    elif not user_has_joined_room(user, room) then :not_in_room
+                                              else :ok;
 
 
   SendMsgToUserCheck action_check(SendMsgToUser msg) =
@@ -47,9 +47,9 @@ using ChatServer1CoreState
 
 
   SendMsgToRoomCheck action_check(SendMsgToRoom msg) =
-    if   not is_logged_in(msg.sender)                      then :not_logged_in
-    elif not user_has_joined_room(msg.sender, msg.target)  then :not_in_room
-                                                                else :ok;
+    if   not is_logged_in(msg.sender)                     then :not_logged_in
+    elif not user_has_joined_room(msg.sender, msg.target) then :not_in_room
+                                                          else :ok;
 
 
   ActionCheck action_check(ChatServerCoreAction action) =

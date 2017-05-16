@@ -25,7 +25,7 @@ using ChatServer2CoreState
     else
       :ok;
 
-  LoginCheck logout_check(UserId user_id) = if logged_in(user_id) then :ok else :not_logged_in;
+  LogoutCheck logout_check(UserId user_id) = if logged_in(user_id) then :ok else :not_logged_in;
 
   JoinRoomCheck join_room_check(UserId user_id) = if logged_in(user_id) then :ok else :not_logged_in;
 
