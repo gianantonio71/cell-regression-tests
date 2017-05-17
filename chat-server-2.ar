@@ -161,7 +161,7 @@ using ChatServer2
         do(value(maybe_msg));
       else
         insert data_to_send(msg_counter, (channel, "ERROR syntax error"));
-        update msg_counter = msg_counter + 1;
+        update msg_counter = nat(msg_counter + 1);
       ;
 
     else
@@ -195,7 +195,7 @@ using ChatServer2
       name_already_in_use = "ERROR name already in use";
 
     update data_to_send(msg_counter, (user, resp_msg));
-    update msg_counter = msg_counter + 1;
+    update msg_counter = nat(msg_counter + 1);
   }
 
 
@@ -216,7 +216,7 @@ using ChatServer2
     resp_msg = if check_res == :ok then "OK" else "ERROR not logged in";
 
     update data_to_send(msg_counter, (user, resp_msg));
-    update msg_counter = msg_counter + 1;
+    update msg_counter = nat(msg_counter + 1);
   }
 
 
@@ -235,7 +235,7 @@ using ChatServer2
       not_in_room     = "ERROR never joined room";
 
     update data_to_send(msg_counter, (user, resp_msg));
-    update msg_counter = msg_counter + 1;
+    update msg_counter = nat(msg_counter + 1);
   }
 }
 
@@ -253,12 +253,12 @@ using ChatServer2
       ok                = "OK";
 
     insert data_to_send(msg_counter, (msg.sender, resp_msg));
-    counter = msg_counter + 1;
+    counter = nat(msg_counter + 1);
 
     if check_res == :ok:
       fwd_msg = "GOTUSERMSG " & core_state.username(msg.sender) & " " & msg.msg_text;
       insert data_to_send(counter, (core_state.username(!!, msg.receiver), fwd_msg));
-      counter = counter + 1;
+      counter = nat(counter + 1);
     ;
 
     update msg_counter = counter;
@@ -275,15 +275,15 @@ using ChatServer2
       ok                = "OK";
 
     insert data_to_send(msg_counter, (msg.sender, resp_msg));
-    counter = msg_counter + 1;
+    counter = nat(msg_counter + 1);
 
     if check_res == :ok:
       fwd_msg = "GOTROOMMSG " & core_state.username(msg.sender) & " #" & msg.target & " " & msg.msg_text;
       receivers = [r : r <- core_state.joined(?, msg.target)];
       for r @ i <- rand_sort(receivers):
-        insert data_to_send(counter + i, (r, fwd_msg));
+        insert data_to_send(nat(counter + i), (r, fwd_msg));
       ;
-      counter = counter + |receivers|;
+      counter = nat(counter + |receivers|);
     ;
 
     update msg_counter = counter;

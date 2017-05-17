@@ -2,7 +2,7 @@ schema ChatServer0CoreState
 {
   user_names : [UserId -> String]    = [];
   user_ids   : [String -> UserId]    = [];
-  user_rooms : [UserId -> RoomId]    = [];
+  user_rooms : [UserId -> [RoomId]]  = [];
   room_users : [RoomId -> [+UserId]] = [];
 }
 
@@ -118,7 +118,7 @@ using ChatServer0
         do(value(maybe_msg));
       else
         update data_to_send = data_to_send & [msg_counter -> (channel, "ERROR syntax error")];
-        update msg_counter = msg_counter + 1;
+        update msg_counter = nat(msg_counter + 1);
       ;
 
     else
@@ -149,7 +149,7 @@ using ChatServer0
                                          else "OK";
 
     update data_to_send = update(data_to_send, msg_counter, (user, resp_msg));
-    update msg_counter = msg_counter + 1;
+    update msg_counter = nat(msg_counter + 1);
   }
 
 
@@ -170,7 +170,7 @@ using ChatServer0
     resp_msg = if is_logged_in then "OK" else "ERROR not logged in";
 
     update data_to_send = update(data_to_send, msg_counter, (user, resp_msg));
-    update msg_counter  = msg_counter + 1;
+    update msg_counter  = nat(msg_counter + 1);
   }
 
 
@@ -189,7 +189,7 @@ using ChatServer0
                                         else "OK";
 
     update data_to_send = update(data_to_send, msg_counter, (user, resp_msg));
-    update msg_counter  = msg_counter + 1;
+    update msg_counter  = nat(msg_counter + 1);
   }
 
 
@@ -211,12 +211,12 @@ using ChatServer0
 
     if is_logged_in and target_exists:
       fwd_msg = "GOTUSERMSG " & core_state.user_names[sender] & " " & msg_text;
-      new_data_to_send = new_data_to_send & [msg_counter + msgs_sent -> (core_state.user_ids[receiver], fwd_msg)];
+      new_data_to_send = new_data_to_send & [nat(msg_counter + msgs_sent) -> (core_state.user_ids[receiver], fwd_msg)];
       msgs_sent = msgs_sent + 1;
     ;
 
     update data_to_send = data_to_send & new_data_to_send;
-    update msg_counter = msg_counter + msgs_sent;
+    update msg_counter = nat(msg_counter + msgs_sent);
   }
 
 
@@ -239,12 +239,12 @@ using ChatServer0
     if is_logged_in:
       fwd_msg = "GOTROOMMSG " & core_state.user_names[sender] & " #" & target & " " & msg_text;
       receivers = rand_sort(lookup(core_state.room_users, target, []));
-      new_data_to_send = new_data_to_send & merge(([msg_counter + i + 1 -> (r, fwd_msg)] : r @ i <- receivers));
+      new_data_to_send = new_data_to_send & merge(([nat(msg_counter + i + 1) -> (r, fwd_msg)] : r @ i <- receivers));
       msgs_sent = msgs_sent + |receivers|;
     ;
 
     update data_to_send = data_to_send & new_data_to_send;
-    update msg_counter = msg_counter + msgs_sent;
+    update msg_counter = nat(msg_counter + msgs_sent);
   }
 }
 
