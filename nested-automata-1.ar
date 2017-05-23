@@ -4,11 +4,11 @@ reactive filtered_history
     input : Ta?;
 
   output:
-    history : Ta+;
+    history : Ta*;
     input_filtered : Ta?;
 
   state:
-    history : Ta+ = ();
+    history : Ta* = ();
 
   rules:
     history = (history | input) : input;
@@ -22,7 +22,7 @@ reactive nested_automata_1
     i : Ta?;
 
   output:
-    h   : Ta+;
+    h   : Ta*;
     hs  : Nat;
     fi  : Ta?;
     fib : Ta+?;

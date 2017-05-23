@@ -124,7 +124,7 @@ reactive polymorphic_methods_1
 
   output:
     my_counter     : Nat;
-    nested_counter : Nat;
+    nested_counter : Int;
 
   state:
     my_counter : Nat = 0;
@@ -140,7 +140,7 @@ reactive polymorphic_methods_1
     msg := value(maybe_msg) if maybe_msg != nothing;
     na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
 
-    my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+    my_counter = nat(_add_(my_counter, 1)) if my_input == :a1 or my_input == :a4;
 
     nested_counter = na.a_counter;
 }
@@ -153,7 +153,7 @@ reactive polymorphic_methods_2
 
   output:
     my_counter     : Nat;
-    nested_counter : Nat;
+    nested_counter : Int;
 
   state:
     my_counter : Nat = 0;
@@ -168,7 +168,7 @@ reactive polymorphic_methods_2
 
     na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
 
-    my_counter = _add_(my_counter, 1) if my_input == :a1 or my_input == :a4;
+    my_counter = nat(_add_(my_counter, 1)) if my_input == :a1 or my_input == :a4;
 
     nested_counter = na.a_counter;
 }

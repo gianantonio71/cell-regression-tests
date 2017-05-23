@@ -34,7 +34,7 @@ reactive bowling
     throws            : Nat*;
     frames_scores     : Nat*;
     cumulative_scores : Nat*;
-    score             : Nat*;
+    score             : Nat;
     throw_copy        : Nat?;
 
   state:
@@ -51,7 +51,7 @@ reactive bowling
 
     cumulative_scores = partial_sums(frames_scores);
 
-    score = sum(frames_scores);
+    score = nat(sum(frames_scores));
 }
 
 

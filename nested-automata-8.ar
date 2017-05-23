@@ -15,10 +15,10 @@ reactive some_counter
     msg_counter  : Nat = 0;
 
   rules:
-    flow_counter = flow_counter + 1 if an_input == :a0 or an_input == :a3 or an_input == :a5;
-    msg_counter = if msg == :reset then 0 else msg_counter + _obj_(msg);
+    flow_counter = nat(flow_counter + 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
+    msg_counter = if msg == :reset then 0 else nat(msg_counter + _obj_(msg));
 
-    a_counter = flow_counter + msg_counter;
+    a_counter = nat(flow_counter + msg_counter);
 }
 
 
@@ -40,7 +40,7 @@ reactive test_1
     // msg := :incr_counter(increment) : increment;
     msg := :incr_counter(increment) if my_input != :a0;
     na = some_counter(an_input=my_input, msg=msg);
-    my_counter = my_counter + 1 if my_input == :a1 or my_input == :a4;
+    my_counter = nat(my_counter + 1) if my_input == :a1 or my_input == :a4;
     nested_counter = na.a_counter;
 }
 
@@ -62,7 +62,7 @@ reactive test_2
     msg := :incr_counter(increment) if my_input == :a2 or my_input == :a5 : increment;
     na = some_counter(an_input=my_input, msg=msg);
 
-    my_counter = my_counter + 1 if my_input == :a1 or my_input == :a4;
+    my_counter = nat(my_counter + 1) if my_input == :a1 or my_input == :a4;
 
     nested_counter = na.a_counter;
 }

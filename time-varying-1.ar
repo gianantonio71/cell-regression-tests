@@ -25,10 +25,10 @@ reactive time_varying_1
     o3 = i == :a1 for (1ns and not 5ns) or 8ns every 12ns;
     o4 = i == :a1 for (3ns and not 4ns) or (7ns and not 10ns) every 15ns;
 
-    c1 = _add_(c1, 1) if o1;
-    c2 = _add_(c2, 1) if o2;
-    c3 = _add_(c3, 1) if o3;
-    c4 = _add_(c4, 1) if o4;
+    c1 = nat(_add_(c1, 1)) if o1;
+    c2 = nat(_add_(c2, 1)) if o2;
+    c3 = nat(_add_(c3, 1)) if o3;
+    c4 = nat(_add_(c4, 1)) if o4;
 }
 
 

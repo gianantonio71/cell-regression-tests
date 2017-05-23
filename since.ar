@@ -10,7 +10,7 @@ reactive since
     counter : Nat = 0;
 
   rules:
-    counter = _add_(counter, 1) : an_input;
+    counter = nat(_add_(counter, 1)) : an_input;
     idle_for_10s = counter after 10s;
     more_than_10s_ago = counter != 0 and idle_for_10s;
 }

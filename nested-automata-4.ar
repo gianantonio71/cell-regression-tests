@@ -25,7 +25,7 @@ reactive cont_to_disc_client
   rules:
     na = cont_to_disc(an_input=my_input);
     my_output := na.an_output;
-    counter = _add_(counter, 1) : my_output;
+    counter = nat(_add_(counter, 1)) : my_output;
 }
 
 

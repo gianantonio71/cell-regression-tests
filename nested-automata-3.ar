@@ -13,7 +13,7 @@ reactive fps50_a
   rules:
     first_frame_half = enabled for not 10ms every 20ms;
     next := :none if first_frame_half;
-    counter = _add_(counter, 1) : next;
+    counter = nat(_add_(counter, 1)) : next;
 }
 
 
@@ -32,7 +32,7 @@ reactive fps50_b
   rules:
     parity = enabled for 20ms every 40ms;
     next := :none : parity;
-    counter = _add_(counter, 1) : next;
+    counter = nat(_add_(counter, 1)) : next;
 }
 
 
@@ -42,8 +42,8 @@ reactive nested_automata_3
     unused_input : Ta;
 
   output:
-    counter_a : Ta;
-    counter_b : Ta;
+    counter_a : Nat;
+    counter_b : Nat;
 
   rules:
     fg_a = fps50_a(enabled=true);

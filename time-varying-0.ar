@@ -17,7 +17,7 @@ reactive time_varying_0
     o = i == :a1 for 2ns;
     d = if o then :hello else :bye;
     o2 = i == :a3 for (2ns and not 5ns) or (10ns and not 12ns);
-    c = c + 1 if o2;
+    c = nat(c + 1) if o2;
 }
 
 

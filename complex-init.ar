@@ -4,14 +4,14 @@ reactive complex_init
     i : Ta;
 
   output:
-    v1 : Ta;
-    v2 : Ta;
-    d1 : Ta;
-    d2 : Ta;
+    v1 : <g(f(Ta))>;
+    v2 : <l(h(g(f(Ta))))>;
+    d1 : <f(Ta)>;
+    d2 : <h(g(f(Ta)))>;
 
   state:
-    v1 : Ta = :g(d1);
-    v2 : Ta = :l(d2);
+    v1 : <g(f(Ta))> = :g(d1);
+    v2 : <l(h(g(f(Ta))))> = :l(d2);
 
   rules:
     d1 = :f(i);
