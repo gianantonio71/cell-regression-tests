@@ -334,7 +334,7 @@ Bool RunAllChatServer2Tests()
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- chars(s):
+    for ch <- _obj_(s):
       auto cs.message = received(cid, ch);
       auto apply cs done;
       assert done;

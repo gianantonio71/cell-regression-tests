@@ -264,7 +264,7 @@ Bool RunAllChatServer0Tests()
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- chars(s):
+    for ch <- _obj_(s):
       auto ok = cs <- received(cid, ch);
     ;
     auto ok = cs <- received(cid, ascii_newline);

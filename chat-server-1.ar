@@ -335,12 +335,8 @@ reactive chat_server_1_wrapper
   output:
     data_to_send   : [Nat -> (Nat, String)];
 
-    pending_inputs : Any;
-    msg_counter    : Any;
-    user_names     : Any;
-    user_ids       : Any;
-    user_rooms     : Any;
-    room_users     : Any;
+    ## DEBUGGING CODE
+    msg_counter    : Nat;
 
   state:
     core_server : ChatServer1;
@@ -351,13 +347,7 @@ reactive chat_server_1_wrapper
     data_to_send = core_server.data_to_send;
 
     ## DEBUGGING CODE
-    pending_inputs = core_server.pending_inputs;
     msg_counter = core_server.msg_counter;
-
-    user_names = core_server.core_state.user_names;
-    user_ids = core_server.core_state.user_ids;
-    user_rooms = core_server.core_state.user_rooms;
-    room_users = core_server.core_state.room_users;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -382,7 +372,7 @@ Bool RunAllChatServer1Tests()
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- chars(s):
+    for ch <- _obj_(s):
       auto cs.message = received(cid, ch);
       auto apply cs done;
       assert done;

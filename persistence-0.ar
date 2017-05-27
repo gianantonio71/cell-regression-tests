@@ -267,50 +267,51 @@ TravelsData travels_data_2 = (
 
 ////////////////////////////////////////////////////////////////////////////////
 
-type FlightsState = ( country:      [CountryId],
-                      airport:      [AirportId],
-                      flight:       [FlightId],
+// type FlightsState = ( country:      [CountryId],
+//                       airport:      [AirportId],
+//                       flight:       [FlightId],
 
-                      code:         [CountryId              -> CountryCode],
-                      name:         [<CountryId, AirportId> -> String],
-                      location:     [AirportId              -> CountryId],
-                      route:        [FlightId               -> RouteId],
-                      departure:    [FlightId               -> Time],
-                      arrival:      [FlightId               -> Time],
-                      price:        [FlightId               -> Money],
+//                       code:         [CountryId              -> CountryCode],
+//                       // name:         [<CountryId, AirportId> -> String],
+//                       name:         [CountryId, String; AirportId, String],
+//                       location:     [AirportId              -> CountryId],
+//                       route:        [FlightId               -> RouteId],
+//                       departure:    [FlightId               -> Time],
+//                       arrival:      [FlightId               -> Time],
+//                       price:        [FlightId               -> Money],
 
-                      flight_route: [RouteId, AirportId, AirportId],
+//                       flight_route: [RouteId, AirportId, AirportId],
 
-                      departing:    [AirportId, RouteId]
-                    );
+//                       departing:    [AirportId, RouteId]
+//                     );
 
-FlightsState flights_state(FlightsData data) = (
-    country:      [t(0) : t <- set(data.countries)],
-    airport:      [t(0) : t <- set(data.airports)],
-    flight:       [t(0) : t <- set(data.flights)],
-    code:         [t(0) -> t(1) : t <- set(data.countries)],
-    name:         [t(0) -> t(2) : t <- set(data.countries)] &
-                  [t(0) -> t(1) : t <- set(data.airports)],
-    location:     [t(0) -> t(2) : t <- set(data.airports)],
-    route:        [t(0) -> t(1) : t <- set(data.flights)],
-    departure:    [t(0) -> t(2) : t <- set(data.flights)],
-    arrival:      [t(0) -> t(3) : t <- set(data.flights)],
-    price:        [t(0) -> t(4) : t <- set(data.flights)],
-    flight_route: [t(0), t(1), t(2) : t <- set(data.routes)],
-    departing:    [t(1), t(0) : t <- set(data.routes)]
+Flights flights_state(FlightsData data) = (
+    country:      [t(0) : t <~ data.countries],
+    airport:      [t(0) : t <~ data.airports],
+    flight:       [t(0) : t <~ data.flights],
+    code:         [t(0) -> t(1) : t <~ data.countries],
+    name:         [id, name : id, name <- [t(0) -> t(2) : t <~ data.countries] |
+                              id, name <- [t(0) -> t(1) : t <~ data.airports]],
+    location:     [t(0) -> t(2) : t <~ data.airports],
+    route:        [t(0) -> t(1) : t <~ data.flights],
+    departure:    [t(0) -> t(2) : t <~ data.flights],
+    arrival:      [t(0) -> t(3) : t <~ data.flights],
+    price:        [t(0) -> t(4) : t <~ data.flights],
+    flight_route: [t(0), t(1), t(2) : t <~ data.routes],
+    departing:    [t(1), t(0) : t <~ data.routes]
   );
 
 ////////////////////////////////////////////////////////////////////////////////
 
-type TravelsState = (
-    budget    : Money,
-    favorites : CountryId*,
-    visited   : CountryId*,
-    flights   : FlightsState
-  );
+// type TravelsState = (
+//     budget    : Money,
+//     favorites : CountryId*,
+//     visited   : CountryId*,
+//     flights   : FlightsState
+//   );
 
 
-TravelsState travels_state(TravelsData data) = (
+Travels travels_state(TravelsData data) = (
     budget:     data.budget,
     favorites:  data.favorites,
     visited:    data.visited,
@@ -322,8 +323,6 @@ TravelsState travels_state(TravelsData data) = (
 Bool RunFlightsTests()
 {
   auto fsdb : Flights;
-
-  ok = :none; ## FIX THE BUG WHEN REMOVING THIS...
 
   d0 = (countries: (), airports: (), routes: (), flights: ());
   d1 = flights_data;
@@ -418,8 +417,6 @@ Bool RunFlightsTests()
 Bool RunTravelsTests()
 {
   auto tdb : Travels;
-
-  ok = :none; ## FIX THE BUG WHEN REMOVING THIS...
 
   d0 = (
     budget:    euro_cents(0),

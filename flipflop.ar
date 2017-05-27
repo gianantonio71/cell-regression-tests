@@ -23,7 +23,7 @@ reactive Bool flipflop(on, off)
 reactive Bool flipflop_client
 {
   input:
-    action : <on, off, same>?;
+    action : <on, off, same, none>?;
 
   output:
     flipflop_state_bad : Bool;
@@ -51,7 +51,7 @@ reactive Bool flipflop_client
 reactive Bool flipflop_client_positional
 {
   input:
-    action : <on, off, same>?;
+    action : <on, off, same, none>?;
 
   state:
     on  : Bool = false;
@@ -83,7 +83,7 @@ reactive Bool flipflop_client_positional
 );
 
 
-Bool RunBasicFlipFlopTest((<on, off, same, none>, Bool) test_data)
+Bool RunBasicFlipFlopTest((<on, off, same, none>, Bool)* test_data)
 {
   auto fc  : flipflop_client;
   auto fcp : flipflop_client_positional;

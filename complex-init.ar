@@ -19,7 +19,7 @@ reactive complex_init
 }
 
 
-Any* complex_init_test_data = (
+(Ta, Any, Any, Any, Any)* complex_init_test_data = (
   (:a0, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a0), :h(:g(:f(:a0)))),
   (:a1, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a1), :h(:g(:f(:a0)))),
   (:a2, :g(:f(:a0)), :l(:h(:g(:f(:a0)))), :f(:a2), :h(:g(:f(:a0)))),

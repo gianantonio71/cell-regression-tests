@@ -6,6 +6,8 @@ type Tab = Ta, Tb;
 
 Bool one_in(NzNat count) = _rand_nat_(count) == 0;
 
+T rand_elem([T] set) = _rand_elem_(set);
+
 
 Main(String* args)
 {

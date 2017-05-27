@@ -107,7 +107,7 @@ Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-(<alice, carol, bob>, String)* chat_server_test_data_1 = (
+(<alice, carol, bob>, <string(Byte*)>)* chat_server_test_data_1 = (
   (:bob,   "LOGIN bob"),
   (:bob,   "JOIN #news"),
   (:alice, "LOGIN alice"),

@@ -44,7 +44,7 @@ Any methods.my_meth(<d2> p) = d2;
 (Any, Any) methods.my_other_meth(<v1, v2, d1, d2> p1, <v1, v2, d1, d2> p2) = (my_meth(p1), my_meth(p2));
 
 
-Any* method_test_data_1a = (
+(Nat, Ta, Any, Any, Any, Any)* method_test_data_1a = (
   (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
   (0, :a1, :f(:a1), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
   (0, :a2, :f(:a2), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
@@ -62,7 +62,7 @@ Any* method_test_data_1a = (
 );
 
 
-Any* method_test_data_1b = (
+(Nat, Ta, Any, Any, Any, Any)* method_test_data_1b = (
   (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
   (0, :a1, :f(:a1), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
   (0, :a2, :f(:a2), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
@@ -80,7 +80,7 @@ Any* method_test_data_1b = (
 );
 
 
-Any* method_test_data_2a = (
+(Nat, Ta, Any, Any, Any, Any)* method_test_data_2a = (
   (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
   (2, :a0, :f(:a0), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
   (0, :a1, :f(:a1), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
@@ -91,7 +91,7 @@ Any* method_test_data_2a = (
 );
 
 
-Any* method_test_data_2b = (
+(Nat, Ta, Any, Any, Any, Any)* method_test_data_2b = (
   // (0, :a0, :f(:a0), :g(:f(:a0)), :h(:g(:f(:a0))), :l(:h(:g(:f(:a0))))),
   (2, :a0, :f(:a0), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
   (0, :a1, :f(:a1), :s(:f(:a0)), :h(:s(:f(:a0))), :t(:h(:g(:f(:a0))))),
@@ -102,7 +102,7 @@ Any* method_test_data_2b = (
 );
 
 
-Bool RunBasicMethodTests(Any* test_data)
+Bool RunBasicMethodTests((Nat, Ta, Any, Any, Any, Any)* test_data)
 {
   auto t : methods;
 

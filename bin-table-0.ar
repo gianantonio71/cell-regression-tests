@@ -93,7 +93,7 @@ BinTableColsPerms <- String
 }
 
 
-BinTableColsPerms <- <del_01(Nat, String)>
+BinTableColsPerms <- <del(Nat, String)>
 {
   n, s = _obj_(it);
 
@@ -208,7 +208,6 @@ Bool RunAllBinTableColsPermsTests()
   test_data = bin_table_cols_perms_test_data;
 
   // Inserting
-  ok = :none;
   for t <- test_data:
     auto ok = a <- t;
     if not ok:
@@ -223,12 +222,12 @@ Bool RunAllBinTableColsPermsTests()
 
   // Testing projections
   for n, s <- test_data:
-    sss = _isort_(a.projection(n));
+    sss = rand_sort(a.projection(n));
     if |sss| != 1:
       Print("ERROR (2.1)\n");
       return false;
     ;
-    ss = _isort_(sss(0));
+    ss = rand_sort(sss(0));
     if |ss| != 1:
       Print("ERROR (2.2)\n");
       return false;
@@ -238,12 +237,12 @@ Bool RunAllBinTableColsPermsTests()
       return false;
     ;
 
-    nss = _isort_(a.projection(s));
+    nss = rand_sort(a.projection(s));
     if |nss| != 1:
       Print("ERROR (2.4)\n");
       return false;
     ;
-    ns = _isort_(nss(0));
+    ns = rand_sort(nss(0));
     if |ns| != 1:
       Print("ERROR (2.5)\n");
       return false;
@@ -295,9 +294,9 @@ Bool RunAllBinTableColsPermsTests()
   deleted = [8, 3, 7];
 
   for n, s <- test_data:
-    rs01 = _isort_(a.in(n, s));
-    rs0 = _isort_(a.in(n));
-    rs1 = _isort_(a.in(s));
+    rs01 = rand_sort(a.in(n, s));
+    rs0 = rand_sort(a.in(n));
+    rs1 = rand_sort(a.in(s));
     if rs01 != rs0 or rs01 != rs1:
       Print("ERROR (9)\n");
       return false;
@@ -306,14 +305,14 @@ Bool RunAllBinTableColsPermsTests()
       Print("ERROR (10)\n");
       return false;
     ;
-    if rs01(0) != not deleted(n):
+    if rs01(0) != not in(n, deleted):
       Print("ERROR (11)\n");
       return false;
     ;
 
-    if not deleted(n):
-      ns = _isort_(a.lookup(s));
-      ss = _isort_(a.lookup(n));
+    if not in(n, deleted):
+      ns = rand_sort(a.lookup(s));
+      ss = rand_sort(a.lookup(n));
       if |ns| != 1 or |ss| != 1:
         Print("ERROR (12)\n");
         return false;
@@ -342,13 +341,13 @@ Bool conflict(T+ t1, T+ t2, [[+Nat]] keys)
   ;
   return false;
 
-  T* isort([T] ks) = _isort_(ks);
+  T* isort([T] ks) = rand_sort(ks);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
+Bool RunBinTableKeyCheckTests(<insert_a, insert_b, insert_c, insert_d> msg, [[+Nat]] keys)
 {
   auto a : BinTableColsPerms;
 
@@ -356,8 +355,6 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
   ss = ("A", "B", "C");
 
   curr_tuples = [];
-
-  ok = :none;
 
   for n <- ns; s <- ss:
     nt = (n, s);
@@ -379,7 +376,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 }
 
 
-[Atom -> [[+Nat]]] bin_rels_keys_by_msg = (
+[<insert_a, insert_b, insert_c, insert_d> -> [[+Nat]]] bin_rels_keys_by_msg = (
     insert_a: [],
     insert_b: [[0]],
     insert_c: [[0], [1]],
@@ -389,8 +386,7 @@ Bool RunBinTableKeyCheckTests(Atom msg, [[+Nat]] keys)
 
 Bool RunAllBinTableKeyCheckTests()
 {
-  ok = :none;
-  for m, ks <- _isort_([(m, ks) : m, ks <- bin_rels_keys_by_msg]):
+  for m, ks <- rand_sort([(m, ks) : m, ks <- bin_rels_keys_by_msg]):
     ok = RunBinTableKeyCheckTests(m, ks);
     if not ok:
       Print("ERROR ERROR ERROR!\n");
@@ -404,7 +400,7 @@ Bool RunAllBinTableKeyCheckTests()
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
+Bool RunBinTableUpdateTests(<update_a, update_b, update_c, update_d> msg, [[+Nat]] keys)
 {
   auto a : BinTableColsPerms;
 
@@ -412,8 +408,6 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
   ss = ("A", "B", "C", "D", "E");
 
   curr_tuples = [];
-
-  ok = :none;
 
   for n <- ns; s <- ss:
     nt = (n, s);
@@ -448,7 +442,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 }
 
 
-[Atom -> [[+Nat]]] bin_rels_update_keys_by_msg = (
+[<update_a, update_b, update_c, update_d> -> [[+Nat]]] bin_rels_update_keys_by_msg = (
     update_a: [],
     update_b: [[0]],
     update_c: [[0], [1]],
@@ -458,8 +452,7 @@ Bool RunBinTableUpdateTests(Atom msg, [[+Nat]] keys)
 
 Bool RunAllBinTableUpdateTests()
 {
-  ok = :none;
-  for m, ks <- _isort_([(m, ks) : m, ks <- bin_rels_update_keys_by_msg]):
+  for m, ks <- rand_sort([(m, ks) : m, ks <- bin_rels_update_keys_by_msg]):
     ok = RunBinTableUpdateTests(m, ks);
     if not ok:
       Print("\nERROR: Binary table update tests\n");
