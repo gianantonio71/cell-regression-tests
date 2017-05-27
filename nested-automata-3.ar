@@ -1,5 +1,4 @@
-reactive fps50_a
-{
+reactive fps50_a {
   input:
     enabled : Bool;
 
@@ -17,8 +16,7 @@ reactive fps50_a
 }
 
 
-reactive fps50_b
-{
+reactive fps50_b {
   input:
     enabled : Bool;
 
@@ -36,8 +34,7 @@ reactive fps50_b
 }
 
 
-reactive nested_automata_3
-{
+reactive nested_automata_3 {
   input:
     unused_input : Ta;
 
@@ -54,8 +51,7 @@ reactive nested_automata_3
 }
 
 
-Bool RunNestedAutomata3Test(Bool rand_times)
-{
+Bool RunNestedAutomata3Test(Bool rand_times) {
   auto ta : nested_automata_3;
 
   auto apply ta done;
@@ -89,8 +85,7 @@ Bool RunNestedAutomata3Test(Bool rand_times)
 }
 
 
-Bool RunAllNestedAutomata3Tests()
-{
+Bool RunAllNestedAutomata3Tests() {
   ok = RunNestedAutomata3Test(false);
   return false if not ok;
   ok = RunNestedAutomata3Test(true);

@@ -1,5 +1,4 @@
-schema ChatServer0CoreState
-{
+schema ChatServer0CoreState {
   user_names : [UserId -> String]    = [];
   user_ids   : [String -> UserId]    = [];
   user_rooms : [UserId -> [RoomId]]  = [];
@@ -7,16 +6,13 @@ schema ChatServer0CoreState
 }
 
 
-ChatServer0CoreState <- ChatServerCoreAction
-{
+ChatServer0CoreState <- ChatServerCoreAction {
   do(it);
 }
 
 
-using ChatServer0CoreState
-{
-  do(Login msg)
-  {
+using ChatServer0CoreState {
+  do(Login msg) {
     user = msg.user;
     name = msg.name;
     update user_names = update(user_names, user, name);
@@ -25,8 +21,7 @@ using ChatServer0CoreState
   }
 
 
-  do(Logout msg)
-  {
+  do(Logout msg) {
     user = msg.user;
     name = user_names[user];
     rooms = user_rooms[user];
@@ -41,8 +36,7 @@ using ChatServer0CoreState
   }
 
 
-  do(JoinRoom msg)
-  {
+  do(JoinRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -54,8 +48,7 @@ using ChatServer0CoreState
   }
 
 
-  do(LeaveRoom msg)
-  {
+  do(LeaveRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -72,8 +65,7 @@ using ChatServer0CoreState
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-schema ChatServer0
-{
+schema ChatServer0 {
   pending_inputs : [Nat -> Byte*]         = [];
   data_to_send   : [Nat -> (Nat, String)] = [];
   msg_counter    : Nat                    = 0;
@@ -82,22 +74,18 @@ schema ChatServer0
 }
 
 
-ChatServer0 <- ChatServerMsg
-{
+ChatServer0 <- ChatServerMsg {
   do(it);
 }
 
 
-using ChatServer0
-{
-  do(Connect msg)
-  {
+using ChatServer0 {
+  do(Connect msg) {
     update pending_inputs = update(pending_inputs, msg.channel, ());
   }
 
 
-  do(Disconnect msg)
-  {
+  do(Disconnect msg) {
     channel = msg.channel;
     update pending_inputs = remove_key(pending_inputs, channel);
     is_logged_in = core_state.user_names(channel, *);
@@ -105,8 +93,7 @@ using ChatServer0
   }
 
 
-  do(Received msg)
-  {
+  do(Received msg) {
     channel = msg.channel;
     new_data = msg.data;
     pend_data = pending_inputs[channel];
@@ -127,15 +114,13 @@ using ChatServer0
   }
 
 
-  do(Sent msg)
-  {
+  do(Sent msg) {
     update data_to_send = remove_key(data_to_send, msg.msg_id);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
 
-  do(Login msg)
-  {
+  do(Login msg) {
     user = msg.user;
     name = msg.name;
 
@@ -153,14 +138,12 @@ using ChatServer0
   }
 
 
-  do(Logout msg)
-  {
+  do(Logout msg) {
     core_state <- msg if core_state.user_names(msg.user, *);
   }
 
 
-  do(JoinRoom msg)
-  {
+  do(JoinRoom msg) {
     user = msg.user;
 
     is_logged_in = core_state.user_names(user, *);
@@ -174,8 +157,7 @@ using ChatServer0
   }
 
 
-  do(LeaveRoom msg)
-  {
+  do(LeaveRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -193,8 +175,7 @@ using ChatServer0
   }
 
 
-  do(SendMsgToUser msg)
-  {
+  do(SendMsgToUser msg) {
     sender = msg.sender;
     receiver = msg.receiver;
     msg_text = msg.msg_text;
@@ -220,8 +201,7 @@ using ChatServer0
   }
 
 
-  do(SendMsgToRoom msg)
-  {
+  do(SendMsgToRoom msg) {
     sender = msg.sender;
     target = msg.target;
     msg_text = msg.msg_text;
@@ -251,8 +231,7 @@ using ChatServer0
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunAllChatServer0Tests()
-{
+Bool RunAllChatServer0Tests() {
   auto cs : ChatServer0;
 
   sorted_users = rand_sort(set((u : u, unused_var <- chat_server_test_data_1)));

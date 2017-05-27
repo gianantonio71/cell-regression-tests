@@ -4,8 +4,7 @@ type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
 type Tab = Ta, Tb;
 
 
-reactive disc_y_comb
-{
+reactive disc_y_comb {
   input:
     ia : Ta?;
     ib : Tb?;
@@ -31,8 +30,7 @@ reactive disc_y_comb
 );
 
 
-Bool RunBasicDiscYCombTests()
-{
+Bool RunBasicDiscYCombTests() {
   auto yc : disc_y_comb;
 
   for ia, ib, eo <- disc_y_comb_test_data:
@@ -62,8 +60,7 @@ Bool RunBasicDiscYCombTests()
 }
 
 
-Bool RunAllDiscYCombTests()
-{
+Bool RunAllDiscYCombTests() {
   ok = RunBasicDiscYCombTests();
   return ok;
 }

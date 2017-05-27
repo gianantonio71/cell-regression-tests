@@ -1,5 +1,4 @@
-reactive y_comb
-{
+reactive y_comb {
   input:
     ia : Ta;
     ib : Tb;
@@ -27,28 +26,24 @@ reactive y_comb
 );
 
 
-PrintOK()
-{
+PrintOK() {
   Print("OK\n");
 }
 
 
-PrintError(Tab expected, Tab actual)
-{
+PrintError(Tab expected, Tab actual) {
   Print("\nError! Expected: " & printed(expected) & ", seen: " & printed(actual) & "\n");
 }
 
 
-PrintUndefError(Any yc, Any ryc)
-{
+PrintUndefError(Any yc, Any ryc) {
   Print("\nError! Version with undefined values doesn't match the reference version\n");
   Print(printed(yc) & "\n");
   Print(printed(ryc) & "\n");
 }
 
 
-Bool RunBasicYCombTest()
-{
+Bool RunBasicYCombTest() {
   auto yc : y_comb;
 
   for ia, ib, eo <- y_comb_data:
@@ -67,8 +62,7 @@ Bool RunBasicYCombTest()
 }
 
 
-Bool RunNullYCombTest()
-{
+Bool RunNullYCombTest() {
   auto yc  : y_comb;
   auto ryc : y_comb;
 
@@ -114,8 +108,7 @@ Bool RunNullYCombTest()
 }
 
 
-Bool RunAllYCombTests()
-{
+Bool RunAllYCombTests() {
   ok = RunBasicYCombTest();
   return false if not ok;
   for i < 1000:

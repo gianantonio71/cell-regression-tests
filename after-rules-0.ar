@@ -1,5 +1,4 @@
-reactive after_test_0
-{
+reactive after_test_0 {
   input:
     i : Ta;
 
@@ -24,8 +23,7 @@ reactive after_test_0
 );
 
 
-Bool RunAfter0Test0((Ta, Nat, Bool)* test_data)
-{
+Bool RunAfter0Test0((Ta, Nat, Bool)* test_data) {
   auto ta : after_test_0;
 
   for i, dt, eu1 @ j <- test_data:
@@ -52,8 +50,7 @@ Bool RunAfter0Test0((Ta, Nat, Bool)* test_data)
 }
 
 
-Bool RunAfter0Test1()
-{
+Bool RunAfter0Test1() {
   auto ta : after_test_0;
 
   curr_watched_value = :none;
@@ -106,8 +103,7 @@ Bool RunAfter0Test1()
 
 
 
-Bool RunAllAfter0Tests()
-{
+Bool RunAllAfter0Tests() {
   ok = RunAfter0Test0(after_test_0_data_0);
   return false if not ok;
   ok = RunAfter0Test1();

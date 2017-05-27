@@ -1,5 +1,4 @@
-schema BinTableColsPerms
-{
+schema BinTableColsPerms {
   bin_rel_a(Nat, String);
   bin_rel_b(Nat, String) [key: 0];
   bin_rel_c(Nat, String) [key: 0, key: 1];
@@ -8,64 +7,55 @@ schema BinTableColsPerms
 }
 
 
-BinTableColsPerms <- <insert_a(Nat, String)>
-{
+BinTableColsPerms <- <insert_a(Nat, String)> {
   n, s = _obj_(it);
   insert bin_rel_a(n, s);
 }
 
 
-BinTableColsPerms <- <insert_b(Nat, String)>
-{
+BinTableColsPerms <- <insert_b(Nat, String)> {
   n, s = _obj_(it);
   insert bin_rel_b(n, s);
 }
 
 
-BinTableColsPerms <- <insert_c(Nat, String)>
-{
+BinTableColsPerms <- <insert_c(Nat, String)> {
   n, s = _obj_(it);
   insert bin_rel_c(n, s);
 }
 
 
-BinTableColsPerms <- <insert_d(Nat, String)>
-{
+BinTableColsPerms <- <insert_d(Nat, String)> {
   n, s = _obj_(it);
   insert bin_rel_d(n, s);
 }
 
 
-BinTableColsPerms <- <update_a(Nat, String)>
-{
+BinTableColsPerms <- <update_a(Nat, String)> {
   n, s = _obj_(it);
   update bin_rel_a(n, s);
 }
 
 
-BinTableColsPerms <- <update_b(Nat, String)>
-{
+BinTableColsPerms <- <update_b(Nat, String)> {
   n, s = _obj_(it);
   update bin_rel_b(n, s);
 }
 
 
-BinTableColsPerms <- <update_c(Nat, String)>
-{
+BinTableColsPerms <- <update_c(Nat, String)> {
   n, s = _obj_(it);
   update bin_rel_c(n, s);
 }
 
 
-BinTableColsPerms <- <update_d(Nat, String)>
-{
+BinTableColsPerms <- <update_d(Nat, String)> {
   n, s = _obj_(it);
   update bin_rel_d(n, s);
 }
 
 
-BinTableColsPerms <- (Nat, String)
-{
+BinTableColsPerms <- (Nat, String) {
   n, s = it;
 
   insert bin_rel_a(n, s);
@@ -75,8 +65,7 @@ BinTableColsPerms <- (Nat, String)
 }
 
 
-BinTableColsPerms <- Nat
-{
+BinTableColsPerms <- Nat {
   delete bin_rel_a(it, *);
   delete bin_rel_b(it, *);
   delete bin_rel_c(it, *);
@@ -84,8 +73,7 @@ BinTableColsPerms <- Nat
 }
 
 
-BinTableColsPerms <- String
-{
+BinTableColsPerms <- String {
   delete bin_rel_a(*, it);
   delete bin_rel_b(*, it);
   delete bin_rel_c(*, it);
@@ -93,8 +81,7 @@ BinTableColsPerms <- String
 }
 
 
-BinTableColsPerms <- <del(Nat, String)>
-{
+BinTableColsPerms <- <del(Nat, String)> {
   n, s = _obj_(it);
 
   delete bin_rel_a(n, s);
@@ -104,8 +91,7 @@ BinTableColsPerms <- <del(Nat, String)>
 }
 
 
-using BinTableColsPerms
-{
+using BinTableColsPerms {
   [(Nat, String)] rel_a_dump = [(n, s) : n, s <- bin_rel_a];
   [(Nat, String)] rel_b_dump = [(n, s) : n, s <- bin_rel_b];
   [(Nat, String)] rel_c_dump = [(n, s) : n, s <- bin_rel_c];
@@ -201,8 +187,7 @@ using BinTableColsPerms
   );
 
 
-Bool RunAllBinTableColsPermsTests()
-{
+Bool RunAllBinTableColsPermsTests() {
   auto a : BinTableColsPerms;
 
   test_data = bin_table_cols_perms_test_data;
@@ -330,8 +315,7 @@ Bool RunAllBinTableColsPermsTests()
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool conflict(T+ t1, T+ t2, [[+Nat]] keys)
-{
+Bool conflict(T+ t1, T+ t2, [[+Nat]] keys) {
   assert |t1| == |t2|;
 
   for k <- isort(keys):
@@ -347,8 +331,7 @@ Bool conflict(T+ t1, T+ t2, [[+Nat]] keys)
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunBinTableKeyCheckTests(<insert_a, insert_b, insert_c, insert_d> msg, [[+Nat]] keys)
-{
+Bool RunBinTableKeyCheckTests(<insert_a, insert_b, insert_c, insert_d> msg, [[+Nat]] keys) {
   auto a : BinTableColsPerms;
 
   ns = (0, 1, 2);
@@ -384,8 +367,7 @@ Bool RunBinTableKeyCheckTests(<insert_a, insert_b, insert_c, insert_d> msg, [[+N
   );
 
 
-Bool RunAllBinTableKeyCheckTests()
-{
+Bool RunAllBinTableKeyCheckTests() {
   for m, ks <- rand_sort([(m, ks) : m, ks <- bin_rels_keys_by_msg]):
     ok = RunBinTableKeyCheckTests(m, ks);
     if not ok:
@@ -400,8 +382,7 @@ Bool RunAllBinTableKeyCheckTests()
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunBinTableUpdateTests(<update_a, update_b, update_c, update_d> msg, [[+Nat]] keys)
-{
+Bool RunBinTableUpdateTests(<update_a, update_b, update_c, update_d> msg, [[+Nat]] keys) {
   auto a : BinTableColsPerms;
 
   ns = (0, 1, 2, 3, 4);
@@ -450,8 +431,7 @@ Bool RunBinTableUpdateTests(<update_a, update_b, update_c, update_d> msg, [[+Nat
   );
 
 
-Bool RunAllBinTableUpdateTests()
-{
+Bool RunAllBinTableUpdateTests() {
   for m, ks <- rand_sort([(m, ks) : m, ks <- bin_rels_update_keys_by_msg]):
     ok = RunBinTableUpdateTests(m, ks);
     if not ok:

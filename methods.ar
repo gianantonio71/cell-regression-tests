@@ -1,5 +1,4 @@
-reactive methods
-{
+reactive methods {
   input:
     i : Ta;
     a : <reapply, reapply(l1: Atom, l2: Atom)>?;
@@ -102,8 +101,7 @@ Any methods.my_meth(<d2> p) = d2;
 );
 
 
-Bool RunBasicMethodTests((Nat, Ta, Any, Any, Any, Any)* test_data)
-{
+Bool RunBasicMethodTests((Nat, Ta, Any, Any, Any, Any)* test_data) {
   auto t : methods;
 
   for a, i, ed1, ev1, ed2, ev2 @ j <- test_data:
@@ -166,8 +164,7 @@ Bool RunBasicMethodTests((Nat, Ta, Any, Any, Any, Any)* test_data)
 }
 
 
-Bool RunAllMethodTests()
-{
+Bool RunAllMethodTests() {
   ok = RunBasicMethodTests(method_test_data_1a);
   return false if not ok;
   ok = RunBasicMethodTests(method_test_data_1b);

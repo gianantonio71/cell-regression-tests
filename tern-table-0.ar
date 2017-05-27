@@ -1,8 +1,7 @@
 type Point  = point(x: Int, y: Int);
 
 
-schema TernTableColsPerms
-{
+schema TernTableColsPerms {
   tern_rel_a(Nat, String, Point);
   tern_rel_b(Nat, String, Point) [key: 0:1];
   tern_rel_c(Nat, String, Point) [key: 0:1, key: 2];
@@ -18,164 +17,141 @@ schema TernTableColsPerms
 }
 
 
-TernTableColsPerms <- <insert_a(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_a(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_a(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_b(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_b(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_b(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_c(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_c(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_c(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_d(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_d(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_d(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_e(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_e(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_e(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_f(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_f(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_f(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_g(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_g(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_g(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_h(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_h(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_h(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_i(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_i(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_i(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_j(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_j(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_j(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_k(Nat, String, Point)>
-{
+TernTableColsPerms <- <insert_k(Nat, String, Point)> {
   n, s, p = _obj_(it);
   insert tern_rel_k(n, s, p);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TernTableColsPerms <- <update_a(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_a(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_a(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_b(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_b(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_b(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_c(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_c(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_c(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_d(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_d(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_d(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_e(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_e(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_e(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_f(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_f(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_f(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_g(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_g(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_g(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_h(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_h(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_h(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_i(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_i(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_i(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_j(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_j(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_j(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_k(Nat, String, Point)>
-{
+TernTableColsPerms <- <update_k(Nat, String, Point)> {
   n, s, p = _obj_(it);
   update tern_rel_k(n, s, p);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TernTableColsPerms <- (Nat, String, Point)
-{
+TernTableColsPerms <- (Nat, String, Point) {
   n, s, p = it;
 
   insert tern_rel_a(n, s, p);
@@ -192,8 +168,7 @@ TernTableColsPerms <- (Nat, String, Point)
 }
 
 
-TernTableColsPerms <- Nat
-{
+TernTableColsPerms <- Nat {
   delete tern_rel_a(it, *, *);
   delete tern_rel_b(it, *, *);
   delete tern_rel_c(it, *, *);
@@ -208,8 +183,7 @@ TernTableColsPerms <- Nat
 }
 
 
-TernTableColsPerms <- String
-{
+TernTableColsPerms <- String {
   delete tern_rel_a(*, it, *);
   delete tern_rel_b(*, it, *);
   delete tern_rel_c(*, it, *);
@@ -224,8 +198,7 @@ TernTableColsPerms <- String
 }
 
 
-TernTableColsPerms <- Point
-{
+TernTableColsPerms <- Point {
   delete tern_rel_a(*, *, it);
   delete tern_rel_b(*, *, it);
   delete tern_rel_c(*, *, it);
@@ -240,8 +213,7 @@ TernTableColsPerms <- Point
 }
 
 
-TernTableColsPerms <- <del_01(Nat, String)>
-{
+TernTableColsPerms <- <del_01(Nat, String)> {
   n, s = _obj_(it);
 
   delete tern_rel_a(n, s, *);
@@ -258,8 +230,7 @@ TernTableColsPerms <- <del_01(Nat, String)>
 }
 
 
-TernTableColsPerms <- <del_02(Nat, Point)>
-{
+TernTableColsPerms <- <del_02(Nat, Point)> {
   n, p = _obj_(it);
 
   delete tern_rel_a(n, *, p);
@@ -276,8 +247,7 @@ TernTableColsPerms <- <del_02(Nat, Point)>
 }
 
 
-TernTableColsPerms <- <del_12(String, Point)>
-{
+TernTableColsPerms <- <del_12(String, Point)> {
   s, p = _obj_(it);
 
   delete tern_rel_a(*, s, p);
@@ -294,8 +264,7 @@ TernTableColsPerms <- <del_12(String, Point)>
 }
 
 
-TernTableColsPerms <- <del_012(Nat, String, Point)>
-{
+TernTableColsPerms <- <del_012(Nat, String, Point)> {
   n, s, p = _obj_(it);
 
   delete tern_rel_a(n, s, p);
@@ -312,8 +281,7 @@ TernTableColsPerms <- <del_012(Nat, String, Point)>
 }
 
 
-using TernTableColsPerms
-{
+using TernTableColsPerms {
   [(Nat, String, Point)] rel_a_dump = [(n, s, p) : n, s, p <- tern_rel_a];
   [(Nat, String, Point)] rel_b_dump = [(n, s, p) : n, s, p <- tern_rel_b];
   [(Nat, String, Point)] rel_c_dump = [(n, s, p) : n, s, p <- tern_rel_c];
@@ -614,8 +582,7 @@ using TernTableColsPerms
   );
 
 
-Bool RunAllTernTableColsPermsTests()
-{
+Bool RunAllTernTableColsPermsTests() {
   auto a : TernTableColsPerms;
 
   test_data = tern_table_cols_perms_test_data;
@@ -809,8 +776,7 @@ type TernTableInsertOp = insert_a, insert_b, insert_c, insert_d, insert_e, inser
                          insert_g, insert_h, insert_i, insert_j, insert_k;
 
 
-Bool RunTernTableKeyCheckTests(TernTableInsertOp msg, [[+Nat]] keys)
-{
+Bool RunTernTableKeyCheckTests(TernTableInsertOp msg, [[+Nat]] keys) {
   auto a : TernTableColsPerms;
 
   ns = (0, 1, 2);
@@ -855,8 +821,7 @@ Bool RunTernTableKeyCheckTests(TernTableInsertOp msg, [[+Nat]] keys)
   );
 
 
-Bool RunAllTernTableKeyCheckTests()
-{
+Bool RunAllTernTableKeyCheckTests() {
   for m, ks <- rand_sort([(m, ks) : m, ks <- tern_rels_keys_by_msg]):
     ok = RunTernTableKeyCheckTests(m, ks);
     if not ok:
@@ -875,8 +840,7 @@ type TernTableUpdateOp = update_a, update_b, update_c, update_d, update_e, updat
                          update_g, update_h, update_i, update_j, update_k;
 
 
-Bool RunTernTableUpdateTests(TernTableUpdateOp msg, [[+Nat]] keys)
-{
+Bool RunTernTableUpdateTests(TernTableUpdateOp msg, [[+Nat]] keys) {
   auto a : TernTableColsPerms;
 
   ns = (0, 1, 2, 3, 4);
@@ -946,8 +910,7 @@ Bool RunTernTableUpdateTests(TernTableUpdateOp msg, [[+Nat]] keys)
   );
 
 
-Bool RunAllTernTableUpdateTests()
-{
+Bool RunAllTernTableUpdateTests() {
   for m, ks <- rand_sort([(m, ks) : m, ks <- tern_rels_update_keys_by_msg]):
     ok = RunTernTableUpdateTests(m, ks);
     if not ok:

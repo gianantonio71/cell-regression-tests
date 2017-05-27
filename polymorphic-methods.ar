@@ -30,69 +30,56 @@ PolyMsg sequential_combine(PolyMsg msg1, PolyMsg msg2) =
 
 ////////////////////////////////////////////////////////////////////////////////
 
-schema PolymorphicMethodsInnerCounter
-{
+schema PolymorphicMethodsInnerCounter {
   a_counter : Int = 0;
 }
 
 
-PolymorphicMethodsInnerCounter <- Reset
-{
+PolymorphicMethodsInnerCounter <- Reset {
   run(it);
 }
 
-PolymorphicMethodsInnerCounter <- Incr
-{
+PolymorphicMethodsInnerCounter <- Incr {
   update a_counter = _add_(a_counter, 1);
 }
 
-PolymorphicMethodsInnerCounter <- Decr
-{
+PolymorphicMethodsInnerCounter <- Decr {
   update a_counter = _sub_(a_counter, 1);
 }
 
-PolymorphicMethodsInnerCounter <- Acc
-{
+PolymorphicMethodsInnerCounter <- Acc {
   run(it);
 }
 
 
-using PolymorphicMethodsInnerCounter
-{
-  run(Reset msg)
-  {
+using PolymorphicMethodsInnerCounter {
+  run(Reset msg) {
     update a_counter = _obj_(msg);
   }
 
-  run(Incr msg)
-  {
+  run(Incr msg) {
     update a_counter = _add_(a_counter, 1);
   }
 
-  run(Decr msg)
-  {
+  run(Decr msg) {
     update a_counter = _sub_(a_counter, 1);
   }
 
-  run(Acc msg)
-  {
+  run(Acc msg) {
     update a_counter = _add_(a_counter, _obj_(msg));
   }
 
-  reset()
-  {
+  reset() {
     update a_counter = 0;
   }
 
-  set_counter(Nat value)
-  {
+  set_counter(Nat value) {
     update a_counter = value;
   }
 }
 
 
-reactive polymorphic_methods_some_counter
-{
+reactive polymorphic_methods_some_counter {
   input:
     an_input : Ta;
     msg      : <Reset, Incr, Decr, Acc>?;
@@ -117,8 +104,7 @@ reactive polymorphic_methods_some_counter
 }
 
 
-reactive polymorphic_methods_1
-{
+reactive polymorphic_methods_1 {
   input:
     my_input : Ta;
 
@@ -146,8 +132,7 @@ reactive polymorphic_methods_1
 }
 
 
-reactive polymorphic_methods_2
-{
+reactive polymorphic_methods_2 {
   input:
     my_input : Ta;
 
@@ -219,8 +204,7 @@ reactive polymorphic_methods_2
 );
 
 
-Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data)
-{
+Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data) {
   auto ta : polymorphic_methods_1;
 
   for input, ec, enc <- test_data:
@@ -242,8 +226,7 @@ Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data)
 }
 
 
-Bool RunPolymorphicMethodsTestB((Ta, Int, Int)* test_data)
-{
+Bool RunPolymorphicMethodsTestB((Ta, Int, Int)* test_data) {
   auto ta : polymorphic_methods_2;
 
   for input, ec, enc <- test_data:
@@ -265,8 +248,7 @@ Bool RunPolymorphicMethodsTestB((Ta, Int, Int)* test_data)
 }
 
 
-Bool RunAllPolymorphicMethodsTests()
-{
+Bool RunAllPolymorphicMethodsTests() {
   ok = RunPolymorphicMethodsTestA(polymorphic_methods_test_data_1);
   return false if not ok;
   ok = RunPolymorphicMethodsTestA(polymorphic_methods_test_data_2);

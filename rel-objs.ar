@@ -9,8 +9,7 @@ Point point(Int x, Int y) = point(x: x, y: y);
 [(String, Int, Point)] rel_objs_triples = [(s, n, p) : s <- rel_objs_strings, n <- rel_objs_integers, p <- rel_objs_points];
 
 
-Bool RunTernRelObjsTests()
-{
+Bool RunTernRelObjsTests() {
   ss = rand_sort(rel_objs_strings);
   ns = rand_sort(rel_objs_integers);
   ps = rand_sort(rel_objs_points);
@@ -156,8 +155,7 @@ Bool RunTernRelObjsTests()
 }
 
 
-Bool RunBinRelObjsTests1()
-{
+Bool RunBinRelObjsTests1() {
   ss = rand_sort(rel_objs_strings);
   ps = rand_sort(rel_objs_points);
 
@@ -229,8 +227,7 @@ Bool RunBinRelObjsTests1()
 }
 
 
-Bool RunAllRelObjsTests()
-{
+Bool RunAllRelObjsTests() {
   ok = RunTernRelObjsTests();
   if not ok:
     return false;

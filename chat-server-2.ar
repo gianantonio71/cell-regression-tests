@@ -1,13 +1,11 @@
-schema ChatServer2CoreState
-{
+schema ChatServer2CoreState {
   username(UserId, String) [key: 0, key: 1];
   joined(UserId, RoomId);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2CoreState
-{
+using ChatServer2CoreState {
   Bool logged_in(UserId user_id)    = username(user_id, *);
 
   Bool already_in_use(String name)  = username(*, name);
@@ -15,8 +13,7 @@ using ChatServer2CoreState
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2CoreState
-{
+using ChatServer2CoreState {
   LoginCheck login_check(UserId user_id, String name) =
     if logged_in(user_id)
       then :already_logged_in
@@ -46,39 +43,32 @@ using ChatServer2CoreState
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ChatServer2CoreState <- ChatServerCoreAction
-{
+ChatServer2CoreState <- ChatServerCoreAction {
   safe_do(it);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2CoreState
-{
-  safe_do(ChatServerCoreAction action)
-  {
+using ChatServer2CoreState {
+  safe_do(ChatServerCoreAction action) {
     check_res = action_check(action);
     do(action) if check_res == :ok;
   }
 
-  do(Login msg)
-  {
+  do(Login msg) {
     insert username(msg.user, msg.name);
   }
 
-  do(Logout msg)
-  {
+  do(Logout msg) {
     user_id = msg.user;
     delete username(user_id, *), joined(user_id, *);
   }
 
-  do(JoinRoom msg)
-  {
+  do(JoinRoom msg) {
     insert joined(msg.user, msg.room);
   }
 
-  do(LeaveRoom msg)
-  {
+  do(LeaveRoom msg) {
     delete joined(msg.user, msg.room);
   }
 }
@@ -86,8 +76,7 @@ using ChatServer2CoreState
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-schema ChatServer2
-{
+schema ChatServer2 {
   core_state : ChatServer2CoreState;
 
   msg_counter : Nat = 0;
@@ -98,8 +87,7 @@ schema ChatServer2
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2
-{
+using ChatServer2 {
   ActionCheck action_check(ChatServerCoreAction action) =
     login()   = core_state.login_check(action.user, action.name),
     logout()  = core_state.logout_check(action.user),
@@ -125,31 +113,26 @@ using ChatServer2
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ChatServer2 <- ChatServerMsg
-{
+ChatServer2 <- ChatServerMsg {
   do(it);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2
-{
-  do(Connect msg)
-  {
+using ChatServer2 {
+  do(Connect msg) {
     insert pending_inputs(msg.channel, ());
   }
 
 
-  do(Disconnect msg)
-  {
+  do(Disconnect msg) {
     channel = msg.channel;
     delete pending_inputs(channel, ());
     core_state <- logout(user: channel);
   }
 
 
-  do(Received msg)
-  {
+  do(Received msg) {
     channel = msg.channel;
     new_data = msg.data;
     pend_data = pending_inputs(channel);
@@ -170,18 +153,15 @@ using ChatServer2
   }
 
 
-  do(Sent msg)
-  {
+  do(Sent msg) {
     delete data_to_send(msg.msg_id, *);
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2
-{
-  do(Login msg)
-  {
+using ChatServer2 {
+  do(Login msg) {
     user = msg.user;
     name = msg.name;
 
@@ -199,14 +179,12 @@ using ChatServer2
   }
 
 
-  do(Logout msg)
-  {
+  do(Logout msg) {
     core_state <- msg;
   }
 
 
-  do(JoinRoom msg)
-  {
+  do(JoinRoom msg) {
     user = msg.user;
 
     check_res = core_state.join_room_check(user);
@@ -220,8 +198,7 @@ using ChatServer2
   }
 
 
-  do(LeaveRoom msg)
-  {
+  do(LeaveRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -241,10 +218,8 @@ using ChatServer2
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer2
-{
-  do(SendMsgToUser msg)
-  {
+using ChatServer2 {
+  do(SendMsgToUser msg) {
     check_res = action_check(msg);
 
     resp_msg = match (check_res)
@@ -265,8 +240,7 @@ using ChatServer2
   }
 
 
-  do(SendMsgToRoom msg)
-  {
+  do(SendMsgToRoom msg) {
     check_res = action_check(msg);
 
     resp_msg = match (check_res)
@@ -292,8 +266,7 @@ using ChatServer2
 
 ////////////////////////////////////////////////////////////////////////////////
 
-reactive chat_server_2_wrapper
-{
+reactive chat_server_2_wrapper {
   input:
     message : ChatServerMsg?;
 
@@ -316,8 +289,7 @@ reactive chat_server_2_wrapper
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunAllChatServer2Tests()
-{
+Bool RunAllChatServer2Tests() {
   auto cs : chat_server_2_wrapper;
 
   auto apply cs done;

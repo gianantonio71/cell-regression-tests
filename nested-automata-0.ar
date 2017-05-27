@@ -1,5 +1,4 @@
-reactive full_history
-{
+reactive full_history {
   input:
     input : Ta;
 
@@ -14,8 +13,7 @@ reactive full_history
 }
 
 
-reactive full_history_client
-{
+reactive full_history_client {
   input:
     i : Ta;
 
@@ -34,8 +32,7 @@ reactive full_history_client
 Ta* full_history_test_data = (:a0, :a1, :a2, :a3, :a4, :a0, :a1, :a2, :a3, :a4);
 
 
-Bool RunAllFullHistoryTests()
-{
+Bool RunAllFullHistoryTests() {
   auto fhc : full_history_client;
 
   eh = ();

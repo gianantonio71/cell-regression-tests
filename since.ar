@@ -1,5 +1,4 @@
-reactive since
-{
+reactive since {
   input:
     an_input : Any?;
 
@@ -16,8 +15,7 @@ reactive since
 }
 
 
-reactive since_test
-{
+reactive since_test {
   input:
     an_input : Ta?;
 
@@ -30,8 +28,7 @@ reactive since_test
 }
 
 
-Bool RunSinceTest0()
-{
+Bool RunSinceTest0() {
   auto ta : since_test;
 
   auto apply ta done;
@@ -73,8 +70,7 @@ Bool RunSinceTest0()
 }
 
 
-Bool RunAllSinceTests()
-{
+Bool RunAllSinceTests() {
   ok = RunSinceTest0();
   return ok;
 }

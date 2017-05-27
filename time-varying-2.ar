@@ -1,5 +1,4 @@
-reactive time_varying_2
-{
+reactive time_varying_2 {
   input:
     i : Ta;
 
@@ -99,8 +98,7 @@ reactive time_varying_2
 );
 
 
-Bool RunTimeVaryingTest2((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool, Nat)* test_data)
-{
+Bool RunTimeVaryingTest2((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool, Nat)* test_data) {
   auto a : time_varying_2;
 
   for mi, dt, eo1, ec1, eo2, ec2, eo3, ec3, eo4, ec4 @ j <- test_data:
@@ -138,8 +136,7 @@ Bool RunTimeVaryingTest2((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool,
 }
 
 
-Bool RunAllTimeVaryingTests2()
-{
+Bool RunAllTimeVaryingTests2() {
   ok = RunTimeVaryingTest2(time_varying_2_test_data_0);
   return false if not ok;
   ok = RunTimeVaryingTest2(time_varying_2_test_data_1);

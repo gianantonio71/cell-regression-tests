@@ -1,5 +1,4 @@
-reactive state_derived_copy
-{
+reactive state_derived_copy {
   input:
     i1 : Ta;
     i2 : Tb;
@@ -24,8 +23,7 @@ reactive state_derived_copy
 );
 
 
-Bool RunAllStateDerivedCopyTests()
-{
+Bool RunAllStateDerivedCopyTests() {
   auto c : state_derived_copy;
 
   for i1, i2 <- state_derived_copy_test_data:

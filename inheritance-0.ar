@@ -1,5 +1,4 @@
-reactive base
-{
+reactive base {
   input:
     in_a : Ta;
     in_b : Tb;
@@ -14,22 +13,19 @@ reactive base
 }
 
 
-reactive derived : base
-{
+reactive derived : base {
   rules:
     out_a = if in_a == :a1 then :a8 else in_a;
 }
 
 
-reactive twice_derived : derived
-{
+reactive twice_derived : derived {
   rules:
     out_b = if in_b == :b1 then :b8 else in_b;
 }
 
 
-reactive input_overriding : base
-{
+reactive input_overriding : base {
   input:
    new_in_a : Ta;
    new_in_b : Tb;
@@ -47,8 +43,7 @@ reactive input_overriding : base
 );
 
 
-Bool RunAllBasicInheritanceTests()
-{
+Bool RunAllBasicInheritanceTests() {
   auto b : base;
   auto d : derived;
   auto t : twice_derived;

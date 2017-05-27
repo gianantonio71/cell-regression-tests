@@ -1,5 +1,4 @@
-reactive cont_to_disc
-{
+reactive cont_to_disc {
   input:
     an_input : Ta;
 
@@ -10,8 +9,7 @@ reactive cont_to_disc
     an_output := :none if an_input == :a0 or an_input == :a3;
 }
 
-reactive cont_to_disc_client
-{
+reactive cont_to_disc_client {
   input:
     my_input : Ta;
 
@@ -43,8 +41,7 @@ reactive cont_to_disc_client
 );
 
 
-Bool RunAllNestedAutomata4Tests()
-{
+Bool RunAllNestedAutomata4Tests() {
   auto ta : cont_to_disc_client;
 
   for input, set, counter <- cont_to_disc_client_test_data:

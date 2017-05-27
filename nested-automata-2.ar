@@ -1,5 +1,4 @@
-reactive filtered_history_2
-{
+reactive filtered_history_2 {
   input:
     to_skip : Ta;
     input   : Ta?;
@@ -17,8 +16,7 @@ reactive filtered_history_2
 }
 
 
-reactive nested_automata_2
-{
+reactive nested_automata_2 {
   input:
     i : Ta?;
 
@@ -52,8 +50,7 @@ reactive nested_automata_2
 );
 
 
-Bool RunAllNestedAutomata2Tests()
-{
+Bool RunAllNestedAutomata2Tests() {
   auto ta : nested_automata_2;
 
   auto apply ta done;

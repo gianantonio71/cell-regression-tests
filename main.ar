@@ -9,8 +9,7 @@ Bool one_in(NzNat count) = _rand_nat_(count) == 0;
 T rand_elem([T] set) = _rand_elem_(set);
 
 
-Main(String* args)
-{
+Main(String* args) {
   Print("Running all regression tests:\n");
 
   Print("  Mine                                     ");

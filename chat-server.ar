@@ -41,8 +41,7 @@ Sent        sent(Nat n)             = sent(msg_id: n);
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-String* split_chat_msg(Byte* msg_text)
-{
+String* split_chat_msg(Byte* msg_text) {
   len = |msg_text|;
 
   fields = ();
@@ -72,8 +71,7 @@ String* split_chat_msg(Byte* msg_text)
 Bool is_room_name(String str) = length(str) > 1 and char(str, 0) == ascii_hash;
 
 
-Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel)
-{
+Maybe[ChatAction] try_parse_msg(Byte* data, Nat channel) {
   fields = split_chat_msg(data);
   count = |fields|;
 

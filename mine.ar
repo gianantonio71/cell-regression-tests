@@ -1,5 +1,4 @@
-reactive mine
-{
+reactive mine {
   input:
     low_sensor_underwater  : Bool;
     high_sensor_underwater : Bool;
@@ -67,8 +66,7 @@ reactive mine
 );
 
 
-Bool RunBasicMineTest()
-{
+Bool RunBasicMineTest() {
   auto mine : mine;
 
   for lsu, hsu, ml, cl, al, po, en, ed <- mine_test_data:
@@ -108,8 +106,7 @@ Bool RunBasicMineTest()
 }
 
 
-Bool RunNullMineTest()
-{
+Bool RunNullMineTest() {
   auto mine     : mine;
   auto ref_mine : mine;
 
@@ -194,8 +191,7 @@ Bool RunNullMineTest()
 }
 
 
-Bool RunAllMineTests()
-{
+Bool RunAllMineTests() {
   ok = RunBasicMineTest();
   return false if not ok;
   for i < 1000:

@@ -1,5 +1,4 @@
-schema ChatServer1CoreState
-{
+schema ChatServer1CoreState {
   user_names : [UserId -> String]     = [];
   user_ids   : [String -> UserId]     = [];
   user_rooms : [UserId -> [RoomId]]   = [];
@@ -8,8 +7,7 @@ schema ChatServer1CoreState
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ChatServer1CoreState
-{
+using ChatServer1CoreState {
   Bool is_logged_in(UserId user) = user_names(user, *);
 
   Bool user_exists(String user) = user_ids(user, *);
@@ -61,15 +59,12 @@ using ChatServer1CoreState
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ChatServer1CoreState <- ChatServerCoreAction
-{
+ChatServer1CoreState <- ChatServerCoreAction {
   safe_do(it);
 }
 
-using ChatServer1CoreState
-{
-  do(Login msg)
-  {
+using ChatServer1CoreState {
+  do(Login msg) {
     user = msg.user;
     name = msg.name;
     update user_names  = update(user_names, user, name);
@@ -78,8 +73,7 @@ using ChatServer1CoreState
   }
 
 
-  do(Logout msg)
-  {
+  do(Logout msg) {
     user = msg.user;
     name = user_names[user];
     rooms = user_rooms[user];
@@ -94,8 +88,7 @@ using ChatServer1CoreState
   }
 
 
-  do(JoinRoom msg)
-  {
+  do(JoinRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -107,8 +100,7 @@ using ChatServer1CoreState
   }
 
 
-  do(LeaveRoom msg)
-  {
+  do(LeaveRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -121,8 +113,7 @@ using ChatServer1CoreState
       else remove_key(room_users, room);
   }
 
-  safe_do(ChatServerCoreAction action)
-  {
+  safe_do(ChatServerCoreAction action) {
     check_res = action_check(action);
     do(action) if check_res == :ok;
   }
@@ -131,8 +122,7 @@ using ChatServer1CoreState
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-reactive safe_chat_server_1_core_state
-{
+reactive safe_chat_server_1_core_state {
   input:
     action : ChatServerCoreAction?;
 
@@ -148,8 +138,7 @@ reactive safe_chat_server_1_core_state
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-schema ChatServer1
-{
+schema ChatServer1 {
   pending_inputs : [Nat -> Byte*]         = [];
   msg_counter    : Nat                    = 0;
   data_to_send   : [Nat -> (Nat, String)] = [];
@@ -158,22 +147,18 @@ schema ChatServer1
 }
 
 
-ChatServer1 <- ChatServerMsg
-{
+ChatServer1 <- ChatServerMsg {
   do(it);
 }
 
 
-using ChatServer1
-{
-  do(Connect msg)
-  {
+using ChatServer1 {
+  do(Connect msg) {
     update pending_inputs = update(pending_inputs, msg.channel, ());
   }
 
 
-  do(Disconnect msg)
-  {
+  do(Disconnect msg) {
     channel = msg.channel;
     update pending_inputs = remove_key(pending_inputs, channel);
     is_logged_in = core_state.user_names(channel, *);
@@ -181,8 +166,7 @@ using ChatServer1
   }
 
 
-  do(Received msg)
-  {
+  do(Received msg) {
     channel = msg.channel;
     new_data = msg.data;
     pend_data = pending_inputs[channel];
@@ -203,15 +187,13 @@ using ChatServer1
   }
 
 
-  do(Sent msg)
-  {
+  do(Sent msg) {
     update data_to_send = remove_key(data_to_send, msg.msg_id);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
 
-  do(Login msg)
-  {
+  do(Login msg) {
     user = msg.user;
     name = msg.name;
 
@@ -229,14 +211,12 @@ using ChatServer1
   }
 
 
-  do(Logout msg)
-  {
+  do(Logout msg) {
     core_state <- msg if core_state.user_names(msg.user, *);
   }
 
 
-  do(JoinRoom msg)
-  {
+  do(JoinRoom msg) {
     user = msg.user;
 
     check_res = core_state.join_room_check(user);
@@ -250,8 +230,7 @@ using ChatServer1
   }
 
 
-  do(LeaveRoom msg)
-  {
+  do(LeaveRoom msg) {
     user = msg.user;
     room = msg.room;
 
@@ -269,8 +248,7 @@ using ChatServer1
   }
 
 
-  do(SendMsgToUser msg)
-  {
+  do(SendMsgToUser msg) {
     sender = msg.sender;
     receiver = msg.receiver;
     msg_text = msg.msg_text;
@@ -296,8 +274,7 @@ using ChatServer1
   }
 
 
-  do(SendMsgToRoom msg)
-  {
+  do(SendMsgToRoom msg) {
     sender = msg.sender;
     target = msg.target;
     msg_text = msg.msg_text;
@@ -327,8 +304,7 @@ using ChatServer1
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-reactive chat_server_1_wrapper
-{
+reactive chat_server_1_wrapper {
   input:
     message : ChatServerMsg?;
 
@@ -353,8 +329,7 @@ reactive chat_server_1_wrapper
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunAllChatServer1Tests()
-{
+Bool RunAllChatServer1Tests() {
   auto cs : chat_server_1_wrapper;
 
   auto apply cs done;

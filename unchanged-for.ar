@@ -1,5 +1,4 @@
-reactive unchanged_for
-{
+reactive unchanged_for {
   input:
     i : Ta;
 
@@ -30,8 +29,7 @@ reactive unchanged_for
   (:a1,  10,  true,   true,   false,  true)
 );
 
-Bool RunUnchangedForTest((Ta, Nat, Bool, Bool, Bool, Bool)* test_data)
-{
+Bool RunUnchangedForTest((Ta, Nat, Bool, Bool, Bool, Bool)* test_data) {
   auto a : unchanged_for;
 
   for i, dt, eb, eu1, eu2, eu @ j <- test_data:
@@ -60,8 +58,7 @@ Bool RunUnchangedForTest((Ta, Nat, Bool, Bool, Bool, Bool)* test_data)
 }
 
 
-Bool RunAllUnchangedForTests()
-{
+Bool RunAllUnchangedForTests() {
   ok = RunUnchangedForTest(unchanged_for_test_data_0);
   return ok;
 }

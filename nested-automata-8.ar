@@ -1,8 +1,7 @@
 type SomeCounterMgs = reset, incr_counter(Nat);
 
 
-reactive some_counter
-{
+reactive some_counter {
   input:
     an_input : Ta;
     msg      : SomeCounterMgs?;
@@ -22,8 +21,7 @@ reactive some_counter
 }
 
 
-reactive test_1
-{
+reactive test_1 {
   input:
     my_input  : Ta;
     increment : Nat?;
@@ -45,8 +43,7 @@ reactive test_1
 }
 
 
-reactive test_2
-{
+reactive test_2 {
   input:
     increment : Nat?;
     my_input : Ta;
@@ -104,8 +101,7 @@ reactive test_2
 );
 
 
-Bool RunNestedAutomata8Test1()
-{
+Bool RunNestedAutomata8Test1() {
   auto ta : test_1;
 
   for input, incr, ec, enc <- test_1_data:
@@ -133,8 +129,7 @@ Bool RunNestedAutomata8Test1()
 }
 
 
-Bool RunNestedAutomata8Test2()
-{
+Bool RunNestedAutomata8Test2() {
   auto ta : test_2;
 
   for input, incr, ec, enc <- test_2_data:
@@ -161,8 +156,7 @@ Bool RunNestedAutomata8Test2()
 }
 
 
-Bool RunAllNestedAutomata8Tests()
-{
+Bool RunAllNestedAutomata8Tests() {
   ok = RunNestedAutomata8Test1();
   return false if not ok;
   ok = RunNestedAutomata8Test2();

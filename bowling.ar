@@ -1,5 +1,4 @@
-Nat* frames_offsets(Nat* throws)
-{
+Nat* frames_offsets(Nat* throws) {
   i : Nat;
 
   len = |throws|;
@@ -13,8 +12,7 @@ Nat* frames_offsets(Nat* throws)
 }
 
 
-Nat frame_score(Nat* throws, Nat offset)
-{
+Nat frame_score(Nat* throws, Nat offset) {
   first_throw = throws(offset);
   base_score = first_throw + at(throws, offset+1, 0);
   strike_or_spare = first_throw == 10 or base_score == 10;
@@ -25,8 +23,7 @@ Nat frame_score(Nat* throws, Nat offset)
 // [Nat] frames_scores([Nat] throws) = [frame_score(throws, o) : o <- frames_offsets(throws)];
 
 
-reactive bowling
-{
+reactive bowling {
   input:
     throw : Nat?;
 
@@ -70,8 +67,7 @@ reactive bowling
 );
 
 
-Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected_score)
-{
+Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected_score) {
   auto b : bowling;
 
   for t <- throws:
@@ -114,8 +110,7 @@ Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected
 }
 
 
-Bool RunBasicBowlingTests()
-{
+Bool RunBasicBowlingTests() {
   for ts, pss, s <- bowling_test_data:
     ok = RunBasicBowlingTest(ts, pss, s);
     return false if not ok;
@@ -124,8 +119,7 @@ Bool RunBasicBowlingTests()
 }
 
 
-Bool RunAllBowlingTests()
-{
+Bool RunAllBowlingTests() {
   ok = RunBasicBowlingTests();
   return ok;
 }

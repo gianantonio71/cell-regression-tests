@@ -1,5 +1,4 @@
-reactive complex_init
-{
+reactive complex_init {
   input:
     i : Ta;
 
@@ -28,8 +27,7 @@ reactive complex_init
 );
 
 
-Bool RunAllComplexInitTests()
-{
+Bool RunAllComplexInitTests() {
   auto ci : complex_init;
 
   for i, ev1, ev2, ed1, ed2 <- complex_init_test_data:

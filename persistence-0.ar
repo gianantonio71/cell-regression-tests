@@ -19,8 +19,7 @@ RouteId   route_id(Nat n)   = :route_id(n);
 FlightId  flight_id(Nat n)  = :flight_id(n);
 
 
-schema Flights
-{
+schema Flights {
   country(CountryId):
     code  : CountryCode,
     name  : String;
@@ -41,8 +40,7 @@ schema Flights
 }
 
 
-schema Travels
-{
+schema Travels {
   budget    : Money      = euro_cents(0);
   favorites : CountryId* = ();
   visited   : CountryId* = ();
@@ -71,8 +69,7 @@ type TravelsData = (
 type PopulateFlights = populate_flights(data: FlightsData);
 
 
-Flights <- PopulateFlights
-{
+Flights <- PopulateFlights {
   delete country(*), code(*, *), name(*, *);
   for id, code, name <- it.data.countries:
     insert country(id), code(id, code), name(id, name);
@@ -100,8 +97,7 @@ Flights <- PopulateFlights
 type PopulateTravels = populate_travels(data: TravelsData);
 
 
-Travels <- PopulateTravels
-{
+Travels <- PopulateTravels {
   update budget = it.data.budget;
   update favorites = it.data.favorites;
   update visited = it.data.visited;
@@ -225,8 +221,7 @@ TravelsData travels_data_2 = (
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-(RouteId, AirportId, AirportId)+ randomly_generated_routes(AirportId+ airports, NzNat count)
-{
+(RouteId, AirportId, AirportId)+ randomly_generated_routes(AirportId+ airports, NzNat count) {
   assert |airports| :: <2..*>;
 
   ac = |airports|;
@@ -247,8 +242,7 @@ TravelsData travels_data_2 = (
 }
 
 
-(FlightId, RouteId, Time, Time, Money)+ randomly_generated_flights(RouteId+ rs, NzNat count)
-{
+(FlightId, RouteId, Time, Time, Money)+ randomly_generated_flights(RouteId+ rs, NzNat count) {
   min_epoc_time = 1000000;
   fs = ();
   rc = |rs|;
@@ -320,8 +314,7 @@ Travels travels_state(TravelsData data) = (
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Bool RunFlightsTests()
-{
+Bool RunFlightsTests() {
   auto fsdb : Flights;
 
   d0 = (countries: (), airports: (), routes: (), flights: ());
@@ -414,8 +407,7 @@ Bool RunFlightsTests()
 }
 
 
-Bool RunTravelsTests()
-{
+Bool RunTravelsTests() {
   auto tdb : Travels;
 
   d0 = (
@@ -513,8 +505,7 @@ Bool RunTravelsTests()
 }
 
 
-Bool RunAllPersistence0Tests()
-{
+Bool RunAllPersistence0Tests() {
   ok = RunFlightsTests();
   return false if not ok;
   ok = RunTravelsTests();
