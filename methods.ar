@@ -14,14 +14,14 @@ reactive methods {
     v2 : Any = :l(d2);
 
   rules:
-    v1 = if   a? and a == :reapply                        then :g(@d1)
-         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l1}(@d1)
+    v1 = if   a? and a == :reapply                        then :g(:f(@i))
+         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l1}(:f(@i))
          elif i == :a3 and i != @i                        then :p(d1)
                                                           else v1
          : i, a;
 
-    v2 = if   a? and a == :reapply                        then :l(@d2)
-         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l2}(@d2)
+    v2 = if   a? and a == :reapply                        then :l(:h(@v1))
+         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l2}(:h(@v1))
          elif i == :a4 and i != @i                        then :q(d2)
                                                           else v2
          : i, a;
@@ -29,6 +29,7 @@ reactive methods {
     d1 = :f(i);
     d2 = :h(v1);
 }
+
 
 
 Any methods.my_meth(<v1> p) = v1;
