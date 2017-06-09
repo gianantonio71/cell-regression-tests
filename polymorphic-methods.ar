@@ -93,10 +93,9 @@ reactive polymorphic_methods_some_counter {
   rules:
     other_msg := :accumulate(2) if an_input == :a1 or an_input == :a3 or an_input == :a5;
 
-    final_msg := if msg? and other_msg?
-                   then sequential_combine(other_msg, msg)
-                   else if msg? then msg else other_msg
-                 : msg, other_msg;
+    final_msg := msg : msg, not other_msg;
+    final_msg := other_msg : other_msg, not msg;
+    final_msg := sequential_combine(other_msg, msg);
 
     inner_counter <- final_msg;
 

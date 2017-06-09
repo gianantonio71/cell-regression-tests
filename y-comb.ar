@@ -10,7 +10,8 @@ reactive y_comb {
     o : Tab = ia;
 
   rules:
-    o = if ia != @ia then ia else ib : ia, ib;
+    o = ia : ia;
+    o = ib : ib, not ia;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ Bool RunBasicYCombTest() {
 }
 
 
-Bool RunNullYCombTest() {
+Bool RunNullYCombTest(Nat run_idx) {
   auto yc  : y_comb;
   auto ryc : y_comb;
 
@@ -100,6 +101,7 @@ Bool RunNullYCombTest() {
       Print("\nError! Version with undefined values doesn't match the reference version\n");
       print ryc.o;
       print yc.o;
+      print run_idx;
       return false;
     ;
   ;
@@ -112,7 +114,7 @@ Bool RunAllYCombTests() {
   ok = RunBasicYCombTest();
   return false if not ok;
   for i < 1000:
-    ok = RunNullYCombTest();
+    ok = RunNullYCombTest(i);
     return false if not ok;
   ;
   return true;

@@ -21,8 +21,8 @@ reactive mine {
     min_airflow_level : Nat = 100;
 
   rules:
-    needs_draining = true  if high_sensor_underwater,
-                     false if not low_sensor_underwater;
+    needs_draining = true  if high_sensor_underwater;
+    needs_draining = false if not low_sensor_underwater and not high_sensor_underwater;
 
     // needs_draining = flipflop(high_sensor_underwater, not (high_sensor_underwater or low_sensor_underwater));
     // needs_draining = high_sensor_underwater <--> not (high_sensor_underwater or low_sensor_underwater);

@@ -14,17 +14,11 @@ reactive methods {
     v2 : Any = :l(d2);
 
   rules:
-    v1 = if   a? and a == :reapply                        then :g(:f(@i))
-         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l1}(:f(@i))
-         elif i == :a3 and i != @i                        then :p(d1)
-                                                          else v1
-         : i, a;
+    v1 = if a == :reapply then :g(:f(@i)) else {a.l1}(:f(@i));
+    v1 = :p(d1) if i == :a3 : i, not a;
 
-    v2 = if   a? and a == :reapply                        then :l(:h(@v1))
-         elif a? and a :: <reapply(l1: Atom, l2: Atom)>   then {a.l2}(:h(@v1))
-         elif i == :a4 and i != @i                        then :q(d2)
-                                                          else v2
-         : i, a;
+    v2 = if a == :reapply then :l(:h(@v1)) else {a.l2}(:h(@v1));
+    v2 = :q(d2) if i == :a4 : i, not a;
 
     d1 = :f(i);
     d2 = :h(v1);

@@ -13,9 +13,8 @@ reactive Bool flipflop(on, off) {
     init_state = false;
 
   rules:
-    flipflop = {fail;}  if on and off,
-               true     if on,
-               false    if off;
+    flipflop = true   if on;
+    flipflop = false  if off;
 }
 
 
@@ -31,11 +30,11 @@ reactive Bool flipflop_client {
     off : Bool = false;
 
   rules:
-    on = true  if action == :on,
-         false if action == :off;
+    on = true  if action == :on;
+    on = false if action == :off;
 
-    off = true  if action == :off,
-          false if action == :on;
+    off = true  if action == :off;
+    off = false if action == :on;
 
 
     flipflop = flipflop(on=on, off=off);
@@ -55,11 +54,11 @@ reactive Bool flipflop_client_positional {
     off : Bool = false;
 
   rules:
-    on = true  if action == :on,
-         false if action == :off;
+    on = true  if action == :on;
+    on = false if action == :off;
 
-    off = true  if action == :off,
-          false if action == :on;
+    off = true  if action == :off;
+    off = false if action == :on;
 
     flipflop = flipflop(on, off);
     // flipflop = flipflop(action? and action == :on, action? and action == :off);

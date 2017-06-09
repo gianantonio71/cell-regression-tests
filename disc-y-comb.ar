@@ -13,7 +13,8 @@ reactive disc_y_comb {
     o : Tab?;
 
   rules:
-    o := if ia? then ia else ib : ia, ib;
+    o := ia;
+    o := ib : ib, not ia;
 }
 
 

@@ -18,13 +18,8 @@ reactive nested_automata_5_some_counter {
    a_counter : Nat = 0;
 
   rules:
-    a_counter = if command?
-                  then update_counter(command, a_counter)
-                elif an_input != @an_input and (an_input == :a0 or an_input == :a3)
-                  then nat(a_counter + 1)
-                else
-                  a_counter
-                : an_input, command;
+    a_counter = update_counter(command, a_counter);
+    a_counter = nat(a_counter+1) if an_input == :a0 or an_input == :a3 : an_input, not command;
 }
 
 
@@ -61,13 +56,8 @@ reactive nested_automata_5 {
 
     na = nested_automata_5_some_counter(an_input=my_input, command=nested_cmd);
 
-    my_counter  = if command?
-                    then update_counter(command, my_counter)
-                  elif my_input != @my_input and (my_input == :a1 or my_input == :a4)
-                    then nat(my_counter + 1)
-                  else
-                    my_counter
-                  : my_input, command;
+    my_counter = update_counter(command, my_counter);
+    my_counter = nat(my_counter+1) if my_input == :a1 or my_input == :a4 : my_input, not command;
 
     nested_counter = na.a_counter;
 }
