@@ -35,26 +35,26 @@ schema PolymorphicMethodsInnerCounter {
 }
 
 
-PolymorphicMethodsInnerCounter <- Reset {
-  run(it);
+PolymorphicMethodsInnerCounter.Reset {
+  run(self);
 }
 
-PolymorphicMethodsInnerCounter <- Incr {
+PolymorphicMethodsInnerCounter.Incr {
   update a_counter = _add_(a_counter, 1);
 }
 
-PolymorphicMethodsInnerCounter <- Decr {
+PolymorphicMethodsInnerCounter.Decr {
   update a_counter = _sub_(a_counter, 1);
 }
 
-PolymorphicMethodsInnerCounter <- Acc {
-  run(it);
+PolymorphicMethodsInnerCounter.Acc {
+  run(self);
 }
 
 
 using PolymorphicMethodsInnerCounter {
   run(Reset msg) {
-    update a_counter = _obj_(msg);
+    update a_counter = _untag_(msg);
   }
 
   run(Incr msg) {
@@ -66,7 +66,7 @@ using PolymorphicMethodsInnerCounter {
   }
 
   run(Acc msg) {
-    update a_counter = _add_(a_counter, _obj_(msg));
+    update a_counter = _add_(a_counter, _untag_(msg));
   }
 
   reset() {

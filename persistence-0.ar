@@ -69,25 +69,25 @@ type TravelsData = (
 type PopulateFlights = populate_flights(data: FlightsData);
 
 
-Flights <- PopulateFlights {
+Flights.PopulateFlights {
   delete country(*), code(*, *), name(*, *);
-  for id, code, name <- it.data.countries:
+  for id, code, name <- self.data.countries:
     insert country(id), code(id, code), name(id, name);
   ;
 
   delete airport(*), name(*, *), location(*, *);
-  for id, name, country <- it.data.airports:
+  for id, name, country <- self.data.airports:
     insert airport(id), name(id, name), location(id, country);
   ;
 
   delete flight_route(*, *, *);
-  for id, from, to <- it.data.routes:
+  for id, from, to <- self.data.routes:
     insert flight_route(id, from, to);
     insert departing(from, id);
   ;
 
   delete flight(*), route(*, *), departure(*, *), arrival(*, *), price(*, *);
-  for id, route, departure, arrival, price <- it.data.flights:
+  for id, route, departure, arrival, price <- self.data.flights:
     insert flight(id), route(id, route), departure(id, departure), arrival(id, arrival), price(id, price);
   ;
 }
@@ -97,11 +97,11 @@ Flights <- PopulateFlights {
 type PopulateTravels = populate_travels(data: TravelsData);
 
 
-Travels <- PopulateTravels {
-  update budget = it.data.budget;
-  update favorites = it.data.favorites;
-  update visited = it.data.visited;
-  flights <- populate_flights(data: it.data.flights);
+Travels.PopulateTravels {
+  update budget = self.data.budget;
+  update favorites = self.data.favorites;
+  update visited = self.data.visited;
+  flights <- populate_flights(data: self.data.flights);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -7,56 +7,56 @@ schema BinTableColsPerms {
 }
 
 
-BinTableColsPerms <- <insert_a(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.insert_a(Nat, String) {
+  n, s = _untag_(self);
   insert bin_rel_a(n, s);
 }
 
 
-BinTableColsPerms <- <insert_b(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.insert_b(Nat, String) {
+  n, s = _untag_(self);
   insert bin_rel_b(n, s);
 }
 
 
-BinTableColsPerms <- <insert_c(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.insert_c(Nat, String) {
+  n, s = _untag_(self);
   insert bin_rel_c(n, s);
 }
 
 
-BinTableColsPerms <- <insert_d(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.insert_d(Nat, String) {
+  n, s = _untag_(self);
   insert bin_rel_d(n, s);
 }
 
 
-BinTableColsPerms <- <update_a(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.update_a(Nat, String) {
+  n, s = _untag_(self);
   update bin_rel_a(n, s);
 }
 
 
-BinTableColsPerms <- <update_b(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.update_b(Nat, String) {
+  n, s = _untag_(self);
   update bin_rel_b(n, s);
 }
 
 
-BinTableColsPerms <- <update_c(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.update_c(Nat, String) {
+  n, s = _untag_(self);
   update bin_rel_c(n, s);
 }
 
 
-BinTableColsPerms <- <update_d(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.update_d(Nat, String) {
+  n, s = _untag_(self);
   update bin_rel_d(n, s);
 }
 
 
-BinTableColsPerms <- (Nat, String) {
-  n, s = it;
+BinTableColsPerms.(Nat, String) {
+  n, s = self;
 
   insert bin_rel_a(n, s);
   insert bin_rel_b(n, s);
@@ -65,24 +65,24 @@ BinTableColsPerms <- (Nat, String) {
 }
 
 
-BinTableColsPerms <- Nat {
-  delete bin_rel_a(it, *);
-  delete bin_rel_b(it, *);
-  delete bin_rel_c(it, *);
-  delete bin_rel_d(it, *);
+BinTableColsPerms.Nat {
+  delete bin_rel_a(self, *);
+  delete bin_rel_b(self, *);
+  delete bin_rel_c(self, *);
+  delete bin_rel_d(self, *);
 }
 
 
-BinTableColsPerms <- String {
-  delete bin_rel_a(*, it);
-  delete bin_rel_b(*, it);
-  delete bin_rel_c(*, it);
-  delete bin_rel_d(*, it);
+BinTableColsPerms.String {
+  delete bin_rel_a(*, self);
+  delete bin_rel_b(*, self);
+  delete bin_rel_c(*, self);
+  delete bin_rel_d(*, self);
 }
 
 
-BinTableColsPerms <- <del(Nat, String)> {
-  n, s = _obj_(it);
+BinTableColsPerms.del(Nat, String) {
+  n, s = _untag_(self);
 
   delete bin_rel_a(n, s);
   delete bin_rel_b(n, s);

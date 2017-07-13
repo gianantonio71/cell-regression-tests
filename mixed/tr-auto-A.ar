@@ -70,7 +70,7 @@ using TrAutoA {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TrAutoA <- <my_msg> {
+TrAutoA.my_msg {
 
 }
 
@@ -123,25 +123,25 @@ type SetTrAutoAState = set_tr_auto_a_state(
 );
 
 
-TrAutoA <- SetTrAutoAState {
-  update a_bool_var             = it.a_bool_var;
-  update a_symb_var             = it.a_symb_var;
-  update an_int_var             = it.an_int_var;
-  update a_float_var            = it.a_float_var;
-  update a_string_var           = it.a_string_var;
-  update a_time_span_var        = it.a_time_span_var;
-  update a_rect_var             = it.a_rect_var;
-  update a_date_rec_var         = it.a_date_rec_var;
-  update a_date_var             = it.a_date_var;
-  update a_point_var            = it.a_point_var;
-  update an_any_point_var       = it.an_any_point_var;
-  update a_tuple_var            = it.a_tuple_var;
-  update a_bool_seq_var         = it.a_bool_seq_var;
-  update an_int_seq_var         = it.an_int_seq_var;
-  update a_float_seq_var        = it.a_float_seq_var;
-  update a_point_seq_var        = it.a_point_seq_var;
-  update a_time_span_seq_var    = it.a_time_span_seq_var;
-  update an_int_to_symb_map_var = it.an_int_to_symb_map_var;
+TrAutoA.SetTrAutoAState {
+  update a_bool_var             = self.a_bool_var;
+  update a_symb_var             = self.a_symb_var;
+  update an_int_var             = self.an_int_var;
+  update a_float_var            = self.a_float_var;
+  update a_string_var           = self.a_string_var;
+  update a_time_span_var        = self.a_time_span_var;
+  update a_rect_var             = self.a_rect_var;
+  update a_date_rec_var         = self.a_date_rec_var;
+  update a_date_var             = self.a_date_var;
+  update a_point_var            = self.a_point_var;
+  update an_any_point_var       = self.an_any_point_var;
+  update a_tuple_var            = self.a_tuple_var;
+  update a_bool_seq_var         = self.a_bool_seq_var;
+  update an_int_seq_var         = self.an_int_seq_var;
+  update a_float_seq_var        = self.a_float_seq_var;
+  update a_point_seq_var        = self.a_point_seq_var;
+  update a_time_span_seq_var    = self.a_time_span_seq_var;
+  update an_int_to_symb_map_var = self.an_int_to_symb_map_var;
 
   delete a_bool_unary_rel(*);
   delete a_symb_unary_rel(*);
@@ -163,23 +163,23 @@ TrAutoA <- SetTrAutoAState {
   delete a_symb_int_bool_seq_ternary_rel(*, *, *);
   delete an_int_string_float_seq_ternary_rel(*, *, *);
 
-  for x <- rand_sort([a : a <- it.a_bool_unary_rel]):        insert a_bool_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_symb_unary_rel]):        insert a_symb_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.an_int_unary_rel]):        insert an_int_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_float_unary_rel]):       insert a_float_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_string_unary_rel]):      insert a_string_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_bool_seq_unary_rel]):    insert a_bool_seq_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_symb_seq_unary_rel]):    insert a_symb_seq_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.an_int_seq_unary_rel]):    insert an_int_seq_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_float_seq_unary_rel]):   insert a_float_seq_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.a_string_seq_unary_rel]):  insert a_string_seq_unary_rel(x);;
-  for x <- rand_sort([a : a <- it.an_any_point_unary_rel]):  insert an_any_point_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_bool_unary_rel]):        insert a_bool_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_symb_unary_rel]):        insert a_symb_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.an_int_unary_rel]):        insert an_int_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_float_unary_rel]):       insert a_float_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_string_unary_rel]):      insert a_string_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_bool_seq_unary_rel]):    insert a_bool_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_symb_seq_unary_rel]):    insert a_symb_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.an_int_seq_unary_rel]):    insert an_int_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_float_seq_unary_rel]):   insert a_float_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.a_string_seq_unary_rel]):  insert a_string_seq_unary_rel(x);;
+  for x <- rand_sort([a : a <- self.an_any_point_unary_rel]):  insert an_any_point_unary_rel(x);;
 
-  for x, y <- rand_sort([(a, b) : a, b <- it.a_symb_float_binary_rel]):          insert a_symb_float_binary_rel(x, y);;
-  for x, y <- rand_sort([(a, b) : a, b <- it.a_bool_int_binary_rel]):            insert a_bool_int_binary_rel(x, y);;
-  for x, y <- rand_sort([(a, b) : a, b <- it.a_string_bool_seq_binary_rel]):     insert a_string_bool_seq_binary_rel(x, y);;
-  for x, y <- rand_sort([(a, b) : a, b <- it.an_int_seq_time_span_binary_rel]):  insert an_int_seq_time_span_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- self.a_symb_float_binary_rel]):          insert a_symb_float_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- self.a_bool_int_binary_rel]):            insert a_bool_int_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- self.a_string_bool_seq_binary_rel]):     insert a_string_bool_seq_binary_rel(x, y);;
+  for x, y <- rand_sort([(a, b) : a, b <- self.an_int_seq_time_span_binary_rel]):  insert an_int_seq_time_span_binary_rel(x, y);;
 
-  for x, y, z <- rand_sort([(a, b, c) : a, b, c <- it.a_symb_int_bool_seq_ternary_rel]):       insert a_symb_int_bool_seq_ternary_rel(x, y, z);;
-  for x, y, z <- rand_sort([(a, b, c) : a, b, c <- it.an_int_string_float_seq_ternary_rel]):   insert an_int_string_float_seq_ternary_rel(x, y, z);;
+  for x, y, z <- rand_sort([(a, b, c) : a, b, c <- self.a_symb_int_bool_seq_ternary_rel]):       insert a_symb_int_bool_seq_ternary_rel(x, y, z);;
+  for x, y, z <- rand_sort([(a, b, c) : a, b, c <- self.an_int_string_float_seq_ternary_rel]):   insert an_int_string_float_seq_ternary_rel(x, y, z);;
 }

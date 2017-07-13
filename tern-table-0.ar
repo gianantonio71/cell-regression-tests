@@ -17,142 +17,142 @@ schema TernTableColsPerms {
 }
 
 
-TernTableColsPerms <- <insert_a(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_a(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_a(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_b(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_b(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_b(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_c(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_c(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_c(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_d(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_d(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_d(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_e(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_e(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_e(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_f(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_f(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_f(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_g(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_g(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_g(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_h(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_h(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_h(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_i(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_i(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_i(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_j(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_j(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_j(n, s, p);
 }
 
 
-TernTableColsPerms <- <insert_k(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.insert_k(Nat, String, Point) {
+  n, s, p = _untag_(self);
   insert tern_rel_k(n, s, p);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TernTableColsPerms <- <update_a(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_a(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_a(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_b(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_b(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_b(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_c(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_c(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_c(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_d(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_d(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_d(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_e(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_e(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_e(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_f(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_f(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_f(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_g(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_g(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_g(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_h(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_h(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_h(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_i(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_i(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_i(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_j(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_j(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_j(n, s, p);
 }
 
 
-TernTableColsPerms <- <update_k(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.update_k(Nat, String, Point) {
+  n, s, p = _untag_(self);
   update tern_rel_k(n, s, p);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TernTableColsPerms <- (Nat, String, Point) {
-  n, s, p = it;
+TernTableColsPerms.(Nat, String, Point) {
+  n, s, p = self;
 
   insert tern_rel_a(n, s, p);
   insert tern_rel_b(n, s, p);
@@ -168,53 +168,53 @@ TernTableColsPerms <- (Nat, String, Point) {
 }
 
 
-TernTableColsPerms <- Nat {
-  delete tern_rel_a(it, *, *);
-  delete tern_rel_b(it, *, *);
-  delete tern_rel_c(it, *, *);
-  delete tern_rel_d(it, *, *);
-  delete tern_rel_e(it, *, *);
-  delete tern_rel_f(it, *, *);
-  delete tern_rel_g(it, *, *);
-  delete tern_rel_h(it, *, *);
-  delete tern_rel_i(it, *, *);
-  delete tern_rel_j(it, *, *);
-  delete tern_rel_k(it, *, *);
+TernTableColsPerms.Nat {
+  delete tern_rel_a(self, *, *);
+  delete tern_rel_b(self, *, *);
+  delete tern_rel_c(self, *, *);
+  delete tern_rel_d(self, *, *);
+  delete tern_rel_e(self, *, *);
+  delete tern_rel_f(self, *, *);
+  delete tern_rel_g(self, *, *);
+  delete tern_rel_h(self, *, *);
+  delete tern_rel_i(self, *, *);
+  delete tern_rel_j(self, *, *);
+  delete tern_rel_k(self, *, *);
 }
 
 
-TernTableColsPerms <- String {
-  delete tern_rel_a(*, it, *);
-  delete tern_rel_b(*, it, *);
-  delete tern_rel_c(*, it, *);
-  delete tern_rel_d(*, it, *);
-  delete tern_rel_e(*, it, *);
-  delete tern_rel_f(*, it, *);
-  delete tern_rel_g(*, it, *);
-  delete tern_rel_h(*, it, *);
-  delete tern_rel_i(*, it, *);
-  delete tern_rel_j(*, it, *);
-  delete tern_rel_k(*, it, *);
+TernTableColsPerms.String {
+  delete tern_rel_a(*, self, *);
+  delete tern_rel_b(*, self, *);
+  delete tern_rel_c(*, self, *);
+  delete tern_rel_d(*, self, *);
+  delete tern_rel_e(*, self, *);
+  delete tern_rel_f(*, self, *);
+  delete tern_rel_g(*, self, *);
+  delete tern_rel_h(*, self, *);
+  delete tern_rel_i(*, self, *);
+  delete tern_rel_j(*, self, *);
+  delete tern_rel_k(*, self, *);
 }
 
 
-TernTableColsPerms <- Point {
-  delete tern_rel_a(*, *, it);
-  delete tern_rel_b(*, *, it);
-  delete tern_rel_c(*, *, it);
-  delete tern_rel_d(*, *, it);
-  delete tern_rel_e(*, *, it);
-  delete tern_rel_f(*, *, it);
-  delete tern_rel_g(*, *, it);
-  delete tern_rel_h(*, *, it);
-  delete tern_rel_i(*, *, it);
-  delete tern_rel_j(*, *, it);
-  delete tern_rel_k(*, *, it);
+TernTableColsPerms.Point {
+  delete tern_rel_a(*, *, self);
+  delete tern_rel_b(*, *, self);
+  delete tern_rel_c(*, *, self);
+  delete tern_rel_d(*, *, self);
+  delete tern_rel_e(*, *, self);
+  delete tern_rel_f(*, *, self);
+  delete tern_rel_g(*, *, self);
+  delete tern_rel_h(*, *, self);
+  delete tern_rel_i(*, *, self);
+  delete tern_rel_j(*, *, self);
+  delete tern_rel_k(*, *, self);
 }
 
 
-TernTableColsPerms <- <del_01(Nat, String)> {
-  n, s = _obj_(it);
+TernTableColsPerms.del_01(Nat, String) {
+  n, s = _untag_(self);
 
   delete tern_rel_a(n, s, *);
   delete tern_rel_b(n, s, *);
@@ -230,8 +230,8 @@ TernTableColsPerms <- <del_01(Nat, String)> {
 }
 
 
-TernTableColsPerms <- <del_02(Nat, Point)> {
-  n, p = _obj_(it);
+TernTableColsPerms.del_02(Nat, Point) {
+  n, p = _untag_(self);
 
   delete tern_rel_a(n, *, p);
   delete tern_rel_b(n, *, p);
@@ -247,8 +247,8 @@ TernTableColsPerms <- <del_02(Nat, Point)> {
 }
 
 
-TernTableColsPerms <- <del_12(String, Point)> {
-  s, p = _obj_(it);
+TernTableColsPerms.del_12(String, Point) {
+  s, p = _untag_(self);
 
   delete tern_rel_a(*, s, p);
   delete tern_rel_b(*, s, p);
@@ -264,8 +264,8 @@ TernTableColsPerms <- <del_12(String, Point)> {
 }
 
 
-TernTableColsPerms <- <del_012(Nat, String, Point)> {
-  n, s, p = _obj_(it);
+TernTableColsPerms.del_012(Nat, String, Point) {
+  n, s, p = _untag_(self);
 
   delete tern_rel_a(n, s, p);
   delete tern_rel_b(n, s, p);

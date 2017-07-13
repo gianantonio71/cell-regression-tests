@@ -34,7 +34,7 @@ type Date     = date(Nat, Nat, Nat);
 
 type Atom           = <+>;
 type Int            = <*..*>;
-type Float          = <^>;
+type Float          = <!>;
 
 type Bool           = true, false;
 type Nat            = <0..*>;

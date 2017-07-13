@@ -15,7 +15,7 @@ reactive some_counter {
 
   rules:
     flow_counter = nat(flow_counter + 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
-    msg_counter = if msg == :reset then 0 else nat(msg_counter + _obj_(msg));
+    msg_counter = if msg == :reset then 0 else nat(msg_counter + _untag_(msg));
 
     a_counter = nat(flow_counter + msg_counter);
 }

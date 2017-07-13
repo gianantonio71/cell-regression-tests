@@ -6,8 +6,8 @@ schema ChatServer0CoreState {
 }
 
 
-ChatServer0CoreState <- ChatServerCoreAction {
-  do(it);
+ChatServer0CoreState.ChatServerCoreAction {
+  do(self);
 }
 
 
@@ -74,8 +74,8 @@ schema ChatServer0 {
 }
 
 
-ChatServer0 <- ChatServerMsg {
-  do(it);
+ChatServer0.ChatServerMsg {
+  do(self);
 }
 
 
@@ -243,7 +243,7 @@ Bool RunAllChatServer0Tests() {
 
   for u, s <- chat_server_test_data_1:
     cid = conn_ids[u];
-    for ch <- _obj_(s):
+    for ch <- _untag_(s):
       auto ok = cs <- received(cid, ch);
     ;
     auto ok = cs <- received(cid, ascii_newline);

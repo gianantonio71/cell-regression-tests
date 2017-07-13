@@ -4,7 +4,7 @@ reactive Bool flipflop(on, off) {
     off : Bool;
 
   state:
-    flipflop : Bool = if   on and off then {fail;}
+    flipflop : Bool = if   on and off then fail
                       elif on         then true
                       elif off        then false
                                       else init_state;
