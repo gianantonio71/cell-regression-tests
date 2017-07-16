@@ -1,4 +1,4 @@
-reactive filter {
+reactive Filter {
   input:  i : Ta;
   output: o : Ta;
   state:  o : Ta = :a0;
@@ -18,7 +18,7 @@ reactive filter {
 
 
 Bool RunBasicFilterTest() {
-  auto f : filter;
+  auto f : Filter;
 
   for i, eo <- filter_test_data:
     auto f.i = i;
@@ -36,8 +36,8 @@ Bool RunBasicFilterTest() {
 
 
 Bool RunNullFilterTest() {
-  auto f  : filter;
-  auto rf : filter;
+  auto f  : Filter;
+  auto rf : Filter;
 
   i_def = false;
 

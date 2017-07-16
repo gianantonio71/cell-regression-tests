@@ -1,4 +1,4 @@
-reactive base {
+reactive Base {
   input:
     in_a : Ta;
     in_b : Tb;
@@ -13,19 +13,19 @@ reactive base {
 }
 
 
-reactive derived : base {
+reactive Derived : Base {
   rules:
     out_a = if in_a == :a1 then :a8 else in_a;
 }
 
 
-reactive twice_derived : derived {
+reactive TwiceDerived : Derived {
   rules:
     out_b = if in_b == :b1 then :b8 else in_b;
 }
 
 
-reactive input_overriding : base {
+reactive InputOverriding : Base {
   input:
    new_in_a : Ta;
    new_in_b : Tb;
@@ -44,10 +44,10 @@ reactive input_overriding : base {
 
 
 Bool RunAllBasicInheritanceTests() {
-  auto b : base;
-  auto d : derived;
-  auto t : twice_derived;
-  auto i : input_overriding;
+  auto b : Base;
+  auto d : Derived;
+  auto t : TwiceDerived;
+  auto i : InputOverriding;
 
   for in_a, in_b, eba, ebb, eda, edb, eta, etb, eia, eib <- basic_inheritance_test_data:
     auto b.in_a = in_a;
@@ -69,7 +69,7 @@ Bool RunAllBasicInheritanceTests() {
     assert done;
 
     if b.out_a != eba or b.out_b != ebb:
-      Print("ERROR: base\n");
+      Print("ERROR: Base\n");
       print (eba, ebb);
       print b.out_a;
       print b.out_b;
@@ -77,7 +77,7 @@ Bool RunAllBasicInheritanceTests() {
     ;
 
     if d.out_a != eda or d.out_b != edb:
-      Print("ERROR: derived\n");
+      Print("ERROR: Derived\n");
       print (eda, edb);
       print b.out_a;
       print b.out_b;
@@ -85,7 +85,7 @@ Bool RunAllBasicInheritanceTests() {
     ;
 
     if t.out_a != eta or t.out_b != etb:
-      Print("ERROR: twice_derived\n");
+      Print("ERROR: TwiceDerived\n");
       print (eta, etb);
       print b.out_a;
       print b.out_b;
@@ -93,7 +93,7 @@ Bool RunAllBasicInheritanceTests() {
     ;
 
     if i.out_a != eia or i.out_b != eib:
-      Print("ERROR: input_overriding\n");
+      Print("ERROR: InputOverriding\n");
       print (eia, eib);
       print b.out_a;
       print b.out_b;

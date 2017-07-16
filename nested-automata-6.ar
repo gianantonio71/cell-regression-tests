@@ -1,7 +1,7 @@
 type NestedAuto6Mgs = reset, incr_counter(Nat);
 
 
-reactive nested_automata_6_some_counter {
+reactive NestedAutomata6SomeCounter {
   input:
     an_input : Ta;
     msg      : NestedAuto6Mgs?;
@@ -20,7 +20,7 @@ reactive nested_automata_6_some_counter {
 }
 
 
-reactive nested_automata_6 {
+reactive NestedAutomata6 {
   input:
     my_input : Ta;
 
@@ -33,7 +33,7 @@ reactive nested_automata_6 {
 
   rules:
     msg := :incr_counter(10) if my_input == :a2 or my_input == :a5;
-    na = nested_automata_6_some_counter(an_input=my_input, msg=msg);
+    na = NestedAutomata6SomeCounter(an_input=my_input, msg=msg);
     my_counter = nat(_add_(my_counter, 1)) if my_input == :a1 or my_input == :a4;
     nested_counter = na.a_counter;
 }
@@ -58,7 +58,7 @@ reactive nested_automata_6 {
 
 
 Bool RunAllNestedAutomata6Tests() {
-  auto ta: nested_automata_6;
+  auto ta: NestedAutomata6;
 
   for input, enc, ec <- nested_automata_6_test_data:
     auto ta.my_input = input;

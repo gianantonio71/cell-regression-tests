@@ -1,4 +1,4 @@
-reactive methods {
+reactive Methods {
   input:
     i : Ta;
     a : <reapply, reapply(l1: Atom, l2: Atom)>?;
@@ -26,16 +26,16 @@ reactive methods {
 
 
 
-Any methods.my_meth(<v1> p) = v1;
+Any Methods.my_meth(<v1> p) = v1;
 
-Any methods.my_meth(<v2> p) = v2;
+Any Methods.my_meth(<v2> p) = v2;
 
-Any methods.my_meth(<d1> p) = d1;
+Any Methods.my_meth(<d1> p) = d1;
 
-Any methods.my_meth(<d2> p) = d2;
+Any Methods.my_meth(<d2> p) = d2;
 
 
-(Any, Any) methods.my_other_meth(<v1, v2, d1, d2> p1, <v1, v2, d1, d2> p2) = (my_meth(p1), my_meth(p2));
+(Any, Any) Methods.my_other_meth(<v1, v2, d1, d2> p1, <v1, v2, d1, d2> p2) = (my_meth(p1), my_meth(p2));
 
 
 (Nat, Ta, Any, Any, Any, Any)* method_test_data_1a = (
@@ -97,7 +97,7 @@ Any methods.my_meth(<d2> p) = d2;
 
 
 Bool RunBasicMethodTests((Nat, Ta, Any, Any, Any, Any)* test_data) {
-  auto t : methods;
+  auto t : Methods;
 
   for a, i, ed1, ev1, ed2, ev2 @ j <- test_data:
     // print "-----------------------------------------------------";

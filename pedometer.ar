@@ -21,7 +21,7 @@ Float point_to_point_distance(PointF p1, PointF p2) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-reactive pedometer_0 {
+reactive Pedometer0 {
   input:
     has_moved     : Bool;
     position      : PointF;
@@ -49,7 +49,7 @@ reactive pedometer_0 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-reactive pedometer {
+reactive Pedometer {
   input:
     position : PointF;
 
@@ -89,8 +89,8 @@ Float* expected_distances {
 
 
 Bool RunBasicPedometerTest() {
-  auto p  : pedometer;
-  auto p0 : pedometer_0;
+  auto p  : Pedometer;
+  auto p0 : Pedometer0;
 
   exp_ds = expected_distances;
 

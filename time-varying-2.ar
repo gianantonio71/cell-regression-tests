@@ -1,4 +1,4 @@
-reactive time_varying_2 {
+reactive TimeVarying2 {
   input:
     i : Ta;
 
@@ -99,7 +99,7 @@ reactive time_varying_2 {
 
 
 Bool RunTimeVaryingTest2((Maybe[Ta], Nat, Bool, Nat, Bool, Nat, Bool, Nat, Bool, Nat)* test_data) {
-  auto a : time_varying_2;
+  auto a : TimeVarying2;
 
   for mi, dt, eo1, ec1, eo2, ec2, eo3, ec3, eo4, ec4 @ j <- test_data:
     if mi != nothing:

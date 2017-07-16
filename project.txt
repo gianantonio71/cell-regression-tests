@@ -8,7 +8,7 @@ reg-tests/filter.ar
 reg-tests/state-derived-copy.ar
 
 reg-tests/bowling.ar
-reg-tests/disc-y-comb.ar
+reg-tests/discr-y-comb.ar
 reg-tests/sampler.ar
 
 reg-tests/complex-init.ar

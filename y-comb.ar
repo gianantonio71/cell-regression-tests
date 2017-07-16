@@ -1,4 +1,4 @@
-reactive y_comb {
+reactive YComb {
   input:
     ia : Ta;
     ib : Tb;
@@ -45,7 +45,7 @@ PrintUndefError(Any yc, Any ryc) {
 
 
 Bool RunBasicYCombTest() {
-  auto yc : y_comb;
+  auto yc : YComb;
 
   for ia, ib, eo <- y_comb_data:
     auto yc.ia = ia;
@@ -64,8 +64,8 @@ Bool RunBasicYCombTest() {
 
 
 Bool RunNullYCombTest(Nat run_idx) {
-  auto yc  : y_comb;
-  auto ryc : y_comb;
+  auto yc  : YComb;
+  auto ryc : YComb;
 
   ia_def = false;
   ib_def = false;

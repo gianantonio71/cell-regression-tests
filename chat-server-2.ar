@@ -266,7 +266,7 @@ using ChatServer2 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-reactive chat_server_2_wrapper {
+reactive ChatServer2Wrapper {
   input:
     message : ChatServerMsg?;
 
@@ -290,7 +290,7 @@ reactive chat_server_2_wrapper {
 ////////////////////////////////////////////////////////////////////////////////
 
 Bool RunAllChatServer2Tests() {
-  auto cs : chat_server_2_wrapper;
+  auto cs : ChatServer2Wrapper;
 
   auto apply cs done;
   assert done;

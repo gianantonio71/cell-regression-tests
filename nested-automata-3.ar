@@ -1,4 +1,4 @@
-reactive fps50_a {
+reactive Fps50A {
   input:
     enabled : Bool;
 
@@ -16,7 +16,7 @@ reactive fps50_a {
 }
 
 
-reactive fps50_b {
+reactive Fps50B {
   input:
     enabled : Bool;
 
@@ -34,7 +34,7 @@ reactive fps50_b {
 }
 
 
-reactive nested_automata_3 {
+reactive NestedAutomata3 {
   input:
     unused_input : Ta;
 
@@ -43,8 +43,8 @@ reactive nested_automata_3 {
     counter_b : Nat;
 
   rules:
-    fg_a = fps50_a(enabled=true);
-    fg_b = fps50_b(enabled=true);
+    fg_a = Fps50A(enabled=true);
+    fg_b = Fps50B(enabled=true);
 
     counter_a = fg_a.counter;
     counter_b = fg_b.counter;
@@ -52,7 +52,7 @@ reactive nested_automata_3 {
 
 
 Bool RunNestedAutomata3Test(Bool rand_times) {
-  auto ta : nested_automata_3;
+  auto ta : NestedAutomata3;
 
   auto apply ta done;
   assert done;

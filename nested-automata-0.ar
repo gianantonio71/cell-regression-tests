@@ -1,4 +1,4 @@
-reactive full_history {
+reactive FullHistory {
   input:
     input : Ta;
 
@@ -13,7 +13,7 @@ reactive full_history {
 }
 
 
-reactive full_history_client {
+reactive FullHistoryClient {
   input:
     i : Ta;
 
@@ -22,7 +22,7 @@ reactive full_history_client {
     hs : Nat;
 
   rules:
-    ha = full_history(input = i);
+    ha = FullHistory(input = i);
     h = ha.history;
 
     hs = |h|;
@@ -33,7 +33,7 @@ Ta* full_history_test_data = (:a0, :a1, :a2, :a3, :a4, :a0, :a1, :a2, :a3, :a4);
 
 
 Bool RunAllFullHistoryTests() {
-  auto fhc : full_history_client;
+  auto fhc : FullHistoryClient;
 
   eh = ();
   ehs = 0;

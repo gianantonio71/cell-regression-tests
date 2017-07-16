@@ -6,7 +6,7 @@ Nat update_counter(NestedCmd5 cmd, Nat counter) =
   set_counter(n?) = n;
 
 
-reactive nested_automata_5_some_counter {
+reactive NestedAutomata5SomeCounter {
   input:
     an_input : Ta;
     command  : NestedCmd5?;
@@ -39,7 +39,7 @@ NestedCmd5 nested_counter_command(Cmd5 cmd) =
   set_incremented_counters(_, n?)   = :set_counter(nat(n+1));
 
 
-reactive nested_automata_5 {
+reactive NestedAutomata5 {
   input:
     my_input : Ta;
     command  : Cmd5?;
@@ -54,7 +54,7 @@ reactive nested_automata_5 {
   rules:
     nested_cmd := nested_counter_command(command);
 
-    na = nested_automata_5_some_counter(an_input=my_input, command=nested_cmd);
+    na = NestedAutomata5SomeCounter(an_input=my_input, command=nested_cmd);
 
     my_counter = update_counter(command, my_counter);
     my_counter = nat(my_counter+1) if my_input == :a1 or my_input == :a4 : my_input, not command;
@@ -78,7 +78,7 @@ reactive nested_automata_5 {
 
 
 Bool RunAllNestedAutomata5Tests() {
-  auto ta : nested_automata_5;
+  auto ta : NestedAutomata5;
 
   for input, enc, ec, denc, dec <- nested_automata_5_test_data:
     auto ta.my_input = input;

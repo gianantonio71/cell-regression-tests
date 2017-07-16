@@ -1,7 +1,10 @@
-reactive Bool flipflop(on, off) {
+reactive FlipFlop on, off -> flipflop {
   input:
     on  : Bool;
     off : Bool;
+
+  output:
+    flipflop : Bool;
 
   state:
     flipflop : Bool = if   on and off then fail
@@ -18,12 +21,13 @@ reactive Bool flipflop(on, off) {
 }
 
 
-reactive Bool flipflop_client {
+reactive FlipFlopClient -> flipflop_client {
   input:
     action : <on, off, same, none>?;
 
   output:
-    flipflop_state_bad : Bool;
+    flipflop_client : Bool;
+    // flipflop_state_bad : Bool;
 
   state:
     on  : Bool = false;
@@ -37,7 +41,7 @@ reactive Bool flipflop_client {
     off = false if action == :on;
 
 
-    flipflop = flipflop(on=on, off=off);
+    flipflop = FlipFlop(on=on, off=off);
 
     flipflop_client = flipflop;
 
@@ -45,9 +49,12 @@ reactive Bool flipflop_client {
 }
 
 
-reactive Bool flipflop_client_positional {
+reactive FlipFlopClientPositional -> flipflop {
   input:
     action : <on, off, same, none>?;
+
+  output:
+    flipflop : Bool;
 
   state:
     on  : Bool = false;
@@ -60,7 +67,7 @@ reactive Bool flipflop_client_positional {
     off = true  if action == :off;
     off = false if action == :on;
 
-    flipflop = flipflop(on, off);
+    flipflop = FlipFlop(on, off);
     // flipflop = flipflop(action? and action == :on, action? and action == :off);
 
     flipflop_client_positional = flipflop;
@@ -80,8 +87,8 @@ reactive Bool flipflop_client_positional {
 
 
 Bool RunBasicFlipFlopTest((<on, off, same, none>, Bool)* test_data) {
-  auto fc  : flipflop_client;
-  auto fcp : flipflop_client_positional;
+  auto fc  : FlipFlopClient;
+  auto fcp : FlipFlopClientPositional;
 
   auto apply fc done;
   assert done;

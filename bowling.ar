@@ -23,7 +23,7 @@ Nat frame_score(Nat* throws, Nat offset) {
 // [Nat] frames_scores([Nat] throws) = [frame_score(throws, o) : o <- frames_offsets(throws)];
 
 
-reactive bowling {
+reactive Bowling {
   input:
     throw : Nat?;
 
@@ -68,7 +68,7 @@ reactive bowling {
 
 
 Bool RunBasicBowlingTest(Nat* throws, Nat* expected_partial_scores, Nat expected_score) {
-  auto b : bowling;
+  auto b : Bowling;
 
   for t <- throws:
     auto b.throw = t;

@@ -1,4 +1,4 @@
-reactive since {
+reactive Since {
   input:
     an_input : Any?;
 
@@ -15,7 +15,7 @@ reactive since {
 }
 
 
-reactive since_test {
+reactive SinceTest {
   input:
     an_input : Ta?;
 
@@ -23,13 +23,13 @@ reactive since_test {
     output : Bool;
 
   rules:
-    since = since(an_input=an_input);
+    since = Since(an_input=an_input);
     output = since.more_than_10s_ago;
 }
 
 
 Bool RunSinceTest0() {
-  auto ta : since_test;
+  auto ta : SinceTest;
 
   auto apply ta done;
   assert done;

@@ -4,7 +4,7 @@ type Tb = b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10;
 type Tab = Ta, Tb;
 
 
-reactive sampler {
+reactive Sampler {
   input:
     ia  : Ta;
     ib  : Tb;
@@ -39,7 +39,7 @@ SamplerTestSample* sampler_test_data = (
 
 
 Bool RunBasicSamplerTest(SamplerTestSample* test_data) {
-  auto s : sampler;
+  auto s : Sampler;
 
   els = nothing;
 

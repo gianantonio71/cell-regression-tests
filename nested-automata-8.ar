@@ -1,7 +1,7 @@
 type SomeCounterMgs = reset, incr_counter(Nat);
 
 
-reactive some_counter {
+reactive SomeCounter {
   input:
     an_input : Ta;
     msg      : SomeCounterMgs?;
@@ -21,7 +21,7 @@ reactive some_counter {
 }
 
 
-reactive test_1 {
+reactive Test1 {
   input:
     my_input  : Ta;
     increment : Nat?;
@@ -37,13 +37,13 @@ reactive test_1 {
     // msg := :incr_counter(increment);
     // msg := :incr_counter(increment) : increment;
     msg := :incr_counter(increment) if my_input != :a0;
-    na = some_counter(an_input=my_input, msg=msg);
+    na = SomeCounter(an_input=my_input, msg=msg);
     my_counter = nat(my_counter + 1) if my_input == :a1 or my_input == :a4;
     nested_counter = na.a_counter;
 }
 
 
-reactive test_2 {
+reactive Test2 {
   input:
     increment : Nat?;
     my_input : Ta;
@@ -57,7 +57,7 @@ reactive test_2 {
 
   rules:
     msg := :incr_counter(increment) if my_input == :a2 or my_input == :a5 : increment;
-    na = some_counter(an_input=my_input, msg=msg);
+    na = SomeCounter(an_input=my_input, msg=msg);
 
     my_counter = nat(my_counter + 1) if my_input == :a1 or my_input == :a4;
 
@@ -102,7 +102,7 @@ reactive test_2 {
 
 
 Bool RunNestedAutomata8Test1() {
-  auto ta : test_1;
+  auto ta : Test1;
 
   for input, incr, ec, enc <- test_1_data:
     auto ta.my_input = input;
@@ -130,7 +130,7 @@ Bool RunNestedAutomata8Test1() {
 
 
 Bool RunNestedAutomata8Test2() {
-  auto ta : test_2;
+  auto ta : Test2;
 
   for input, incr, ec, enc <- test_2_data:
     auto ta.my_input = input;

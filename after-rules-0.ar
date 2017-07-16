@@ -1,4 +1,4 @@
-reactive after_test_0 {
+reactive AfterTest0 {
   input:
     i : Ta;
 
@@ -24,7 +24,7 @@ reactive after_test_0 {
 
 
 Bool RunAfter0Test0((Ta, Nat, Bool)* test_data) {
-  auto ta : after_test_0;
+  auto ta : AfterTest0;
 
   for i, dt, eu1 @ j <- test_data:
     auto ta.i = i;
@@ -51,7 +51,7 @@ Bool RunAfter0Test0((Ta, Nat, Bool)* test_data) {
 
 
 Bool RunAfter0Test1() {
-  auto ta : after_test_0;
+  auto ta : AfterTest0;
 
   curr_watched_value = :none;
   time_since_change = 0;

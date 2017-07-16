@@ -79,7 +79,7 @@ using PolymorphicMethodsInnerCounter {
 }
 
 
-reactive polymorphic_methods_some_counter {
+reactive PolymorphicMethodsSomeCounter {
   input:
     an_input : Ta;
     msg      : <Reset, Incr, Decr, Acc>?;
@@ -103,7 +103,7 @@ reactive polymorphic_methods_some_counter {
 }
 
 
-reactive polymorphic_methods_1 {
+reactive PolymorphicMethods1 {
   input:
     my_input : Ta;
 
@@ -123,7 +123,7 @@ reactive polymorphic_methods_1 {
       _   = nothing;
 
     msg := value(maybe_msg) if maybe_msg != nothing;
-    na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
+    na = PolymorphicMethodsSomeCounter(an_input=my_input, msg=msg);
 
     my_counter = nat(_add_(my_counter, 1)) if my_input == :a1 or my_input == :a4;
 
@@ -131,7 +131,7 @@ reactive polymorphic_methods_1 {
 }
 
 
-reactive polymorphic_methods_2 {
+reactive PolymorphicMethods2 {
   input:
     my_input : Ta;
 
@@ -150,7 +150,7 @@ reactive polymorphic_methods_2 {
         a6  = reset
       if my_input :: <a0, a2, a4, a6> : my_input;
 
-    na = polymorphic_methods_some_counter(an_input=my_input, msg=msg);
+    na = PolymorphicMethodsSomeCounter(an_input=my_input, msg=msg);
 
     my_counter = nat(_add_(my_counter, 1)) if my_input == :a1 or my_input == :a4;
 
@@ -204,7 +204,7 @@ reactive polymorphic_methods_2 {
 
 
 Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data) {
-  auto ta : polymorphic_methods_1;
+  auto ta : PolymorphicMethods1;
 
   for input, ec, enc <- test_data:
     auto ta.my_input = input;
@@ -226,7 +226,7 @@ Bool RunPolymorphicMethodsTestA((Ta, Int, Int)* test_data) {
 
 
 Bool RunPolymorphicMethodsTestB((Ta, Int, Int)* test_data) {
-  auto ta : polymorphic_methods_2;
+  auto ta : PolymorphicMethods2;
 
   for input, ec, enc <- test_data:
     auto ta.my_input = input;

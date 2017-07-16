@@ -1,4 +1,4 @@
-reactive filtered_history_2 {
+reactive FilteredHistory2 {
   input:
     to_skip : Ta;
     input   : Ta?;
@@ -16,7 +16,7 @@ reactive filtered_history_2 {
 }
 
 
-reactive nested_automata_2 {
+reactive NestedAutomata2 {
   input:
     i : Ta?;
 
@@ -27,8 +27,8 @@ reactive nested_automata_2 {
     fib : Ta+?;
 
   rules:
-    ha1 = filtered_history_2(to_skip = :a2, input = i);
-    ha2 = filtered_history_2(to_skip = :a3, input = ha1.input_filtered);
+    ha1 = FilteredHistory2(to_skip = :a2, input = i);
+    ha2 = FilteredHistory2(to_skip = :a3, input = ha1.input_filtered);
     h = ha2.history;
     fi := ha2.input_filtered;
     hs = |h|;
@@ -51,7 +51,7 @@ reactive nested_automata_2 {
 
 
 Bool RunAllNestedAutomata2Tests() {
-  auto ta : nested_automata_2;
+  auto ta : NestedAutomata2;
 
   auto apply ta done;
   assert done;

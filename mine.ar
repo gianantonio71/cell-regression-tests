@@ -1,4 +1,4 @@
-reactive mine {
+reactive Mine {
   input:
     low_sensor_underwater  : Bool;
     high_sensor_underwater : Bool;
@@ -47,12 +47,6 @@ reactive mine {
     // evacuation_needed = (unbreathable_atmosphere for 30s) or (error_detected for 1m) or high_sensor_underwater for 5m;
 }
 
-
-// mine.reset()
-// {
-//   needs_draining = false;
-// }
-
 ////////////////////////////////////////////////////////////////////////////////
 
 (Bool, Bool, Nat, Nat, Nat, Bool, Bool, Bool)* mine_test_data = (
@@ -67,7 +61,7 @@ reactive mine {
 
 
 Bool RunBasicMineTest() {
-  auto mine : mine;
+  auto mine : Mine;
 
   for lsu, hsu, ml, cl, al, po, en, ed <- mine_test_data:
     auto mine.low_sensor_underwater = lsu;
@@ -107,8 +101,8 @@ Bool RunBasicMineTest() {
 
 
 Bool RunNullMineTest() {
-  auto mine     : mine;
-  auto ref_mine : mine;
+  auto mine     : Mine;
+  auto ref_mine : Mine;
 
   lsu_def = one_in(3);
   hsu_def = one_in(3);
