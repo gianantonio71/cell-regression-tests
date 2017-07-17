@@ -7,7 +7,7 @@ reactive FlipFlop on, off -> flipflop {
     flipflop : Bool;
 
   state:
-    flipflop : Bool = if   on and off then fail
+    flipflop : Bool = if   on and off then undefined
                       elif on         then true
                       elif off        then false
                                       else init_state;
