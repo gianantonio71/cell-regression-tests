@@ -4,7 +4,7 @@ type NestedAuto6Mgs = reset, incr_counter(Nat);
 reactive NestedAutomata6SomeCounter {
   input:
     an_input : Ta;
-    msg      : NestedAuto6Mgs?;
+    msg*     : NestedAuto6Mgs;
 
   output:
     a_counter : Nat;

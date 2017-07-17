@@ -124,7 +124,7 @@ using ChatServer1CoreState {
 
 reactive SafeChatServer1CoreState {
   input:
-    action : ChatServerCoreAction?;
+    action* : ChatServerCoreAction;
 
   state:
     core_state : ChatServer1CoreState;
@@ -306,7 +306,7 @@ using ChatServer1 {
 
 reactive ChatServer1Wrapper {
   input:
-    message : ChatServerMsg?;
+    message*  : ChatServerMsg;
 
   output:
     data_to_send   : [Nat -> (Nat, String)];

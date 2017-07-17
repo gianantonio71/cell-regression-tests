@@ -4,7 +4,7 @@ type SomeCounterMgs = reset, incr_counter(Nat);
 reactive SomeCounter {
   input:
     an_input : Ta;
-    msg      : SomeCounterMgs?;
+    msg*     : SomeCounterMgs;
 
   output:
     a_counter : Nat;
@@ -23,8 +23,8 @@ reactive SomeCounter {
 
 reactive Test1 {
   input:
-    my_input  : Ta;
-    increment : Nat?;
+    my_input    : Ta;
+    increment*  : Nat;
 
   output:
     my_counter     : Nat;
@@ -45,8 +45,8 @@ reactive Test1 {
 
 reactive Test2 {
   input:
-    increment : Nat?;
-    my_input : Ta;
+    increment*  : Nat;
+    my_input    : Ta;
 
   output:
     my_counter     : Nat;

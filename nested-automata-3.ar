@@ -4,7 +4,7 @@ reactive Fps50A {
 
   output:
     counter : Nat;
-    next    : <none>?;
+    next*   : <none>;
 
   state:
     counter : Nat = 0;
@@ -22,7 +22,7 @@ reactive Fps50B {
 
   output:
     counter : Nat;
-    next : <none>?;
+    next*   : <none>;
 
   state:
     counter : Nat = 0;

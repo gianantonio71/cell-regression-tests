@@ -8,11 +8,11 @@ reactive Sampler {
   input:
     ia  : Ta;
     ib  : Tb;
-    take_sample : <a, b>?;
+    take_sample* : <a, b>;
 
   output:
-    last_sample : Maybe[Tab];
-    curr_sample : Tab?;
+    last_sample   : Maybe[Tab];
+    curr_sample*  : Tab;
 
   state:
     last_sample : Maybe[Tab] = nothing;

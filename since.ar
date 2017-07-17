@@ -1,6 +1,6 @@
 reactive Since {
   input:
-    an_input : Any?;
+    an_input* : Any;
 
   output:
     more_than_10s_ago : Bool;
@@ -17,7 +17,7 @@ reactive Since {
 
 reactive SinceTest {
   input:
-    an_input : Ta?;
+    an_input* : Ta;
 
   output:
     output : Bool;

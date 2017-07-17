@@ -9,7 +9,7 @@ Nat update_counter(NestedCmd5 cmd, Nat counter) =
 reactive NestedAutomata5SomeCounter {
   input:
     an_input : Ta;
-    command  : NestedCmd5?;
+    command* : NestedCmd5;
 
   output:
    a_counter : Nat;
@@ -42,7 +42,7 @@ NestedCmd5 nested_counter_command(Cmd5 cmd) =
 reactive NestedAutomata5 {
   input:
     my_input : Ta;
-    command  : Cmd5?;
+    command* : Cmd5;
 
   output:
     my_counter : Nat;

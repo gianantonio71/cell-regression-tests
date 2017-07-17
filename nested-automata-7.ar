@@ -4,7 +4,7 @@ type NestedAuto7Mgs = reset, incr_counter(Nat);
 reactive NestedAutomata7SomeCounter {
   input:
     an_input : Ta;
-    msg      : NestedAuto7Mgs?;
+    msg*     : NestedAuto7Mgs;
 
   output:
     a_counter : Nat;
@@ -22,8 +22,8 @@ reactive NestedAutomata7SomeCounter {
 
 reactive NestedAutomata7 {
   input:
-    my_input  : Ta;
-    increment : Nat?;
+    my_input    : Ta;
+    increment*  : Nat;
 
   output:
     my_counter     : Nat;

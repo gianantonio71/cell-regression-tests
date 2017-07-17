@@ -268,7 +268,7 @@ using ChatServer2 {
 
 reactive ChatServer2Wrapper {
   input:
-    message : ChatServerMsg?;
+    message*  : ChatServerMsg;
 
   output:
     data_to_send  : [Nat -> (Nat, String)];

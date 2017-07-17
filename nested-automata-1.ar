@@ -1,10 +1,10 @@
 reactive FilteredHistory {
   input:
-    input : Ta?;
+    input* : Ta;
 
   output:
-    history : Ta*;
-    input_filtered : Ta?;
+    history         : Ta*;
+    input_filtered* : Ta;
 
   state:
     history : Ta* = ();
@@ -17,13 +17,13 @@ reactive FilteredHistory {
 
 reactive NestedAutomata1 {
   input:
-    i : Ta?;
+    i*  : Ta;
 
   output:
-    h   : Ta*;
-    hs  : Nat;
-    fi  : Ta?;
-    fib : Ta+?;
+    h     : Ta*;
+    hs    : Nat;
+    fi*   : Ta;
+    fib*  : Ta+;
 
   rules:
     ha = FilteredHistory(input = i);

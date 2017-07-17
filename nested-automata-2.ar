@@ -1,11 +1,11 @@
 reactive FilteredHistory2 {
   input:
     to_skip : Ta;
-    input   : Ta?;
+    input*  : Ta;
 
   output:
     history         : Ta*;
-    input_filtered  : Ta?;
+    input_filtered* : Ta;
 
   state:
     history : Ta* = ();
@@ -18,13 +18,13 @@ reactive FilteredHistory2 {
 
 reactive NestedAutomata2 {
   input:
-    i : Ta?;
+    i*  : Ta;
 
   output:
-    h   : Ta*;
-    hs  : Nat;
-    fi  : Ta?;
-    fib : Ta+?;
+    h     : Ta*;
+    hs    : Nat;
+    fi*   : Ta;
+    fib*  : Ta+;
 
   rules:
     ha1 = FilteredHistory2(to_skip = :a2, input = i);

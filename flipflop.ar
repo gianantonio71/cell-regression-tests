@@ -23,7 +23,7 @@ reactive FlipFlop on, off -> flipflop {
 
 reactive FlipFlopClient -> flipflop_client {
   input:
-    action : <on, off, same, none>?;
+    action* : <on, off, same, none>;
 
   output:
     flipflop_client : Bool;
@@ -51,7 +51,7 @@ reactive FlipFlopClient -> flipflop_client {
 
 reactive FlipFlopClientPositional -> flipflop {
   input:
-    action : <on, off, same, none>?;
+    action* : <on, off, same, none>;
 
   output:
     flipflop : Bool;

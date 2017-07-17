@@ -25,14 +25,14 @@ Nat frame_score(Nat* throws, Nat offset) {
 
 reactive Bowling {
   input:
-    throw : Nat?;
+    throw*  : Nat;
 
   output:
     throws            : Nat*;
     frames_scores     : Nat*;
     cumulative_scores : Nat*;
     score             : Nat;
-    throw_copy        : Nat?;
+    throw_copy*       : Nat;
 
   state:
     throws : Nat* = ();

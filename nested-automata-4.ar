@@ -3,7 +3,7 @@ reactive ContToDiscr {
     an_input : Ta;
 
   output:
-    an_output : <none>?;
+    an_output* : <none>;
 
   rules:
     an_output := :none when an_input == :a0 or an_input == :a3;
@@ -14,8 +14,8 @@ reactive ContToDiscrClient {
     my_input : Ta;
 
   output:
-    counter : Nat;
-    my_output : <none>?;
+    counter     : Nat;
+    my_output*  : <none>;
 
   state:
     counter : Nat = 0;

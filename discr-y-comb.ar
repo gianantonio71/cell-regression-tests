@@ -6,11 +6,11 @@ type Tab = Ta, Tb;
 
 reactive DiscrYComb {
   input:
-    ia : Ta?;
-    ib : Tb?;
+    ia* : Ta;
+    ib* : Tb;
 
   output:
-    o : Tab?;
+    o* : Tab;
 
   rules:
     o := ia;

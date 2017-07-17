@@ -1,7 +1,7 @@
 reactive Methods {
   input:
-    i : Ta;
-    a : <reapply, reapply(l1: Atom, l2: Atom)>?;
+    i   : Ta;
+    a*  : <reapply, reapply(l1: Atom, l2: Atom)>;
 
   output:
     v1 : Any;

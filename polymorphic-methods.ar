@@ -82,7 +82,7 @@ using PolymorphicMethodsInnerCounter {
 reactive PolymorphicMethodsSomeCounter {
   input:
     an_input : Ta;
-    msg      : <Reset, Incr, Decr, Acc>?;
+    msg*     : <Reset, Incr, Decr, Acc>;
 
   output:
     a_counter : Int;
