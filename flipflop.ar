@@ -16,8 +16,8 @@ reactive FlipFlop on, off -> flipflop {
     init_state = false;
 
   rules:
-    flipflop = true   if on;
-    flipflop = false  if off;
+    flipflop = true   when on;
+    flipflop = false  when off;
 }
 
 

@@ -41,9 +41,9 @@ reactive Pedometer0 {
   rules:
     unused_param = (:a, :b);
 
-    position_copy = position if has_moved;
-    track = (track | position) if has_moved;
-    distance = distance + point_to_point_distance(rev_at(track, 1), rev_at(track, 0)) if has_moved and |track| > 1;
+    position_copy = position when has_moved;
+    track = (track | position) when has_moved;
+    distance = distance + point_to_point_distance(rev_at(track, 1), rev_at(track, 0)) when has_moved and |track| > 1;
     unused_rule = reverse(track);
 }
 

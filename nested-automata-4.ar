@@ -6,7 +6,7 @@ reactive ContToDiscr {
     an_output : <none>?;
 
   rules:
-    an_output := :none if an_input == :a0 or an_input == :a3;
+    an_output := :none when an_input == :a0 or an_input == :a3;
 }
 
 reactive ContToDiscrClient {

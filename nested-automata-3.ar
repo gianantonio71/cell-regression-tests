@@ -11,7 +11,7 @@ reactive Fps50A {
 
   rules:
     first_frame_half = enabled for not 10ms every 20ms;
-    next := :none if first_frame_half;
+    next := :none when first_frame_half;
     counter = nat(_add_(counter, 1)) : next;
 }
 

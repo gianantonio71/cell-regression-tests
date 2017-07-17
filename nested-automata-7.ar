@@ -14,7 +14,7 @@ reactive NestedAutomata7SomeCounter {
     msg_counter  : Nat = 0;
 
   rules:
-    flow_counter = nat(flow_counter + 1) if an_input == :a0 or an_input == :a3 or an_input == :a5;
+    flow_counter = nat(flow_counter + 1) when an_input == :a0 or an_input == :a3 or an_input == :a5;
     msg_counter = if msg == :reset then 0 else nat(msg_counter + _untag_(msg));
     a_counter = nat(flow_counter + msg_counter);
 }
@@ -35,7 +35,7 @@ reactive NestedAutomata7 {
   rules:
     msg := :incr_counter(increment);
     na = NestedAutomata7SomeCounter(an_input=my_input, msg=msg);
-    my_counter = nat(_add_(my_counter, 1)) if my_input == :a1 or my_input == :a4;
+    my_counter = nat(_add_(my_counter, 1)) when my_input == :a1 or my_input == :a4;
     nested_counter = na.a_counter;
 }
 

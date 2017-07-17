@@ -24,10 +24,10 @@ reactive TimeVarying2 {
     o3 = i == :a3 for not 1ns or (5ns and not 8ns) every 12ns;
     o4 = i == :a4 for not 3ns or (4ns and not 7ns) or 10ns every 15ns;
 
-    c1 = nat(_add_(c1, 1)) if o1;
-    c2 = nat(_add_(c2, 1)) if o2;
-    c3 = nat(_add_(c3, 1)) if o3;
-    c4 = nat(_add_(c4, 1)) if o4;
+    c1 = nat(_add_(c1, 1)) when o1;
+    c2 = nat(_add_(c2, 1)) when o2;
+    c3 = nat(_add_(c3, 1)) when o3;
+    c4 = nat(_add_(c4, 1)) when o4;
 }
 
 
